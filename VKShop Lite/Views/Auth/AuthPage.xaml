@@ -1,0 +1,41 @@
+﻿<Page
+    x:Class="VKShop_Lite.Views.Auth.AuthPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VKShop_Lite.Views.Auth"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:auth="using:VKShop_Lite.ViewModels.Auth"
+    mc:Ignorable="d">
+<Page.DataContext>
+        <auth:AuthPageViewModel/>
+</Page.DataContext>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid x:Name="ContentPanel" Visibility="{Binding ContentVisibility}" VerticalAlignment="Top">
+            <StackPanel x:Name="naimstack" Margin="0,0,0,0" >
+                <Image x:Name="logo" Height="100" Width="100" Source="ms-appx:///Icons/vk.jpg" Margin="0,0" />
+                <TextBlock x:Name="vk_txt" FontSize="20" TextAlignment="Center" Text="VK Shop Lite – уникальное приложение, позволяющее работать с сервисом Товаров ВКонтакте" TextWrapping="Wrap">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush Color="#FF686868"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
+                <Grid/>
+                <Grid/>
+                <Grid Margin="0,10,0,0">
+                    <Button x:Name="login_button" Content="Войти" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="200" Command="{Binding ButtonClickCommand}" Background="White" Foreground="#FF210000" BorderBrush="#FF1B0000"  />
+
+                </Grid>
+                <Grid Margin="10,10,10,0">
+                    <TextBlock x:Name="registration" FontSize="20" Text="Зарегистрироваться" Foreground="Black"  />
+                    <TextBlock x:Name="forgotpass" FontSize="20" Text="Забыли пароль?" HorizontalAlignment="Right" Foreground="Black"/>
+
+
+
+                </Grid>
+
+            </StackPanel>
+
+        </Grid>
+
+    </Grid>
+</Page>
