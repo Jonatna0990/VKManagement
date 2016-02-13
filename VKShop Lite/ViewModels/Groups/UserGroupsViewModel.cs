@@ -26,10 +26,15 @@ namespace VKShop_Lite.ViewModels.Groups
             {
                 this.NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(GroupMainPage) });
             });
-            OpenCreatePopupCommand = new DelegateCommand(t =>
+            OpenCreatePopupCommand = new DelegateCommand(async t =>
             {
                 CreateGroupPopup popup = new CreateGroupPopup();
-                popup.ShowAsync();
+                await popup.ShowAsync();
+                var group = popup.CreatedGroup;
+                if (group != null)
+                {
+                    NavigateToCurrentPage(popup.CreatedGroup, new Scenario() { ClassType = typeof(GroupMainPage) });
+                }
             });
                LoadGroups();
         }

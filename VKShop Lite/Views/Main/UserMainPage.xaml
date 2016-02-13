@@ -8,6 +8,7 @@
     xmlns:userMain="using:VKShop_Lite.ViewModels.UserMain"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:captchaControl="using:VKCore.UserControls.CaptchaControl"
     mc:Ignorable="d">
     <Page.DataContext>
         <userMain:UserMainViewModel/>
@@ -116,7 +117,7 @@
             </SplitView.Content>
         </SplitView>
 
-
+        
     </Grid>
 </Page>
 

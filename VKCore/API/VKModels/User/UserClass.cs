@@ -385,7 +385,8 @@ namespace VKCore.API.VKModels.User
         public int platform { get; set; }
     }
 
-    public class Counters
+
+    public class Counters 
     {
         [JsonProperty("albums")]
         public int albums { get; set; }

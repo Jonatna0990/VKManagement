@@ -5,19 +5,19 @@
     xmlns:local="using:VKShop_Lite.UserControls.PopupControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+    xmlns:captchaControl="using:VKCore.UserControls.CaptchaControl"
+    mc:Ignorable="d" 
     Title="Создание нового сообщества"
-    PrimaryButtonText="Создать"
-    SecondaryButtonText="Отмена"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick" Background="White">
-  
+  Background="White">
+    <ContentControl.Resources>
+        <local:BoolToVisibillityConverter x:Key="BoolToVisibillityConverter"/>
+    </ContentControl.Resources>
     <Grid>
         <StackPanel>
-            <TextBox PlaceholderText="введите название" Header="Название"></TextBox>
+            <TextBox x:Name="GroupName" PlaceholderText="введите название" Header="Название"></TextBox>
             <TextBlock Margin="0,5,0,5" Text="Вид сообщества"></TextBlock>
-            <StackPanel  Orientation="Vertical">
-                <RadioButton>
+            <StackPanel x:Name="RadioContainer"  Orientation="Vertical">
+                <RadioButton Tag="group" Margin="0,5,0,5" x:Name="GroupRadio" >
                     <RadioButton.Content>
                         <TextBlock TextWrapping="Wrap" Width="250">
                             <Run Text="Группа"/><LineBreak></LineBreak>
@@ -25,15 +25,7 @@
                         </TextBlock>
                     </RadioButton.Content>
                 </RadioButton>
-                <RadioButton>
-                    <RadioButton.Content>
-                        <TextBlock TextWrapping="Wrap" Width="250">
-                            <Run Text="Публичная страница"/><LineBreak></LineBreak>
-                            <Run  FontSize="12"  Text="Идеально для распространения новостей и информации" Foreground="#FF535353"/>
-                        </TextBlock>
-                    </RadioButton.Content>
-                </RadioButton>
-                <RadioButton>
+                <RadioButton Tag="event" Margin="0,10,0,5" x:Name="EventRadio">
                     <RadioButton.Content>
                         <TextBlock TextWrapping="Wrap" Width="250">
                             <Run Text="Мероприятие"/><LineBreak></LineBreak>
@@ -41,7 +33,30 @@
                         </TextBlock>
                     </RadioButton.Content>
                 </RadioButton>
+                <RadioButton Tag="public" x:Name="PageRadio">
+                    <RadioButton.Content>
+                        <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Публичная страница"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="Идеально для распространения новостей и информации" Foreground="#FF535353"/>
+                        </TextBlock>
+                    </RadioButton.Content>
+                </RadioButton>
+                <ComboBox x:Name="Subtitle" Visibility="{Binding ElementName=PageRadio,Path=IsChecked, Mode=TwoWay,Converter={StaticResource BoolToVisibillityConverter}}" Margin="0,5,0,5" HorizontalAlignment="Stretch">
+                    <ComboBoxItem IsSelected="True" Content="место или небольшая компания"/>
+                    <ComboBoxItem Content="компания, организация или веб-сайт"/>
+                    <ComboBoxItem Content="известная личность или коллектив"/>
+                    <ComboBoxItem Content="произведение или продукция"/>
+                </ComboBox>
+
             </StackPanel>
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="140*"/>
+                    <ColumnDefinition Width="140*"/>
+                </Grid.ColumnDefinitions>
+                <Button  x:Name="CreateButton" Margin="1" Click="CreateButton_OnClick"  Content="создать" Width="140"></Button>
+                <Button Grid.Column="1" Margin="1" x:Name="CancelButton" Click="CancelButton_OnClick" Content="отмена" Width="140" ></Button>
+            </Grid>
         </StackPanel>
     </Grid>
 </ContentDialog>

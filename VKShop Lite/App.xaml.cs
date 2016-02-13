@@ -6,6 +6,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using VKCore.API.Core;
 using VKCore.API.SDK;
+using VKCore.UserControls.CaptchaControl;
 using VKShop_Lite.Views.Auth;
 using VKShop_Lite.Views.Main;
 
@@ -68,6 +69,7 @@ namespace VKShop_Lite
 
                 };
                 VKSDK.WakeUpSession();
+                VKSDK.CaptchaRequest = CaptchaRequest;
                 // PlayerBase.GetPlayerState();
                 UpdateUIState();
                 // Размещение фрейма в текущем окне
@@ -83,6 +85,10 @@ namespace VKShop_Lite
             }
             // Обеспечение активности текущего окна
             Window.Current.Activate();
+        }
+        private void CaptchaRequest(VKCaptchaUserRequest captchaUserRequest, Action<VKCaptchaUserResponse> action)
+        {
+            new VKCaptchaRequestUserControl().ShowCaptchaRequest(captchaUserRequest, action);
         }
         public void UpdateUIState()
         {
