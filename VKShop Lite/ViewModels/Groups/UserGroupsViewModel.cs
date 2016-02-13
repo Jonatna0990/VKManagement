@@ -8,8 +8,12 @@ using System.Windows.Input;
 using Windows.UI.Xaml;
 using VKCore.API.Core;
 using VKCore.API.VKModels.Group;
+using VKCore.API.VKModels.VKList;
 using VKCore.Helpers;
+using VKShop_Lite.Common;
+using VKShop_Lite.UserControls.PopupControl;
 using VKShop_Lite.ViewModels.Base;
+using VKShop_Lite.Views.Groups;
 using ВКонтакте.Models.List;
 
 namespace VKShop_Lite.ViewModels.Groups
@@ -18,7 +22,16 @@ namespace VKShop_Lite.ViewModels.Groups
     {
         public UserGroupsViewModel()
         {
-            LoadGroups();
+            NavigateToGroupCommand = new DelegateCommand(t =>
+            {
+                this.NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(GroupMainPage) });
+            });
+            OpenCreatePopupCommand = new DelegateCommand(t =>
+            {
+                CreateGroupPopup popup = new CreateGroupPopup();
+                popup.ShowAsync();
+            });
+               LoadGroups();
         }
         private Visibility _isLoaded;
 
@@ -28,9 +41,21 @@ namespace VKShop_Lite.ViewModels.Groups
             set { _isLoaded = value; RaisePropertyChanged("IsLoaded"); }
         }
         public ICommand NavigateToGroupCommand { get; set; }
+        public ICommand OpenCreatePopupCommand { get; set; }
         private ObservableCollection<GroupsClass> _editorList;
         private ObservableCollection<GroupsClass> _mainList;
         private ObservableCollection<GroupsClass> _eventList;
+        private ObservableCollection<GroupsClass> _localsearchList;
+        private VKCollection<GroupsClass> _globalseacrhList;
+        private string _searchQuery;
+        private PageMode _mode = PageMode.Normal;
+
+        public PageMode Mode
+        {
+            get { return _mode; }
+            set { _mode = value; RaisePropertyChanged("Mode");}
+        }
+
         public ObservableCollection<GroupsClass> MainList
         {
             get { return _mainList; }
@@ -46,6 +71,30 @@ namespace VKShop_Lite.ViewModels.Groups
             get { return _eventList; }
             set { _eventList = value; RaisePropertyChanged("EventList"); }
         }
+        public ObservableCollection<GroupsClass> LocalSearchList
+        {
+            get { return _localsearchList; }
+            set { _localsearchList = value; RaisePropertyChanged("LocalSearchList"); }
+        }
+        public VKCollection<GroupsClass> GlobalSearchList
+        {
+            get { return _globalseacrhList; }
+            set { _globalseacrhList = value; RaisePropertyChanged("GlobalSearchList"); }
+        }
+
+        public string SearchQuery
+        {
+            get { return _searchQuery; }
+            set
+            {
+                _searchQuery = value;
+                if (!string.IsNullOrEmpty(value))
+                { Search(value.Trim()); Mode = PageMode.Search; }
+                RaisePropertyChanged("SearchQuery");
+              
+            }
+        }
+
         public void LoadGroups()
         {
             VKRequest.Dispatch<VKList<GroupsClass>>(
@@ -73,6 +122,34 @@ namespace VKShop_Lite.ViewModels.Groups
                    }
                });
         }
+
+        private void Search(string param)
+        {
+            VKRequest.Dispatch<VKList<GroupsClass>>(
+             new VKRequestParameters(
+               SGroups.groups_search, "q", param),
+             (res) =>
+             {
+                 var q = res.ResultCode;
+                 if (res.ResultCode == VKResultCode.Succeeded)
+                 {
+                     IsLoaded = Visibility.Collapsed;
+                     GlobalSearchList = new VKCollection<GroupsClass>();
+                     GlobalSearchList.items = res.Data.items.ToObservableCollection();
+                     GlobalSearchList.count = res.Data.count;
+                     LocalSearchList = new ObservableCollection<GroupsClass>();
+                     foreach (var t in MainList)
+                     {
+                         if (t.is_admin == 1)
+                         {
+                             LocalSearchList.Add(t);
+                         }
+                         if (t.group_type == GroupType._event) EventList.Add(t);
+                     }
+
+                 }
+             });
+        }
         public void LoadEvents()
         {
             VKRequest.Dispatch<VKList<GroupsClass>>(
@@ -99,4 +176,5 @@ namespace VKShop_Lite.ViewModels.Groups
                });
         }
     }
+    public enum PageMode { Normal,Search}
 }

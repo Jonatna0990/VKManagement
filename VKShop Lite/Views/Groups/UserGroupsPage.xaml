@@ -6,8 +6,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:groups="using:VKShop_Lite.ViewModels.Groups"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:main="using:VKShop_Lite.Views.Main"
+    x:Name="Page"
     mc:Ignorable="d">
     <Page.Resources>
+        <main:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <DataTemplate x:Key="GroupsFooterTemplate">
             <TextBlock TextWrapping="Wrap"  FontSize="16"  HorizontalAlignment="Center" Foreground="#FF424242">
             <Run Text="{Binding MainList.Count}"></Run><Run Text=" сообществ"></Run> 
@@ -25,7 +30,12 @@
         </DataTemplate>
         <DataTemplate x:Key="GroupTemplate">
             <StackPanel Orientation="Horizontal" Height="60">
-             
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Tapped">
+                        <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.NavigateToGroupCommand}" CommandParameter="{Binding }">
+                        </core:InvokeCommandAction>
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
                 <Ellipse  Width="50"  Height="50">
                     <Ellipse.Fill>
                         <ImageBrush>
@@ -65,29 +75,66 @@
 
             </StackPanel>
         </DataTemplate>
+     
+        <DataTemplate x:Key="SearchTemplate">
+            <StackPanel DataContext="{Binding ElementName=Page,Path=DataContext}">
+                <Border Background="#f2f2f2" Margin="0,12,0,0" Padding="18,8,0,8" Visibility="{Binding LocalSearchList.Count, Converter={StaticResource NullToVisibilityConverter}}">
+                    <TextBlock Foreground="#8b8f94" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="16.5">
+                        <Run Text=" локальный поиск  "></Run>
+                    <Run Text="Найдено" />
+                        <Run Text="{Binding LocalSearchList.Count}"/>
+                    </TextBlock>
+                </Border>
+                <ItemsControl ItemsSource="{Binding LocalSearchList}" ItemTemplate="{StaticResource GroupTemplate}" />
 
+                <Border Background="#f2f2f2" Margin="0,12,0,0" Padding="18,8,0,8" Visibility="{Binding GlobalSearchList.count, Converter={StaticResource NullToVisibilityConverter}}">
+                    <TextBlock Foreground="#8b8f94" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="16.5">
+                        <Run Text=" глобальный поиск  "></Run>
+                    <Run Text="Найдено" />
+                        <Run Text="{Binding GlobalSearchList.count}"/>
+                    </TextBlock>
+                </Border>
+                <ItemsControl ItemsSource="{Binding GlobalSearchList.items}" ItemTemplate="{StaticResource GroupTemplate}" />
+
+            </StackPanel>
+        
+        </DataTemplate>
+        <DataTemplate x:Key="NormalTemplate">
+            <Pivot DataContext="{Binding ElementName=Page,Path=DataContext}">
+                <PivotItem x:Name="PivotItem1"  Header="группы" Margin="0">
+
+                    <ListView ItemTemplate="{StaticResource GroupTemplate}" HeaderTemplate="{StaticResource GroupsFooterTemplate}"  ItemsSource="{Binding MainList}">
+
+                    </ListView>
+                </PivotItem>
+                <PivotItem Header="события">
+                    <ListView ItemTemplate="{StaticResource EventTemplate}"  HeaderTemplate="{StaticResource EventsFooterTemplate}" ItemsSource="{Binding EventList}"  />
+                </PivotItem>
+                <PivotItem Header="управление" Margin="0">
+                    <ListView ItemTemplate="{StaticResource GroupTemplate}" HeaderTemplate="{StaticResource EditorFooterTemplate}" ItemsSource="{Binding EditorList}"  />
+                </PivotItem>
+            </Pivot>
+        </DataTemplate>
+        <main:SeacrhTemplateSelector  x:Key="SeacrhTemplateSelector" NormalTemplate="{StaticResource NormalTemplate}" SearchTemplate="{StaticResource SearchTemplate}"/>
     </Page.Resources>
     <Page.DataContext>
         <groups:UserGroupsViewModel/>
     </Page.DataContext>
+    <Page.BottomAppBar>
+        <AppBar >
+            <StackPanel Orientation="Horizontal">
+                <AppBarButton Icon="Add" Label="создать"  Command="{Binding OpenCreatePopupCommand}" />
+                <AppBarButton Icon="Find" Label="поиск"  Click="ButtonBase_OnClick" />
+                </StackPanel>
+            </AppBar>
+    </Page.BottomAppBar>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Pivot SelectedIndex="{Binding SelectedPivot,Mode=TwoWay}">
-            <PivotItem x:Name="PivotItem1"  Header="группы" Margin="0">
-                <ListView ItemTemplate="{StaticResource GroupTemplate}" HeaderTemplate="{StaticResource GroupsFooterTemplate}"  ItemsSource="{Binding MainList}">
-                  
-                </ListView>
-            </PivotItem>
-            <PivotItem Header="события">
-                <ListView ItemTemplate="{StaticResource EventTemplate}"  HeaderTemplate="{StaticResource EventsFooterTemplate}" ItemsSource="{Binding EventList}"  >
-                
-                </ListView>
-            </PivotItem>
-            <PivotItem Header="управление" Margin="0">
-                <ListView ItemTemplate="{StaticResource GroupTemplate}" HeaderTemplate="{StaticResource EditorFooterTemplate}" ItemsSource="{Binding EditorList}"  >
-                   
-                </ListView>
-            </PivotItem>
-        </Pivot>
-
+        <Grid  Height="40" HorizontalAlignment="Left" Margin="40,-40,0,0" VerticalAlignment="Top">
+            <TextBox Visibility="Collapsed"  Text="{Binding SearchQuery,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" x:Name="SearchBox" Margin="5,0,5,0" Width="250"  Background="White" SelectionHighlightColor="Red" BorderBrush="Transparent" Height="30" PlaceholderText="поиск...">
+              
+            </TextBox>
+        </Grid>
+   
+        <ContentControl Content="{Binding  Path=Mode, Mode=OneWay}" ContentTemplateSelector="{StaticResource SeacrhTemplateSelector}"></ContentControl>
     </Grid>
 </Page>

@@ -366,6 +366,8 @@
             public const string get_faves_users = "execute.FavesGetUsers";
             public const string get_group_info = "execute.LoadGroupInfo";
             public const string get_invited_groups = "execute.GetInvitedGroups";
+
+            public const string load_group_full = "execute.LoadGroupWithWall";
         }
         public enum FriendsOrder
         { 

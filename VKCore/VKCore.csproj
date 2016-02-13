@@ -137,15 +137,28 @@
     <Compile Include="API\SDK\VKObject.cs" />
     <Compile Include="API\SDK\VKScope.cs" />
     <Compile Include="API\SDK\VKSDK.cs" />
+    <Compile Include="API\VKModels\Attachment\AttachmentsClass.cs" />
     <Compile Include="API\VKModels\Audio\AudioAlbumClass.cs" />
     <Compile Include="API\VKModels\Audio\AudioClass.cs" />
     <Compile Include="API\VKModels\Audio\LyricsClass.cs" />
+    <Compile Include="API\VKModels\Doc\DocClass.cs" />
+    <Compile Include="API\VKModels\Geo\GeoClass.cs" />
     <Compile Include="API\VKModels\Geo\PlaceClass.cs" />
+    <Compile Include="API\VKModels\Gift\GiftClass.cs" />
     <Compile Include="API\VKModels\Group\GroupsClass.cs" />
+    <Compile Include="API\VKModels\Link\GroupLink.cs" />
+    <Compile Include="API\VKModels\Link\LinkClass.cs" />
+    <Compile Include="API\VKModels\Note\NoteClass.cs" />
     <Compile Include="API\VKModels\Photo\PhotoClass.cs" />
+    <Compile Include="API\VKModels\Poll\PollClass.cs" />
+    <Compile Include="API\VKModels\Sticker\StickerClass.cs" />
     <Compile Include="API\VKModels\User\SetOnlineApp.cs" />
     <Compile Include="API\VKModels\User\UserClass.cs" />
+    <Compile Include="API\VKModels\Video\VideoClass.cs" />
+    <Compile Include="API\VKModels\VKList\VKCollection.cs" />
     <Compile Include="API\VKModels\VKList\VKList.cs" />
+    <Compile Include="API\VKModels\Wall\WallClass.cs" />
+    <Compile Include="API\VKModels\Wall\WallMainClass.cs" />
     <Compile Include="Converters\CommentDataTimeConvert.cs" />
     <Compile Include="Converters\DurationConvert.cs" />
     <Compile Include="Converters\GroupStartDateConvert.cs" />
@@ -186,10 +199,7 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="API\VKModels\Attachment\" />
-    <Folder Include="API\VKModels\Wall\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="UserControls\CaptchaControl\VKCaptchaRequestUserControl.xaml">
       <SubType>Designer</SubType>

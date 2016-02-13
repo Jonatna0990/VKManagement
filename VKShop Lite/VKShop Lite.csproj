@@ -98,21 +98,58 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\NavigationHelper.cs" />
     <Compile Include="Common\Scenario.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControls\PopupControl\CreateGroupPopup.xaml.cs">
+      <DependentUpon>CreateGroupPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\WallControl\NewsApiSourceConverter.cs" />
+    <Compile Include="UserControls\WallControl\SourceImageConverter.cs" />
+    <Compile Include="UserControls\WallControl\SourceTitleConverter.cs" />
+    <Compile Include="UserControls\WallControl\WallPostControl.xaml.cs">
+      <DependentUpon>WallPostControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\Auth\AuthPageViewModel.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
+    <Compile Include="ViewModels\Base\NavigateCommand.cs" />
+    <Compile Include="ViewModels\Groups\GroupMainViewModel.cs" />
     <Compile Include="ViewModels\Groups\UserGroupsViewModel.cs" />
-    <Compile Include="ViewModels\LeftMenu\MenuViewModel.cs" />
+    <Compile Include="ViewModels\Groups\WallCollection.cs" />
+    <Compile Include="ViewModels\UserMain\UserMainViewModel.cs" />
+    <Compile Include="Views\Audio\AudioPage.xaml.cs">
+      <DependentUpon>AudioPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Auth\AuthPage.xaml.cs">
       <DependentUpon>AuthPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\AudioPage.xaml.cs">
+      <DependentUpon>AudioPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\DisscussionPage.xaml.cs">
+      <DependentUpon>DisscussionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\PhotoAlbumsPage.xaml.cs">
+      <DependentUpon>PhotoAlbumsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\VideoPage.xaml.cs">
+      <DependentUpon>VideoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\AdminTemplateSelector.cs" />
+    <Compile Include="Views\Groups\GroupMainPage.xaml.cs">
+      <DependentUpon>GroupMainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Groups\UserGroupsPage.xaml.cs">
       <DependentUpon>UserGroupsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Main\NullToVisibilityConverter.cs" />
+    <Compile Include="Views\Main\SeacrhTemplateSelector.cs" />
     <Compile Include="Views\Main\UserMainPage.xaml.cs">
       <DependentUpon>UserMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Messages\MessagesPage.xaml.cs">
+      <DependentUpon>MessagesPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -122,7 +159,22 @@
     <None Include="VKShop Lite_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Icons\Dark\Counters\appbar.sound.0.png" />
+    <Content Include="Icons\Dark\Counters\appbar.undo.curve.png" />
+    <Content Include="Icons\Dark\Counters\appbar.user.png" />
+    <Content Include="Icons\Dark\Counters\appbar_message.png" />
+    <Content Include="Icons\Dark\Counters\like.png" />
+    <Content Include="Icons\Dark\Menu\appbar.email.png" />
+    <Content Include="Icons\Dark\Menu\appbar.group.png" />
+    <Content Include="Icons\Dark\Menu\appbar.settings.png" />
+    <Content Include="Icons\Dark\OnlineApp\appbar.iphone.png" />
+    <Content Include="Icons\Dark\OnlineApp\appbar.moon.full.png" />
+    <Content Include="Icons\Dark\OnlineApp\appbar.os.android.png" />
+    <Content Include="Icons\Dark\OnlineApp\appbar.os.windows.8.png" />
+    <Content Include="Icons\Dark\OnlineApp\appbar.social.apple.png" />
+    <Content Include="Icons\Dark\OnlineApp\appbar.tablet.windows.png" />
     <Content Include="Icons\LeftMenu\speech95.png" />
+    <Content Include="Icons\vk.jpg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -137,7 +189,39 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="UserControls\PopupControl\CreateGroupPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\WallControl\WallPostControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Audio\AudioPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Auth\AuthPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\AudioPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\DisscussionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\PhotoAlbumsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\VideoPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\GroupMainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -149,14 +233,21 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Messages\MessagesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">
+      <Name>Behaviors SDK %28XAML%29</Name>
+    </SDKReference>
     <SDKReference Include="Telerik UI For Windows Universal, Version=2016.1.113.45">
       <Name>Telerik UI For Windows Universal</Name>
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="UserControls\" />
+    <Folder Include="UserControls\MessagesControl\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VKCore\VKCore.csproj">

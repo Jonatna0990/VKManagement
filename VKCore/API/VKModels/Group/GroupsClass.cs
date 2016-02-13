@@ -1,14 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using VKCore.API.VKModels.Geo;
+using VKCore.API.VKModels.Link;
 using VKCore.API.VKModels.User;
+using VKCore.API.VKModels.Wall;
 
 namespace VKCore.API.VKModels.Group
 {
+    public class GroupWithWall
+    {
+        [JsonProperty("group")]
+        public GroupsClass group { get; set; }
+        [JsonProperty("user_contacts")]
+        public ObservableCollection<UserClass> user_contacts { get; set; }
+        [JsonProperty("wall")]
+        public WallRoot wall { get; set; }
+    }
+   
+   
+    public class City
+    {
+        public int id { get; set; }
+        public string title { get; set; }
+    }
+
+
+  
     public class Contact
     {
         [JsonProperty("user_id")]
@@ -75,7 +97,7 @@ namespace VKCore.API.VKModels.Group
         public string site { get; set; }
 
         [JsonProperty("city")]
-        public string city { get; set; }
+        public City city { get; set; }
 
         [JsonProperty("country")]
         public string country { get; set; }
@@ -108,10 +130,10 @@ namespace VKCore.API.VKModels.Group
         public string activity { get; set; }
 
         [JsonProperty("contacts")]
-        public string contacts { get; set; }
+        public List<Contact> contacts { get; set; }
 
         [JsonProperty("links")]
-        public string links { get; set; }
+        public List<GroupLink> links { get; set; }
 
         [JsonProperty("fixed_post")]
         public long fixed_post { get; set; }

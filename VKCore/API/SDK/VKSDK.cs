@@ -12,7 +12,7 @@ namespace VKCore.API.SDK
     public class VKSDK
     {
         public const String SDK_VERSION = "1.0.0";
-        public const String API_VERSION = "5.37";
+        public const String API_VERSION = "5.45";
 
         private static readonly string PLATFORM_ID = "winphone";
 

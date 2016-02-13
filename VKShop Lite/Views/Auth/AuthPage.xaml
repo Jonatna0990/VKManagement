@@ -26,8 +26,8 @@
 
                 </Grid>
                 <Grid Margin="10,10,10,0">
-                    <TextBlock x:Name="registration" FontSize="20" Text="Зарегистрироваться" Foreground="Black"  />
-                    <TextBlock x:Name="forgotpass" FontSize="20" Text="Забыли пароль?" HorizontalAlignment="Right" Foreground="Black"/>
+                    <TextBlock x:Name="registration" FontSize="18" Text="Зарегистрироваться" Foreground="Black"  />
+                    <TextBlock x:Name="forgotpass" FontSize="18" Text="Забыли пароль?" HorizontalAlignment="Right" Foreground="Black"/>
 
 
 

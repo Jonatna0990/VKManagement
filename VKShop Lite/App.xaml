@@ -4,5 +4,21 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:VKShop_Lite"
     RequestedTheme="Light">
-
+    <Application.Resources>
+        <Color x:Key="Brush1">#FFF0F0F0</Color>
+        <Color x:Key="Brush2">#FF439DD2</Color>
+        <Color x:Key="Brush3">#FF2F3742</Color>
+        <Color x:Key="Brush4">#FF232731</Color>
+        <Color x:Key="Brush5">#FF414953</Color>
+        <Color x:Key="Brush6">#FF686868</Color>
+        <Color x:Key="Brush7">#FF3E3E42</Color>
+        <Color x:Key="Brush8">#FFA7A9AD</Color>
+        <SolidColorBrush x:Key="Brush9" Color="#FF007ACC"/>
+        <SolidColorBrush x:Key="Brush10" Color="#FF003C6E"/>
+        <SolidColorBrush x:Key="Brush11" Color="#FF061D27"/>
+        <Color x:Key="Color1">#FFD5DDE5</Color>
+        <Color x:Key="Color2">#FF45688E</Color>
+        <Color x:Key="Color3">#FF29313C</Color>
+        <Color x:Key="VkAccentBrush">#FF597DA3</Color> 
+    </Application.Resources>
 </Application>
