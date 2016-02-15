@@ -368,7 +368,10 @@
             public const string get_invited_groups = "execute.GetInvitedGroups";
 
             public const string load_group_full = "execute.LoadGroupWithWall";
-        }
+            public const string get_group_members = "execute.GetGroupMembers";
+            public const string get_albums = "execute.GetPhoto";
+
+    }
         public enum FriendsOrder
         { 
             Name, Hints, Random, Mobile

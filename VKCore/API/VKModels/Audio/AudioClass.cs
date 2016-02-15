@@ -69,7 +69,9 @@ namespace VKCore.API.VKModels.Audio
         public int duration
         {
             get { return _duration; }
-            set { Set(ref _duration, value); }
+            set { Set(ref _duration, value);
+                string_duration = DurationConvert.GetDuration(value);
+            }
         }
 
         [JsonProperty("url")]
@@ -113,7 +115,7 @@ namespace VKCore.API.VKModels.Audio
                
             }
         }
-        public string string_duration { get { return DurationConvert.GetDuration(duration); } }
+        public string string_duration { get;set;  }
 
         
 

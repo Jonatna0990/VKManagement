@@ -149,9 +149,11 @@
     <Compile Include="API\VKModels\Link\GroupLink.cs" />
     <Compile Include="API\VKModels\Link\LinkClass.cs" />
     <Compile Include="API\VKModels\Note\NoteClass.cs" />
+    <Compile Include="API\VKModels\Photo\PhotoAlbumsClass.cs" />
     <Compile Include="API\VKModels\Photo\PhotoClass.cs" />
     <Compile Include="API\VKModels\Poll\PollClass.cs" />
     <Compile Include="API\VKModels\Sticker\StickerClass.cs" />
+    <Compile Include="API\VKModels\Topics\TopicsClass.cs" />
     <Compile Include="API\VKModels\User\SetOnlineApp.cs" />
     <Compile Include="API\VKModels\User\UserClass.cs" />
     <Compile Include="API\VKModels\Video\VideoClass.cs" />

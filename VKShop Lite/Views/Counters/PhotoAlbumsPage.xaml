@@ -5,9 +5,28 @@
     xmlns:local="using:VKShop_Lite.Views.Counters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:counters="using:VKShop_Lite.ViewModels.Counters"
     mc:Ignorable="d">
-
+<Page.Resources>
+    
+</Page.Resources>
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ListView ItemsSource="{Binding AlbumCollection.albums.items}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Image HorizontalAlignment="Stretch" Height="200" Source="{Binding thumb_src}"></Image>
+                        <TextBlock Text="{Binding title}"></TextBlock>
 
+
+                        <TextBlock >
+                            <Run Text="{Binding size}"/>
+                            <Run Text="фотографий"/>
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Page>

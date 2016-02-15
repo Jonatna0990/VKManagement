@@ -5,9 +5,28 @@
     xmlns:local="using:VKShop_Lite.Views.Counters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:counters="using:VKShop_Lite.ViewModels.Counters"
     mc:Ignorable="d">
-
+    <Page.Resources>
+        <DataTemplate x:Key="VideoTemplate">
+            
+            <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+                <Image Height="100"  Width="150" Source="{Binding  photo_130}"></Image>
+                <TextBlock  Style="{StaticResource SubtitleTextBlockStyle}" Height="25" Text="{Binding description}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}" Height="17" Text="{Binding title}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                <TextBlock   Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  VerticalAlignment="Top" TextWrapping="NoWrap">
+                         <Run Text="{Binding _duration}"/>
+                </TextBlock>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="GroupsFooterTemplate">
+            <TextBlock TextWrapping="Wrap"  FontSize="16" HorizontalAlignment="Center" Foreground="#FF424242">
+            <Run Text="{Binding VideoCollection.count}"></Run><Run Text=" видеозаписей"></Run>
+            </TextBlock>
+        </DataTemplate>
+    </Page.Resources>
+  
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <ListView HeaderTemplate="{StaticResource GroupsFooterTemplate}" ItemsSource="{Binding  VideoCollection.items}" ItemTemplate="{StaticResource VideoTemplate}"></ListView>
     </Grid>
 </Page>

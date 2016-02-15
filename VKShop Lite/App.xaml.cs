@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Navigation;
 using VKCore.API.Core;
 using VKCore.API.SDK;
 using VKCore.UserControls.CaptchaControl;
+using VKShop_Lite.Common;
 using VKShop_Lite.Views.Auth;
 using VKShop_Lite.Views.Main;
 
@@ -36,7 +37,7 @@ namespace VKShop_Lite
         /// например, если приложение запускается для открытия конкретного файла.
         /// </summary>
         /// <param name="e">Сведения о запросе и обработке запуска.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
 
 #if DEBUG
@@ -55,10 +56,21 @@ namespace VKShop_Lite
                 // Создание фрейма, который станет контекстом навигации, и переход к первой странице
                 rootFrame = new Frame();
 
+                  SuspensionManager.RegisterFrame(rootFrame, "AppFrame");
+               
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
+                    try
+                    {
+                        await SuspensionManager.RestoreAsync();
+                    }
+                    catch (SuspensionManagerException)
+                    {
+                        //Возникли ошибки при восстановлении состояния.
+                        //Предполагаем, что состояние отсутствует, и продолжаем
+                    }
                     //TODO: Загрузить состояние из ранее приостановленного приложения
                 }
                 VKSDK.Initialize(APISettings.app_id);
@@ -113,9 +125,10 @@ namespace VKShop_Lite
         /// </summary>
         /// <param name="sender">Источник запроса приостановки.</param>
         /// <param name="e">Сведения о запросе приостановки.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
+            await SuspensionManager.SaveAsync();
             //TODO: Сохранить состояние приложения и остановить все фоновые операции
             deferral.Complete();
         }

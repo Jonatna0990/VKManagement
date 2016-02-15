@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using VKCore.API.VKModels.Geo;
 using VKCore.API.VKModels.Link;
 using VKCore.API.VKModels.User;
+using VKCore.API.VKModels.VKList;
 using VKCore.API.VKModels.Wall;
 
 namespace VKCore.API.VKModels.Group
@@ -21,7 +22,16 @@ namespace VKCore.API.VKModels.Group
         [JsonProperty("wall")]
         public WallRoot wall { get; set; }
     }
-   
+
+    public class GroupMembersRoot
+    {
+        [JsonProperty("members")]
+        public VKCollection<UserClass> members { get; set; }
+        [JsonProperty("friends")]
+        public VKCollection<UserClass> friends { get; set; }
+        [JsonProperty("admin")]
+        public VKCollection<AdminRole> admin { get; set; }
+    }
    
     public class City
     {
@@ -29,7 +39,11 @@ namespace VKCore.API.VKModels.Group
         public string title { get; set; }
     }
 
-
+    public class AdminRole : UserClass
+    {
+        [JsonProperty("role")]
+        public string role { get; set; }
+    }
   
     public class Contact
     {

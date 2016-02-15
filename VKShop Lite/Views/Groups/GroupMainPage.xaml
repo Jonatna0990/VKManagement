@@ -7,11 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:groups="using:VKShop_Lite.ViewModels.Groups"
     xmlns:wallControl="using:VKShop_Lite.UserControls.WallControl"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
     x:Name="GroupMain">
-<Page.DataContext>
-        <groups:GroupMainViewModel/>
-</Page.DataContext>
+
 <Page.BottomAppBar>
     <CommandBar>
             <CommandBar.SecondaryCommands>
@@ -22,6 +22,89 @@
        
     </Page.BottomAppBar>
     <Page.Resources>
+        <DataTemplate x:Key="GroupCountersTemplate">
+            <GridView >
+                <Border Width="80" Height="50" Margin="1">
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.MembersOpenCommand}" CommandParameter="{Binding }">
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                    <Border.Background>
+                        <SolidColorBrush Color="{StaticResource VkAccentBrush}"/>
+                    </Border.Background>
+                    <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.members_count}"/><LineBreak/>
+                        <Run FontSize="12" Text=" участников"> </Run>
+                    </TextBlock>
+                </Border>
+                <Border Width="80" Height="50" Margin="1">
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.TopicOpenCommand}" CommandParameter="{Binding }">
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                    <Border.Background>
+                        <SolidColorBrush Color="{StaticResource VkAccentBrush}"/>
+                    </Border.Background>
+                    <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.counters.topics}"/><LineBreak/>
+                        <Run FontSize="12" Text=" обсуждений"> </Run>
+                    </TextBlock>
+                </Border>
+                <Border Width="80" Height="50" Margin="1">
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.AudioOpenCommand}" CommandParameter="{Binding }">
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                    <Border.Background>
+                        <SolidColorBrush Color="{StaticResource VkAccentBrush}"/>
+                    </Border.Background>
+                    <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.counters.audios}"/><LineBreak/>
+                        <Run FontSize="12" Text=" аудио"> </Run>
+                    </TextBlock>
+                </Border>
+                <Border Width="80" Height="50" Margin="1">
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.VideoOpenCommand}" CommandParameter="{Binding }">
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                    <Border.Background>
+                        <SolidColorBrush Color="{StaticResource VkAccentBrush}"/>
+                    </Border.Background>
+                    <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.counters.videos}"/><LineBreak/>
+                        <Run FontSize="12" Text=" видео"> </Run>
+                    </TextBlock>
+                </Border>
+                <Border Width="80" Height="50" Margin="1">
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.PhotoOpenCommand}" CommandParameter="{Binding }">
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                    <Border.Background>
+                        <SolidColorBrush Color="{StaticResource VkAccentBrush}"/>
+                    </Border.Background>
+                    <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.counters.photos}"/><LineBreak/>
+                        <Run FontSize="12" Text=" фото"> </Run>
+                    </TextBlock>
+                </Border>
+
+
+
+            </GridView>
+        </DataTemplate>
+
         <DataTemplate x:Key="GroupInfoTemplate">
             <StackPanel Margin="10">
                 <StackPanel  Orientation="Horizontal">
@@ -46,59 +129,7 @@
             </StackPanel>
 
         </DataTemplate>
-        <DataTemplate x:Key="GroupCountersTemplate">
-            <GridView >
-                <Border Width="80" Height="50" Margin="1">
-                    <Border.Background>
-                        <SolidColorBrush Color="{StaticResource VkAccentBrush}"/>
-                    </Border.Background>
-                    <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.members_count}"/><LineBreak/>
-                        <Run FontSize="12" Text=" участников"> </Run>
-                    </TextBlock>
-                </Border>
-                <Border Width="80" Height="50" Margin="1">
-                    <Border.Background>
-                        <SolidColorBrush Color="{StaticResource VkAccentBrush}"/>
-                    </Border.Background>
-                    <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.counters.topics}"/><LineBreak/>
-                        <Run FontSize="12" Text=" обсуждений"> </Run>
-                    </TextBlock>
-                </Border>
-                <Border Width="80" Height="50" Margin="1">
-                    <Border.Background>
-                        <SolidColorBrush Color="{StaticResource VkAccentBrush}"/>
-                    </Border.Background>
-                    <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.counters.audios}"/><LineBreak/>
-                        <Run FontSize="12" Text=" аудио"> </Run>
-                    </TextBlock>
-                </Border>
-                <Border Width="80" Height="50" Margin="1">
-                    <Border.Background>
-                        <SolidColorBrush Color="{StaticResource VkAccentBrush}"/>
-                    </Border.Background>
-                    <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.counters.videos}"/><LineBreak/>
-                        <Run FontSize="12" Text=" видео"> </Run>
-                    </TextBlock>
-                </Border>
-                <Border Width="80" Height="50" Margin="1">
-                    <Border.Background>
-                        <SolidColorBrush Color="{StaticResource VkAccentBrush}"/>
-                    </Border.Background>
-                    <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.counters.photos}"/><LineBreak/>
-                        <Run FontSize="12" Text=" фото"> </Run>
-                    </TextBlock>
-                </Border>
-           
-              
-
-            </GridView>
-        </DataTemplate>
-        <DataTemplate x:Key="GroupWallTemplate">
+         <DataTemplate x:Key="GroupWallTemplate">
             <ListView ItemsSource="{Binding ElementName=GroupMain,Path=DataContext.WallColl.GroupWall.items}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -107,11 +138,64 @@
                 </ListView.ItemTemplate>
             </ListView>
         </DataTemplate>
+        <DataTemplate x:Key="AdminControlTemplate">
+            <ListView>
+                <ListViewItem>
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.GroupInfoEditOpenCommand}" CommandParameter="{Binding }">
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE70F;" FontSize="22" VerticalAlignment="Center" />
+                        <TextBlock  Margin="5,0,0,0" Text="информация" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#59155;" FontSize="22" VerticalAlignment="Center" />
+                        <TextBlock  Margin="5,0,0,0" Text="сервисы" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE715;" FontSize="22" VerticalAlignment="Center" />
+                        <TextBlock  Margin="5,0,0,0" Text="сообщения" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE716;" FontSize="22" VerticalAlignment="Center" />
+                        <TextBlock  Margin="5,0,0,0" Text="участники" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE8F8;" FontSize="22" VerticalAlignment="Center" />
+                        <TextBlock  Margin="5,0,0,0" Text="чёрный список" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE71B;" FontSize="22" VerticalAlignment="Center" />
+                        <TextBlock  Margin="5,0,0,0" Text="ссылки" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE719;" FontSize="22" VerticalAlignment="Center" />
+                        <TextBlock  Margin="5,0,0,0" Text="товары" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListViewItem>
+            </ListView>
+
+        </DataTemplate>
         <DataTemplate x:Key="AdminTemplate">
             <Pivot>
                 <PivotItem Header="информация"  ContentTemplate="{StaticResource GroupInfoTemplate}"/>
                 <PivotItem Header="стена"  ContentTemplate="{StaticResource GroupWallTemplate}" Margin="0"/>
-                <PivotItem Header="управление"/>
+                <PivotItem Header="управление" ContentTemplate="{StaticResource AdminControlTemplate}"/>
             </Pivot>
         </DataTemplate>
         <DataTemplate x:Key="NotAdminTemplate">

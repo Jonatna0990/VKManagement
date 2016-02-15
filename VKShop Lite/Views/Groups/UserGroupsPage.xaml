@@ -117,9 +117,7 @@
         </DataTemplate>
         <main:SeacrhTemplateSelector  x:Key="SeacrhTemplateSelector" NormalTemplate="{StaticResource NormalTemplate}" SearchTemplate="{StaticResource SearchTemplate}"/>
     </Page.Resources>
-    <Page.DataContext>
-        <groups:UserGroupsViewModel/>
-    </Page.DataContext>
+  
     <Page.BottomAppBar>
         <AppBar >
             <StackPanel Orientation="Horizontal">

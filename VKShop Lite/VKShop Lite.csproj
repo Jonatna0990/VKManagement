@@ -115,6 +115,11 @@
     <Compile Include="ViewModels\Auth\AuthPageViewModel.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="ViewModels\Base\NavigateCommand.cs" />
+    <Compile Include="ViewModels\Counters\AudioPageViewModel.cs" />
+    <Compile Include="ViewModels\Counters\GroupTopicsViewModel.cs" />
+    <Compile Include="ViewModels\Counters\GroupMembersViewModel.cs" />
+    <Compile Include="ViewModels\Counters\PhotoPageViewModel.cs" />
+    <Compile Include="ViewModels\Counters\VideoPageViewModel.cs" />
     <Compile Include="ViewModels\Groups\GroupMainViewModel.cs" />
     <Compile Include="ViewModels\Groups\UserGroupsViewModel.cs" />
     <Compile Include="ViewModels\Groups\WallCollection.cs" />
@@ -125,19 +130,49 @@
     <Compile Include="Views\Counters\AudioPage.xaml.cs">
       <DependentUpon>AudioPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Counters\DisscussionPage.xaml.cs">
-      <DependentUpon>DisscussionPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Counters\GroupMembersPage.xaml.cs">
       <DependentUpon>GroupMembersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\GroupTopicsPage.xaml.cs">
+      <DependentUpon>GroupTopicsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\PhotoAlbumMainPage.xaml.cs">
+      <DependentUpon>PhotoAlbumMainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Counters\PhotoAlbumsPage.xaml.cs">
       <DependentUpon>PhotoAlbumsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Counters\TopicMainPage.xaml.cs">
+      <DependentUpon>TopicMainPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Counters\VideoPage.xaml.cs">
       <DependentUpon>VideoPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Counters\VideoPlayerMainPage.xaml.cs">
+      <DependentUpon>VideoPlayerMainPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Groups\AdminTemplateSelector.cs" />
+    <Compile Include="Views\Groups\Admin\GroupBackListPage.xaml.cs">
+      <DependentUpon>GroupBackListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Admin\GroupInfoEditPage.xaml.cs">
+      <DependentUpon>GroupInfoEditPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Admin\GroupLinksPage.xaml.cs">
+      <DependentUpon>GroupLinksPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Admin\GroupMarketEditPage.xaml.cs">
+      <DependentUpon>GroupMarketEditPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Admin\GroupMessagesPage.xaml.cs">
+      <DependentUpon>GroupMessagesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Admin\GroupServicesPage.xaml.cs">
+      <DependentUpon>GroupServicesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Admin\GroupMembersEditPage.xaml.cs">
+      <DependentUpon>GroupMembersEditPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Groups\GroupMainPage.xaml.cs">
       <DependentUpon>GroupMainPage.xaml</DependentUpon>
     </Compile>
@@ -149,8 +184,8 @@
     <Compile Include="Views\Main\UserMainPage.xaml.cs">
       <DependentUpon>UserMainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Messages\MessagesPage.xaml.cs">
-      <DependentUpon>MessagesPage.xaml</DependentUpon>
+    <Compile Include="Views\Profile\ProfileMainPage.xaml.cs">
+      <DependentUpon>ProfileMainPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -206,11 +241,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Counters\DisscussionPage.xaml">
+    <Page Include="Views\Counters\GroupMembersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Counters\GroupMembersPage.xaml">
+    <Page Include="Views\Counters\GroupTopicsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\PhotoAlbumMainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -218,7 +257,43 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Counters\TopicMainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Counters\VideoPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\VideoPlayerMainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Admin\GroupBackListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Admin\GroupInfoEditPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Admin\GroupLinksPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Admin\GroupMarketEditPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Admin\GroupMessagesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Admin\GroupServicesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Admin\GroupMembersEditPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -234,7 +309,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Messages\MessagesPage.xaml">
+    <Page Include="Views\Profile\ProfileMainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -249,6 +324,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UserControls\MessagesControl\" />
+    <Folder Include="ViewModels\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VKCore\VKCore.csproj">

@@ -5,15 +5,81 @@
     xmlns:local="using:VKShop_Lite.Views.Counters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:counters="using:VKShop_Lite.ViewModels.Counters"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <DataTemplate x:Key="UserTemplate">
+            <StackPanel Orientation="Horizontal" Height="60">
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Tapped">
+                        <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.NavigateToGroupCommand}" CommandParameter="{Binding }">
+                        </core:InvokeCommandAction>
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+                <Ellipse  Width="50"  Height="50">
+                    <Ellipse.Fill>
+                        <ImageBrush>
+                            <ImageBrush.ImageSource>
+                                <BitmapImage UriSource="{Binding Path=photo_100}" />
+                            </ImageBrush.ImageSource>
+                        </ImageBrush>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+                    <TextBlock  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                   
+                </StackPanel>
+
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="AdminTemplate">
+            <StackPanel Orientation="Horizontal" Height="60">
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Tapped">
+                        <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.NavigateToGroupCommand}" CommandParameter="{Binding }">
+                        </core:InvokeCommandAction>
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+                <Ellipse  Width="50"  Height="50">
+                    <Ellipse.Fill>
+                        <ImageBrush>
+                            <ImageBrush.ImageSource>
+                                <BitmapImage UriSource="{Binding Path=photo_100}" />
+                            </ImageBrush.ImageSource>
+                        </ImageBrush>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+                    <TextBlock  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                    <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  Text="{Binding role}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                    
+                </StackPanel>
+
+            </StackPanel>
+        </DataTemplate>
+
+    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding }"></TextBlock>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <Pivot >
+            <PivotItem Header="участники">
+                <ListView ItemTemplate="{StaticResource UserTemplate}" ItemsSource="{Binding MembersRoot.members.items}">
+                    
+                </ListView>
+            </PivotItem>
+            <PivotItem Header="друзья">
+                <ListView ItemTemplate="{StaticResource UserTemplate}" ItemsSource="{Binding MembersRoot.friends.items}">
+
+                </ListView>
+            </PivotItem>
+            <PivotItem Header="администраторы">
+                <ListView ItemTemplate="{StaticResource AdminTemplate}" ItemsSource="{Binding MembersRoot.admin.items}">
+
+                </ListView>
+            </PivotItem>
+        </Pivot>
+       
     </Grid>
 </Page>

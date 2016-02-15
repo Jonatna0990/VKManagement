@@ -1,0 +1,76 @@
+﻿<Page
+    x:Class="VKShop_Lite.Views.Groups.Admin.GroupInfoEditPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VKShop_Lite.Views.Groups.Admin"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer>
+            <StackPanel Margin="5">
+                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="основная информация"></TextBlock>
+                <TextBox Margin="0,10,0,0" PlaceholderText="введите название сообщества">
+                    <TextBox.Header>
+                        <TextBlock Text="название сообщества"></TextBlock>
+                    </TextBox.Header>
+                </TextBox>
+                <TextBox Margin="0,10,0,0" PlaceholderText="введите описание сообщества">
+                    <TextBox.Header>
+                        <TextBlock Text="описание сообщества"></TextBlock>
+                    </TextBox.Header>
+                </TextBox>
+                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="короткий адрес"/>
+                <TextBox Margin="0,10,0,0" >
+
+                </TextBox>
+                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="тематика сообщества"/>
+                <ComboBox x:Name="Subtitle" Margin="0,5,0,5" SelectedIndex="0" HorizontalAlignment="Stretch">
+                    <ComboBoxItem IsSelected="True" Content="не выбрнано"/>
+                    <ComboBoxItem Content="компания, организация или веб-сайт"/>
+                    <ComboBoxItem Content="известная личность или коллектив"/>
+                    <ComboBoxItem Content="произведение или продукция"/>
+                </ComboBox>
+                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="веб сайт"/>
+                <TextBox Margin="0,10,0,0" >
+
+                </TextBox>
+                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="тип группы"/>
+                <StackPanel x:Name="RadioContainer"  Orientation="Vertical">
+                    <RadioButton Tag="group" Margin="0,5,0,5" x:Name="GroupRadio" >
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Группа"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="Подходит для дискуссий и обмена мнениями" Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton Tag="event" Margin="0,10,0,5" x:Name="EventRadio">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Мероприятие"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="Удобно для организации концертов и вечеринок" Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton Tag="public" x:Name="PageRadio">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Публичная страница"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="Идеально для распространения новостей и информации" Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+
+
+                </StackPanel>
+                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="местоположение"/>
+                <TextBox PlaceholderText="выбрать местоположение..." Margin="0,10,0,0" >
+
+                </TextBox>
+            </StackPanel>
+
+        </ScrollViewer>
+    </Grid>
+</Page>

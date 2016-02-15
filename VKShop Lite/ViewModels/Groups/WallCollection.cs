@@ -38,6 +38,7 @@ namespace VKShop_Lite.ViewModels.Groups
         private GroupsClass param;
         public WallCollection(GroupsClass par)
         {
+            if(par == null) return;
             param = par;
             Load();
         }

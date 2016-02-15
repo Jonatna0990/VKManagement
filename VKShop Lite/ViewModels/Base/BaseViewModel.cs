@@ -17,7 +17,10 @@ namespace VKShop_Lite.ViewModels.Base
             ToggleButton toggle = UserMainPage.Current.FindName("HamburgerButton") as ToggleButton;
             if (toggle != null) toggle.IsChecked = false;
             SetParam(param);
-            if (scenarioFrame != null) scenarioFrame.Navigate(page.ClassType, param);
+            if (scenarioFrame != null)
+            {
+                scenarioFrame.Navigate(page.ClassType, param);
+            }
         }
 
         public  object SendParam { get; set; }

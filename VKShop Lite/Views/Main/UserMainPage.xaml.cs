@@ -35,22 +35,15 @@ namespace VKShop_Lite.Views.Main
         }
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
         {
-           
             if (RootFrame.CanGoBack)
             {
-               
-                    RootFrame.GoBack();
-               
-
+                RootFrame.GoBack();
+                e.Handled = true;
             }
-         
-            
-          
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            SuspensionManager.RegisterFrame(RootFrame, "RootFrame");
-            if (RootFrame.Content == null)
+             if (RootFrame.Content == null)
             {
                 // When the navigation stack isn't restored navigate to the ScenarioList
                 if (!RootFrame.Navigate(typeof(UserGroupsPage)))

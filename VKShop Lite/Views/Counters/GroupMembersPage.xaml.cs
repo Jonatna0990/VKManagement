@@ -12,6 +12,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using GalaSoft.MvvmLight.Messaging;
+using VKCore.API.VKModels.Group;
+using VKShop_Lite.ViewModels.Counters;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -25,6 +28,13 @@ namespace VKShop_Lite.Views.Counters
         public GroupMembersPage()
         {
             this.InitializeComponent();
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            this.DataContext = new GroupMembersViewModel();
+            Messenger.Default.Send<GroupsClass>(e.Parameter as GroupsClass);
+
         }
     }
 }
