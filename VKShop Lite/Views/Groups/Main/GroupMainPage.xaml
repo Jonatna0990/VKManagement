@@ -12,8 +12,6 @@
     xmlns:converters="using:VKShop_Lite.Helpers.Converters"
     mc:Ignorable="d"
     x:Name="GroupMain">
-
-
     <Page.Resources>
         <converters:IntToVisibillityConverter x:Key="IntToVisibillityConverter"/>
         
@@ -45,7 +43,7 @@
                         <SolidColorBrush Color="{StaticResource VkAccentBrush}"/>
                     </Border.Background>
                     <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.counters.topics}"/><LineBreak/>
+                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.Counters.audios}"/><LineBreak/>
                         <Run FontSize="12" Text=" обсуждений"> </Run>
                     </TextBlock>
                 </Border>
@@ -60,7 +58,7 @@
                         <SolidColorBrush Color="{StaticResource VkAccentBrush}"/>
                     </Border.Background>
                     <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.counters.audios}"/><LineBreak/>
+                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.Counters.audios}"/><LineBreak/>
                         <Run FontSize="12" Text=" аудио"> </Run>
                     </TextBlock>
                 </Border>
@@ -75,7 +73,7 @@
                         <SolidColorBrush Color="{StaticResource VkAccentBrush}"/>
                     </Border.Background>
                     <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.counters.videos}"/><LineBreak/>
+                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.Counters.videos}"/><LineBreak/>
                         <Run FontSize="12" Text=" видео"> </Run>
                     </TextBlock>
                 </Border>
@@ -90,14 +88,14 @@
                         <SolidColorBrush Color="{StaticResource VkAccentBrush}"/>
                     </Border.Background>
                     <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.counters.photos}"/><LineBreak/>
+                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.Counters.photos}"/><LineBreak/>
                         <Run FontSize="12" Text=" фото"> </Run>
                     </TextBlock>
                 </Border>
                 <Border Width="80" Height="50" Margin="1" Visibility="{Binding market.enabled,Converter={StaticResource IntToVisibillityConverter}}">
                     <interactivity:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">
-                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.MarketOpenCommand}" CommandParameter="{Binding }">
+                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.PhotoOpenCommand}" CommandParameter="{Binding }">
                             </core:InvokeCommandAction>
                         </core:EventTriggerBehavior>
                     </interactivity:Interaction.Behaviors>

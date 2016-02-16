@@ -7,7 +7,9 @@ using System.Runtime.CompilerServices;
 using System.ServiceModel.Channels;
 using System.Text;
 using System.Threading.Tasks;
+using GalaSoft.MvvmLight;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using VKCore.Annotations;
 using VKCore.API.VKModels.Geo;
 using VKCore.API.VKModels.Link;
@@ -82,8 +84,11 @@ namespace VKCore.API.VKModels.Group
         [JsonProperty("email")]
         public string email { get; set; }
     }
-    public class GroupsClass
+    public class GroupsClass 
     {
+        private List<Contact> _contacts; 
+        private List<GroupLink> _links;
+        private object _counters;
 
         [JsonProperty("id")]
         public int id { get; set; }
@@ -96,11 +101,13 @@ namespace VKCore.API.VKModels.Group
 
         [JsonProperty("is_closed")]
         public int is_closed { get; set; }
+
         [JsonProperty("can_message")]
         public int can_message { get; set; }
 
         [JsonProperty("market")]
         public MarketClass market { get; set; }
+
         [JsonProperty("type")]
         public string type { get; set; }
 
@@ -153,7 +160,23 @@ namespace VKCore.API.VKModels.Group
         public string wiki_page { get; set; }
 
         [JsonProperty("counters")]
-        public Counters counters { get; set; }
+        public object counters
+        {
+            get { return _counters; }
+            set
+            {
+                var a = value.GetType();
+                if (!(a.Name == "JArray"))
+                {
+                    
+                    var aa = (JObject)value;
+                    var q = aa.ToObject<Counters>();
+                    if (q != null) Counters = q;
+                }
+            }
+        }
+
+        public Counters Counters { get; set; }
 
         [JsonProperty("finish_date")]
         public long finish_date { get; set; }
@@ -167,6 +190,9 @@ namespace VKCore.API.VKModels.Group
         [JsonProperty("can_upload_doc")]
         public int can_upload_doc { get; set; }
 
+        [JsonProperty("can_upload_video")]
+        public int can_upload_video { get; set; }
+
         [JsonProperty("can_create_topic")]
         public int can_create_topic { get; set; }
 
@@ -174,10 +200,18 @@ namespace VKCore.API.VKModels.Group
         public string activity { get; set; }
 
         [JsonProperty("contacts")]
-        public List<Contact> contacts { get; set; }
+        public List<Contact> contacts
+        {
+            get { return _contacts; }
+            set { _contacts = value; }
+        }
 
         [JsonProperty("links")]
-        public List<GroupLink> links { get; set; }
+        public List<GroupLink> links
+        {
+            get { return _links; }
+            set { _links = value; }
+        }
 
         [JsonProperty("fixed_post")]
         public long fixed_post { get; set; }

@@ -6,16 +6,27 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Messaging;
 using VKCore.API.Core;
 using VKCore.API.VKModels.Group;
+using VKCore.API.VKModels.Market;
 using VKCore.API.VKModels.Messages;
+using VKCore.API.VKModels.VKList;
 using VKShop_Lite.ViewModels.Base;
 
 namespace VKShop_Lite.ViewModels.Groups.Market
 {
     public class MarketMainViewModel : BaseViewModel
     {
+        private VKCollection<MarketItem> _marketCollection;
+
+        public VKCollection<MarketAlbum> MarketAlbumCollection { get; set; } 
+        public VKCollection<MarketItem> MarketCollection
+        {
+            get { return _marketCollection; }
+            set { _marketCollection = value;RaisePropertyChanged("MarketCollection"); }
+        }
+
         public MarketMainViewModel()
         {
-            Messenger.Default.Register<GroupMessages>(
+            Messenger.Default.Register<GroupsClass>(
           this,
           message =>
           {
@@ -25,17 +36,29 @@ namespace VKShop_Lite.ViewModels.Groups.Market
         }
         void Load(int id)
         {
-            VKRequest.Dispatch<DialogsClass>(
+            VKRequest.Dispatch<VKCollection<MarketItem>>(
                        new VKRequestParameters(
-                         SMessages.messages_getdialogs, "get_group_messages", id.ToString()),
+                         SMarket.market_get, "owner_id", String.Format("-{0}",id)),
                        (res) =>
                        {
                            var q = res.ResultCode;
                            if (res.ResultCode == VKResultCode.Succeeded)
                            {
-                             
+                               MarketCollection = res.Data;
                            }
                        });
+            VKRequest.Dispatch<VKCollection<MarketAlbum>>(
+                     new VKRequestParameters(
+                       SMarket.market_getAlbums, "owner_id", String.Format("-{0}", id)),
+                     (res) =>
+                     {
+                         var q = res.ResultCode;
+                         if (res.ResultCode == VKResultCode.Succeeded)
+                         {
+                             MarketAlbumCollection = res.Data;
+                         }
+                     });
+
 
         }
 

@@ -31,8 +31,15 @@ namespace VKCore.UserControls
         private bool _isValidating = false;
         private bool _processedResult = false;
         private string _validationUri;
+        private Action _callbackAction;
 
         private static VKLoginUserControl _currentlyShownInstance;
+
+        public Action CallbackAction
+        {
+            get { return _callbackAction; }
+            set { _callbackAction = value; }
+        }
 
         public string ValidationUri
         {
@@ -147,7 +154,7 @@ namespace VKCore.UserControls
                 var result = url.Substring(url.IndexOf('#') + 1);
 
                 _processedResult = true;
-                VKSDK.ProcessLoginResultForMessaging(result, _isValidating, _validationCallback);
+                VKSDK.ProcessLoginResultForMessaging(result, _isValidating, _validationCallback, CallbackAction);
                 this.IsShown = false;
             }
         }
@@ -157,7 +164,7 @@ namespace VKCore.UserControls
             base.OnClosing();
             if (!_processedResult)
             {
-                VKSDK.ProcessLoginResultForMessaging(null, _isValidating, _validationCallback);
+                VKSDK.ProcessLoginResultForMessaging(null, _isValidating, _validationCallback, CallbackAction);
             }
         }
     }

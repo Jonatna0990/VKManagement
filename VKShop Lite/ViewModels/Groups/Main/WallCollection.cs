@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml;
 using VKCore.API.Core;
@@ -44,20 +45,30 @@ namespace VKShop_Lite.ViewModels.Groups.Main
         /// </summary>
         public void Load()
         {
-            VKRequest.Dispatch<GroupWithWall>(
+            VKRequest.Dispatch<List<GroupsClass>>(
                         new VKRequestParameters(
-                                    SExecute.load_group_full, "group_id", string.Format("-{0}", param.id)),
+                                    SGroups.groups_getById, "group_id", string.Format("{0}", param.id), "fields", "members_count,description,site, links,finish_date, fixed_post, verified, can_post, can_see_all_posts,city,place,start_date,links,status,contacts,counters,market,is_closed"),
                         (res) =>
                         {
+                          
                             var q = res.ResultCode;
                             if (res.ResultCode == VKResultCode.Succeeded)
                             {
-                                IsLoaded = Visibility.Collapsed;
-                               GroupWall = SetNewsSorces(res.Data.wall);
-                               MainGroup = res.Data.group;
-
+                               MainGroup = res.Data.FirstOrDefault();
                             }
                         });
+            VKRequest.Dispatch<WallRoot>(
+                       new VKRequestParameters(
+                                   SWall.wall_get, "owner_id", string.Format("-{0}", param.id),"extended","1"),
+                       (res) =>
+                       {
+                           var q = res.ResultCode;
+                           if (res.ResultCode == VKResultCode.Succeeded)
+                           {
+                               IsLoaded = Visibility.Collapsed;
+                               GroupWall = SetNewsSorces(res.Data);
+                           }
+                       });
         }
         private WallRoot SetNewsSorces(WallRoot news)
         {

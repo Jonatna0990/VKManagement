@@ -137,6 +137,7 @@ namespace VKCore.API.SDK
         /// </summary>
         public static event EventHandler MobileCatalogInstallationDetected = delegate { };
 
+
         public static IVKLogger Logger;
 
         /// <summary>
@@ -197,7 +198,7 @@ namespace VKCore.API.SDK
         /// <param name="scopeList">List of permissions for your app</param>
         /// <param name="revoke">If true user will be allowed to logout and change user</param>
         /// <param name="forceOAuth">SDK will use only OAuth authorization via WebBrowser</param>
-        public static void AuthorizeAdminMessages(string group_ids)
+        public static void AuthorizeAdminMessages(string group_ids, Action callbackAction)
         {
             List<String> scopeList = new List<string>() {"messages","docs", "photos"};
             try
@@ -212,6 +213,7 @@ namespace VKCore.API.SDK
             var loginUserControl = new VKGetMessagesToken();
             loginUserControl.Scopes = scopeList;
             loginUserControl.GroupsIds = group_ids;
+            loginUserControl.CallbackAction = callbackAction; 
             loginUserControl.ShowInPopup(Window.Current.Bounds.Width, Window.Current.Bounds.Height);
             
         }
@@ -317,6 +319,27 @@ namespace VKCore.API.SDK
             
         }
 
+        public static List<int> GetGroupMessagesIds()
+        {
+            List<int> temp = new List<int>();
+           
+            foreach (var a in ApplicationData.Current.LocalSettings.Values)
+            {
+                try
+                {
+                    if ((int)a.Value > 0)
+                    {
+                        temp.Add(Convert.ToInt32(a.Key));
+                    }
+                }
+                catch (Exception)
+                {
+                    
+                }
+               
+            }
+            return temp;
+        } 
         public static int GetGroupId(string token)
         {
             int temp = 0;
@@ -442,7 +465,7 @@ namespace VKCore.API.SDK
                 validationCallback(new VKValidationResponse { IsSucceeded = success });
             }
         }
-        internal static void ProcessLoginResultForMessaging(string result, bool wasValidating, Action<VKValidationResponse> validationCallback)
+        internal static void ProcessLoginResultForMessaging(string result, bool wasValidating, Action<VKValidationResponse> validationCallback, Action callbackAction)
         {
             bool success = false;
 
@@ -465,8 +488,9 @@ namespace VKCore.API.SDK
                             
                         }
                         
-                        // SetAccessTokenForMessages(t.Value, t.Key);
+                       
                     }
+                    callbackAction?.Invoke();
                 }
                 else
                 {

@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using Windows.UI.Popups;
+using Windows.UI.Xaml;
 using VKCore.API.Core;
 using VKCore.API.SDK;
 using VKCore.API.VKModels.Group;
@@ -32,7 +35,69 @@ namespace VKShop_Lite.ViewModels.Groups.Admin.Messages
             {
                 this.NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(GroupDialogsPage) });
             });
-            Load();
+            if (VKSDK.IsHasToken("InizializeGroupsMessages"))
+            {
+                Load();
+            }
+            else
+            {
+                GetMessagesTokens();
+            }
+           
+        }
+
+        private void GetMessagesTokens()
+        {
+            VKRequest.Dispatch<VKList<GroupMessages>>(
+           new VKRequestParameters(
+             SGroups.groups_get, "filter", "admin", "extended", "1", "fields", "can_message"),
+          async (res) =>
+           {
+               var q = res.ResultCode;
+               if (res.ResultCode == VKResultCode.Succeeded)
+               {
+
+                   MessageDialog msg = new MessageDialog("Для настройки сообщений Вам необходимо разрешить доступ к группам", "Разрешение доступа");
+                   msg.Commands.Add(new UICommand("продолжить", CommandHandlers, res.Data.items));
+                   msg.Commands.Add(new UICommand("отмена", CommandHandlers));
+
+                   await msg.ShowAsync();
+                 
+               }
+           });
+        }
+        public void CommandHandlers(IUICommand commandLabel)
+        {
+            var Actions = commandLabel.Label;
+            switch (Actions)
+            {
+                //Okay Button.
+                case "продолжить":
+                    {
+                            List<int> tokens = new List<int>();
+                            List<GroupMessages> items = commandLabel.Id as List<GroupMessages>;
+                            if (items != null)
+                                    foreach (var a in items)
+                                    {
+                                        if (!VKSDK.IsHasToken(a.id.ToString()))
+                                        {
+                                            tokens.Add(a.id);
+                                        }
+                                    }
+                                VKSDK.SetAccessTokenForMessages(new VKAccessToken() { AccessToken = "true" }, "InizializeGroupsMessages");
+                                VKSDK.AuthorizeAdminMessages(string.Join(",", tokens.Select(n => n.ToString()).ToArray()),
+                                    Load);
+                                
+
+                            
+                        }
+
+                    break;
+                //Quit Button.
+                case "отмена":
+                    break;
+                    //end.
+            }
         }
         private void Load()
         {
@@ -60,18 +125,6 @@ namespace VKShop_Lite.ViewModels.Groups.Admin.Messages
                                     t.MessagesCollection = resa.Data;
                             }
                         });
-                     }
-                     List<int> tokens = new List<int>();
-                     foreach (var a in res.Data.items)
-                     {
-                         if (!VKSDK.IsHasToken(a.id.ToString()))
-                         {
-                             tokens.Add(a.id);
-                         }
-                     }
-                     if (tokens.Count > 0)
-                     {
-                         VKSDK.AuthorizeAdminMessages(string.Join(",", tokens.Select(n => n.ToString()).ToArray()));
                      }
                  }
              });

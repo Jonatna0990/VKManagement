@@ -148,7 +148,9 @@
     <Compile Include="API\VKModels\Group\GroupsClass.cs" />
     <Compile Include="API\VKModels\Link\GroupLink.cs" />
     <Compile Include="API\VKModels\Link\LinkClass.cs" />
+    <Compile Include="API\VKModels\Market\MarketAlbum.cs" />
     <Compile Include="API\VKModels\Market\MarketClass.cs" />
+    <Compile Include="API\VKModels\Market\MarketItem.cs" />
     <Compile Include="API\VKModels\Messages\MessageClass.cs" />
     <Compile Include="API\VKModels\Note\NoteClass.cs" />
     <Compile Include="API\VKModels\Photo\PhotoAlbumsClass.cs" />

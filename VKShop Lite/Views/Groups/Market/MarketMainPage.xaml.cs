@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Messaging;
 using VKCore.API.VKModels.Group;
 using VKShop_Lite.ViewModels.Groups.Main;
+using VKShop_Lite.ViewModels.Groups.Market;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -32,7 +33,7 @@ namespace VKShop_Lite.Views.Groups.Market
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            this.DataContext = new GroupMainViewModel();
+            this.DataContext = new MarketMainViewModel();
             Messenger.Default.Send<GroupsClass>(e.Parameter as GroupsClass);
 
 
