@@ -101,6 +101,7 @@
     <Compile Include="Common\NavigationHelper.cs" />
     <Compile Include="Common\Scenario.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
+    <Compile Include="Helpers\Converters\IntToVisibillityConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\PopupControl\BoolToVisibillityConverter.cs" />
     <Compile Include="UserControls\PopupControl\CreateGroupPopup.xaml.cs">
@@ -112,6 +113,9 @@
     <Compile Include="UserControls\WallControl\WallPostControl.xaml.cs">
       <DependentUpon>WallPostControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\Groups\Admin\Messages\GroupConversationViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Admin\Messages\GroupDialogsViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Admin\Messages\GroupMessagesViewModel.cs" />
     <Compile Include="ViewModels\Auth\AuthPageViewModel.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="ViewModels\Base\NavigateCommand.cs" />
@@ -120,9 +124,10 @@
     <Compile Include="ViewModels\Counters\GroupMembersViewModel.cs" />
     <Compile Include="ViewModels\Counters\PhotoPageViewModel.cs" />
     <Compile Include="ViewModels\Counters\VideoPageViewModel.cs" />
-    <Compile Include="ViewModels\Groups\GroupMainViewModel.cs" />
-    <Compile Include="ViewModels\Groups\UserGroupsViewModel.cs" />
-    <Compile Include="ViewModels\Groups\WallCollection.cs" />
+    <Compile Include="ViewModels\Groups\Main\GroupMainViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Main\UserGroupsViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Main\WallCollection.cs" />
+    <Compile Include="ViewModels\Groups\Market\MarketMainViewModel.cs" />
     <Compile Include="ViewModels\UserMain\UserMainViewModel.cs" />
     <Compile Include="Views\Auth\AuthPage.xaml.cs">
       <DependentUpon>AuthPage.xaml</DependentUpon>
@@ -164,7 +169,16 @@
     <Compile Include="Views\Groups\Admin\GroupMarketEditPage.xaml.cs">
       <DependentUpon>GroupMarketEditPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Groups\Admin\GroupMessagesPage.xaml.cs">
+    <Compile Include="Views\Groups\Market\MarketMainPage.xaml.cs">
+      <DependentUpon>MarketMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Messages\GroupConversationPage.xaml.cs">
+      <DependentUpon>GroupConversationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Messages\GroupDialogsPage.xaml.cs">
+      <DependentUpon>GroupDialogsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Messages\GroupMessagesPage.xaml.cs">
       <DependentUpon>GroupMessagesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Groups\Admin\GroupServicesPage.xaml.cs">
@@ -173,10 +187,10 @@
     <Compile Include="Views\Groups\Admin\GroupMembersEditPage.xaml.cs">
       <DependentUpon>GroupMembersEditPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Groups\GroupMainPage.xaml.cs">
+    <Compile Include="Views\Groups\Main\GroupMainPage.xaml.cs">
       <DependentUpon>GroupMainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Groups\UserGroupsPage.xaml.cs">
+    <Compile Include="Views\Groups\Main\UserGroupsPage.xaml.cs">
       <DependentUpon>UserGroupsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Main\NullToVisibilityConverter.cs" />
@@ -285,7 +299,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Groups\Admin\GroupMessagesPage.xaml">
+    <Page Include="Views\Groups\Market\MarketMainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Messages\GroupConversationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Messages\GroupDialogsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Messages\GroupMessagesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -297,11 +323,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Groups\GroupMainPage.xaml">
+    <Page Include="Views\Groups\Main\GroupMainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Groups\UserGroupsPage.xaml">
+    <Page Include="Views\Groups\Main\UserGroupsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -310,6 +336,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Profile\ProfileMainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Settings\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -324,7 +354,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UserControls\MessagesControl\" />
-    <Folder Include="ViewModels\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VKCore\VKCore.csproj">

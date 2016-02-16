@@ -10,6 +10,7 @@ using VKCore.API.Core;
 using VKCore.API.SDK;
 using VKCore.Helpers;
 using VKCore.UserControls.CaptchaControl;
+using VKCore.Util;
 using VKShop_Lite.Common;
 using VKShop_Lite.ViewModels.Base;
 using VKShop_Lite.Views.Main;
@@ -31,6 +32,8 @@ namespace VKShop_Lite.ViewModels.Auth
             VKSDK.Initialize(APISettings.app_id);
             VKSDK.AccessTokenReceived += (sender, args) =>
             {
+                var a = sender;
+                var t = args;
                 UpdateUIState();
             };
             VKSDK.WakeUpSession();
@@ -38,7 +41,9 @@ namespace VKShop_Lite.ViewModels.Auth
             UpdateUIState();
             ButtonClickCommand = new DelegateCommand(s =>
             {
-                Button_Click();
+                List<String> _scope = VKScope.ParseVKPermissionsFromInteger(9355263);
+                ContentVisibility = Visibility.Collapsed;
+                VKSDK.Authorize(_scope, false, false);
             });
         }
         private void CaptchaRequest(VKCaptchaUserRequest captchaUserRequest, Action<VKCaptchaUserResponse> action)
@@ -58,12 +63,7 @@ namespace VKShop_Lite.ViewModels.Auth
 
         }
         public ICommand ButtonClickCommand { get; private set; }
-        private void Button_Click()
-        {
-            List<String> _scope = VKScope.ParseVKPermissionsFromInteger(9355263);
-            ContentVisibility = Visibility.Collapsed;
-            VKSDK.Authorize(_scope, false, false);
-        }
+      
     }
 }
 

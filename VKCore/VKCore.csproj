@@ -148,6 +148,8 @@
     <Compile Include="API\VKModels\Group\GroupsClass.cs" />
     <Compile Include="API\VKModels\Link\GroupLink.cs" />
     <Compile Include="API\VKModels\Link\LinkClass.cs" />
+    <Compile Include="API\VKModels\Market\MarketClass.cs" />
+    <Compile Include="API\VKModels\Messages\MessageClass.cs" />
     <Compile Include="API\VKModels\Note\NoteClass.cs" />
     <Compile Include="API\VKModels\Photo\PhotoAlbumsClass.cs" />
     <Compile Include="API\VKModels\Photo\PhotoClass.cs" />
@@ -170,14 +172,19 @@
     <Compile Include="Converters\UserDataConvert.cs" />
     <Compile Include="Converters\UserOnlineDataTimeConvert.cs" />
     <Compile Include="Helpers\DataExHelper.cs" />
+    <Compile Include="Helpers\DateTimeHelper.cs" />
     <Compile Include="Helpers\DelegateCommand.cs" />
     <Compile Include="Helpers\ListExtensions.cs" />
     <Compile Include="Helpers\ScrollerEx.cs" />
     <Compile Include="Localization\Resources.cs" />
     <Compile Include="Localization\VKLocalizedStrings.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\CaptchaControl\VKCaptchaRequestUserControl.xaml.cs">
       <DependentUpon>VKCaptchaRequestUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\VKGetMessagesToken.xaml.cs">
+      <DependentUpon>VKGetMessagesToken.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\VKLoginUserControl.xaml.cs">
       <DependentUpon>VKLoginUserControl.xaml</DependentUpon>
@@ -204,6 +211,10 @@
   <ItemGroup />
   <ItemGroup>
     <Page Include="UserControls\CaptchaControl\VKCaptchaRequestUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\VKGetMessagesToken.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

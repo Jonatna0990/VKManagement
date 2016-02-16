@@ -23,7 +23,7 @@
                 <ColumnDefinition Width="290*"/>
                 <ColumnDefinition Width="40*"/>
             </Grid.ColumnDefinitions>
-            <ToggleButton x:Name="HamburgerButton" 
+            <ToggleButton x:Name="HamburgerButton"  Checked="HamburgerButton_OnChecked" Unchecked="HamburgerButton_OnUnchecked"
                 FontFamily="Segoe MDL2 Assets"
                 Content="&#xE700;"
                 Margin="0"
@@ -32,11 +32,10 @@
                 Background="Transparent"
                 Foreground="Black"
                 VerticalAlignment="Top"
-                IsChecked="{Binding ElementName=SplitView,Path=IsPaneOpen,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                 BorderThickness="0" Grid.ColumnSpan="2" />
         </Grid>
 
-        <SplitView x:Name="SplitView" 
+        <SplitView x:Name="SplitView"  PaneClosed="SplitView_OnPaneClosed" 
                    CompactPaneLength="40"
                    OpenPaneLength="200"
                    DisplayMode="Overlay" Margin="0,40,0,0" PaneBackground="#FF636363">

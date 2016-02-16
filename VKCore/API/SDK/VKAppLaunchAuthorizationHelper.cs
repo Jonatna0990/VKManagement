@@ -46,10 +46,7 @@ namespace VKCore.API.SDK
             catch (Exception)
             {
       
-#if SILVERLIGHT
-                var msg = "VK App authorization is not supported for this type of the project. Please, use WebView authorization.";
-                MessageBox.Show(msg);
-#endif
+
             }
 
 

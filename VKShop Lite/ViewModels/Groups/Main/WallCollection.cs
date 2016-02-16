@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using VKCore.API.Core;
 using VKCore.API.VKModels.Group;
 using VKCore.API.VKModels.Wall;
 using VKShop_Lite.ViewModels.Base;
 
-namespace VKShop_Lite.ViewModels.Groups
+namespace VKShop_Lite.ViewModels.Groups.Main
 {
     public class WallCollection : BaseViewModel
     {

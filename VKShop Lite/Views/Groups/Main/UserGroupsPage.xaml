@@ -1,11 +1,9 @@
 ﻿<Page
-    x:Class="VKShop_Lite.Views.Groups.UserGroupsPage"
+    x:Class="VKShop_Lite.Views.Groups.Main.UserGroupsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:VKShop_Lite.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:groups="using:VKShop_Lite.ViewModels.Groups"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:main="using:VKShop_Lite.Views.Main"

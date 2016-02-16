@@ -338,6 +338,33 @@
             public const string fave_getVideos = "fave.getVideos";
             public const string fave_getLinks = "fave.getLinks";
         }
+
+        public struct SMarket
+        {
+            public const string market_get = "market.get";
+            public const string market_getById = "market.getById";
+            public const string market_search = "market.search";
+            public const string market_getAlbums = "market.getAlbums";
+            public const string market_getAlbumById = "market.getAlbumById";
+            public const string market_createComment = "market.createComment";
+            public const string market_getComments = "market.getComments";
+            public const string market_deleteComment = "market.deleteComment";
+            public const string market_restoreComment = "market.restoreComment";
+            public const string market_editComment = "market.editComment";
+            public const string market_reportComment = "market.reportComment";
+            public const string market_getCategories = "market.getCategories";
+            public const string market_report = "market.report";
+            public const string market_add = "market.add";
+            public const string market_edit = "market.edit";
+            public const string market_delete = "market.delete";
+            public const string market_reorderAlbums = "market.reorderAlbums";
+            public const string market_addAlbum = "market.addAlbum";
+            public const string market_editAlbum = "market.editAlbum";
+            public const string market_deleteAlbum = "market.deleteAlbum";
+            public const string market_removeFromAlbum = "market.removeFromAlbum";
+            public const string market_addToAlbum = "market.addToAlbum";
+
+    }
         public struct SNotifications
         {
             public const string notifications_get = "notifications.get";

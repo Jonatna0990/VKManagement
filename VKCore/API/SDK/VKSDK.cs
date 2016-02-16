@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using Windows.Storage;
 using Windows.System.UserProfile;
 using Windows.UI.Xaml;
 using VKCore.API.Core;
@@ -39,6 +41,7 @@ namespace VKCore.API.SDK
         /// Access token for API-requests
         /// </summary>
         protected VKAccessToken AccessToken;
+        
 
         /// <summary>
         /// Default SDK access token key for storing value in IsolatedStorage.
@@ -185,6 +188,34 @@ namespace VKCore.API.SDK
 
         }
 
+
+
+        /// <summary>
+        /// Starts authorization process. Opens and requests for access if VK App is installed. 
+        /// Otherwise SDK will navigate current app to SDK navigation page and start OAuth in WebBrowser.
+        /// </summary>
+        /// <param name="scopeList">List of permissions for your app</param>
+        /// <param name="revoke">If true user will be allowed to logout and change user</param>
+        /// <param name="forceOAuth">SDK will use only OAuth authorization via WebBrowser</param>
+        public static void AuthorizeAdminMessages(string group_ids)
+        {
+            List<String> scopeList = new List<string>() {"messages","docs", "photos"};
+            try
+            {
+                CheckConditions();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                return;
+            }
+            var loginUserControl = new VKGetMessagesToken();
+            loginUserControl.Scopes = scopeList;
+            loginUserControl.GroupsIds = group_ids;
+            loginUserControl.ShowInPopup(Window.Current.Bounds.Width, Window.Current.Bounds.Height);
+            
+        }
+
         private static void AuthorizeVKApp(List<string> scopeList, bool revoke)
         {
             VKAppLaunchAuthorizationHelper.AuthorizeVKApp("", Instance.CurrentAppID, scopeList, revoke);
@@ -253,6 +284,10 @@ namespace VKCore.API.SDK
                 Instance.AccessToken.SaveTokenToIsolatedStorage(VKSDK_ACCESS_TOKEN_ISOLATEDSTORAGE_KEY);
             }
         }
+        public static void SetAccessTokenForMessages(VKAccessToken token, string group_id)
+        {
+            ApplicationData.Current.LocalSettings.Values[group_id] = token.AccessToken;
+        }
 
         /// <summary>
         /// Get access token to be used for API requests.
@@ -269,6 +304,43 @@ namespace VKCore.API.SDK
             }
 
             return null;
+        }
+
+        public static VKAccessToken GetAccessTokenForMessages(string group_id)
+        {
+            if (!ApplicationData.Current.LocalSettings.Values.ContainsKey(group_id))
+            {
+                return null;
+            }
+            String tokenString = ApplicationData.Current.LocalSettings.Values[group_id].ToString();
+            return new VKAccessToken() {AccessToken = tokenString};
+            
+        }
+
+        public static int GetGroupId(string token)
+        {
+            int temp = 0;
+            if (!ApplicationData.Current.LocalSettings.Values.Values.Contains(token))
+            {
+                return temp;
+            }
+            foreach (var a in ApplicationData.Current.LocalSettings.Values)
+            {
+                if (a.Value == token)
+                {
+                    temp = Convert.ToInt32(a.Key);
+                }
+            }
+            return temp;
+
+        }
+        public static bool IsHasToken(string group_id)
+        {
+            if (!ApplicationData.Current.LocalSettings.Values.ContainsKey(group_id))
+            {
+                return false;
+            }
+            return true;
         }
 
         /// <summary>
@@ -370,7 +442,51 @@ namespace VKCore.API.SDK
                 validationCallback(new VKValidationResponse { IsSucceeded = success });
             }
         }
+        internal static void ProcessLoginResultForMessaging(string result, bool wasValidating, Action<VKValidationResponse> validationCallback)
+        {
+            bool success = false;
 
+            if (result == null)
+            {
+                SetAccessTokenError(new VKError { error_code = (int)VKResultCode.UserAuthorizationFailed });
+            }
+            else
+            {
+                var tokenParams = VKUtil.ExplodeQueryString(result);
+                if (!result.Contains(@"{""error"":{"))
+                {
+                    success = true;
+                    foreach (var t in tokenParams)
+                    {
+                        if (t.Key.Contains("access_token_"))
+                        {
+                            var a = GetGroupIdFromString(t.Key);
+                            SetAccessTokenForMessages(new VKAccessToken() { AccessToken = t.Value}, a );
+                            
+                        }
+                        
+                        // SetAccessTokenForMessages(t.Value, t.Key);
+                    }
+                }
+                else
+                {
+                    SetAccessTokenError(new VKError { error_code = (int)VKResultCode.UserAuthorizationFailed });
+                }
+            }
+
+            if (validationCallback != null)
+            {
+                validationCallback(new VKValidationResponse { IsSucceeded = success });
+            }
+        }
+
+        private static string GetGroupIdFromString(string param)
+        {
+            if (string.IsNullOrEmpty(param)) return "";
+            int len = param.Length-13;
+            int ind = param.LastIndexOf("_")+1;
+            return param.Substring(ind, len);
+        }
         internal static void InvokeCaptchaRequest(VKCaptchaUserRequest request, Action<VKCaptchaUserResponse> callback)
         {
             if (CaptchaRequest == null)

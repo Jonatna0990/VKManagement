@@ -118,9 +118,15 @@ namespace VKCore.API.Core
             {
                 parametersDict["v"] = VKSDK.API_VERSION;
             }
-
+           
             var accessToken = VKSDK.GetAccessToken();
+            if (parametersDict.ContainsKey("get_group_messages"))
+            {
 
+                accessToken = VKSDK.GetAccessTokenForMessages(parametersDict["get_group_messages"]);
+                parametersDict.Remove("get_group_messages");
+                var a = accessToken;
+            }
             if (accessToken != null)
             {
                 parametersDict["access_token"] = accessToken.AccessToken;

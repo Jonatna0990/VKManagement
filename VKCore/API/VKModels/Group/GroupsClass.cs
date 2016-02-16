@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.ServiceModel.Channels;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using VKCore.Annotations;
 using VKCore.API.VKModels.Geo;
 using VKCore.API.VKModels.Link;
+using VKCore.API.VKModels.Market;
+using VKCore.API.VKModels.Messages;
 using VKCore.API.VKModels.User;
 using VKCore.API.VKModels.VKList;
 using VKCore.API.VKModels.Wall;
@@ -23,6 +29,26 @@ namespace VKCore.API.VKModels.Group
         public WallRoot wall { get; set; }
     }
 
+    public class GroupMessages : GroupsClass, INotifyPropertyChanged
+    {
+        private VKCollection<MessageRoot> _messagesCollection;
+
+        public VKCollection<MessageRoot> MessagesCollection
+        {
+            get { return _messagesCollection; }
+            set { _messagesCollection = value;
+                OnPropertyChanged("MessagesCollection");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
     public class GroupMembersRoot
     {
         [JsonProperty("members")]
@@ -70,7 +96,11 @@ namespace VKCore.API.VKModels.Group
 
         [JsonProperty("is_closed")]
         public int is_closed { get; set; }
+        [JsonProperty("can_message")]
+        public int can_message { get; set; }
 
+        [JsonProperty("market")]
+        public MarketClass market { get; set; }
         [JsonProperty("type")]
         public string type { get; set; }
 

@@ -152,14 +152,11 @@ namespace VKCore.API.SDK
         /// <returns>Previously saved token or null</returns>
         public static VKAccessToken TokenFromIsolatedStorage(String tokenKey)
         {
-
             if (!ApplicationData.Current.LocalSettings.Values.ContainsKey(tokenKey))
             {
                 return null;
             }
-
             String tokenString = ApplicationData.Current.LocalSettings.Values[tokenKey].ToString();
-
             return FromUrlString(tokenString);
         }
 

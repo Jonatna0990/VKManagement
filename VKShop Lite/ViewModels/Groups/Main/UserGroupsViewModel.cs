@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using VKCore.API.Core;
@@ -15,8 +11,9 @@ using VKShop_Lite.UserControls.PopupControl;
 using VKShop_Lite.ViewModels.Base;
 using VKShop_Lite.Views.Groups;
 using ВКонтакте.Models.List;
+using GroupMainPage = VKShop_Lite.Views.Groups.Main.GroupMainPage;
 
-namespace VKShop_Lite.ViewModels.Groups
+namespace VKShop_Lite.ViewModels.Groups.Main
 {
     public class UserGroupsViewModel : BaseViewModel
     {

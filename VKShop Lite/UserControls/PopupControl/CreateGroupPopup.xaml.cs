@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -62,7 +63,13 @@ namespace VKShop_Lite.UserControls.PopupControl
                              }
                              if (res.ResultCode == VKResultCode.CaptchaRequired)
                              {
-                               
+
+                             }
+                             else
+                             {
+                                 var t = new MessageDialog(res.Error.error_msg);
+                                 t.ShowAsync();
+
                              }
                          });
                     }

@@ -23,13 +23,14 @@ namespace VKCore.API.SDK
         public const String OFFLINE = "offline";
         public const String NOHTTPS = "nohttps";
         public const String DIRECT = "direct";
+        public const String MARKET = "market";
 
         /// <summary>
         /// Converts integer permissions value into List of constants
         /// </summary>
         /// <param name="permissionsValue">Integer permissons value</param>
         /// <returns>List containing constant strings of permissions (scope)</returns>
-        public static List<String> ParseVKPermissionsFromInteger(int permissionsValue)
+        public static List<String> ParseVKPermissionsFromInteger(long permissionsValue)
         {
             var res = new List<String>();
             if ((permissionsValue & 1) > 0) res.Add(NOTIFY);
@@ -48,6 +49,7 @@ namespace VKCore.API.SDK
             if ((permissionsValue & 262144) > 0) res.Add(GROUPS);
             if ((permissionsValue & 524288) > 0) res.Add(NOTIFICATIONS);
             if ((permissionsValue & 1048576) > 0) res.Add(STATS);
+            if ((permissionsValue & 134217728) > 0) res.Add(MARKET);
             return res;
         }
     }

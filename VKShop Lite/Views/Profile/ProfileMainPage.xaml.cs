@@ -15,14 +15,14 @@ using Windows.UI.Xaml.Navigation;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace VKShop_Lite.Views.Groups.Admin
+namespace VKShop_Lite.Views.Profile
 {
     /// <summary>
     /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
     /// </summary>
-    public sealed partial class GroupMessagesPage : Page
+    public sealed partial class ProfileMainPage : Page
     {
-        public GroupMessagesPage()
+        public ProfileMainPage()
         {
             this.InitializeComponent();
         }

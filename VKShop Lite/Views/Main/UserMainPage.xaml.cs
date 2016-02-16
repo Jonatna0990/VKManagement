@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using VKShop_Lite.Common;
 using VKShop_Lite.Views.Groups;
+using UserGroupsPage = VKShop_Lite.Views.Groups.Main.UserGroupsPage;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -51,6 +52,22 @@ namespace VKShop_Lite.Views.Main
                     throw new Exception("Ошибка");
                 }
             }
+        }
+
+
+        private void HamburgerButton_OnChecked(object sender, RoutedEventArgs e)
+        {
+            SplitView.IsPaneOpen = true;
+        }
+
+        private void HamburgerButton_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+            SplitView.IsPaneOpen = false;
+        }
+
+        private void SplitView_OnPaneClosed(SplitView sender, object args)
+        {
+            HamburgerButton.IsChecked = false;
         }
 
       
