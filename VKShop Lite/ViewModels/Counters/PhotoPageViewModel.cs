@@ -45,9 +45,7 @@ namespace VKShop_Lite.ViewModels.Counters
             Messenger.Default.Register<GroupsClass>(
             this,
             message =>
-            {
-                Load(-message.id);
-            });
+            { if (message != null) Load(-message.id); });
             Messenger.Default.Register<UserClass>(
            this,
            message =>

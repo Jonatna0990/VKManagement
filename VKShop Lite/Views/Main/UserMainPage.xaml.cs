@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using VKShop_Lite.Common;
+using VKShop_Lite.ViewModels.UserMain;
 using VKShop_Lite.Views.Groups;
 using UserGroupsPage = VKShop_Lite.Views.Groups.Main.UserGroupsPage;
 
@@ -30,6 +31,7 @@ namespace VKShop_Lite.Views.Main
         public UserMainPage()
         {
             this.InitializeComponent();
+            NavigationCacheMode = NavigationCacheMode.Disabled;
             Current = this;
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
@@ -42,9 +44,11 @@ namespace VKShop_Lite.Views.Main
                 e.Handled = true;
             }
         }
+       
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-             if (RootFrame.Content == null)
+            this.DataContext = new UserMainViewModel();
+            if (RootFrame.Content == null)
             {
                 // When the navigation stack isn't restored navigate to the ScenarioList
                 if (!RootFrame.Navigate(typeof(UserGroupsPage)))

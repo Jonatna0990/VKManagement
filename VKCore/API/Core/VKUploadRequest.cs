@@ -2,12 +2,22 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Windows.Storage;
 using Newtonsoft.Json;
 using VKCore.API.VKModels.Photo;
 using VKCore.Util;
 
 namespace VKCore.API.Core
 {
+    public enum UploadType
+    {
+        PhotoAlbumUpload,
+        PhotoWallUpload,
+        PhotoProfileUpload,
+        PhotoMessageUpload,
+        PhotoMarketAlbumUpload,
+        PhotoMarketProductUpload
+    }
     public class VKUploadRequest
     {
 
@@ -19,36 +29,23 @@ namespace VKCore.API.Core
         class VKUploadResponseData
         {
             public string server { get; set; }
-
             public string photo { get; set; }
-
             public string photos_list { get; set; }
-
             public string hash { get; set; }
-
             public string aid { get; set; }
-
             public long uid { get; set; }
-
             public long gid { get; set; }
+            public string crop_data { get; set; }
+            public string crop_hash { get; set; }
         }
 
-        enum UploadType
-        {
-            PhotoAlbumUpload,
-            PhotoWallUpload,
-            PhotoProfileUpload,
-            PhotoMessageUpload
-        }
+     
 
         private UploadType _uploadType;
-
         private long _albumId;        
-
         private long _ownerId;
-
+        private bool _is_main_photo;
         private long _groupId;
-
         protected VKUploadRequest()
         {
         }
@@ -92,10 +89,27 @@ namespace VKCore.API.Core
 
             return uploadRequest;
         }
+        public static VKUploadRequest PhotoMarketCategoryAlbumRequest(long group_id)
+        {
+            var uploadRequest = new VKUploadRequest();
+
+            uploadRequest._uploadType = UploadType.PhotoMarketAlbumUpload;
+            uploadRequest._ownerId = group_id;
+            return uploadRequest;
+        }
+        public static VKUploadRequest PhotoMarketProductUploadRequest(long group_id,bool is_main)
+        {
+            var uploadRequest = new VKUploadRequest();
+
+            uploadRequest._uploadType = UploadType.PhotoMarketProductUpload;
+            uploadRequest._ownerId = group_id;
+            uploadRequest._is_main_photo = is_main;
+            return uploadRequest;
+        }
 
         public void Dispatch(
-            Stream photoStream,
-            Action<double> progressCallback,
+            StorageFile photoStream,
+            Action<bool> progressCallback,
             Action<VKBackendResult<PhotoClass>> callback)
         {
             switch (_uploadType)
@@ -112,10 +126,16 @@ namespace VKCore.API.Core
                 case UploadType.PhotoWallUpload:
                     DispatchPhotoWallUpload(photoStream, progressCallback, callback);
                     break;
+                case UploadType.PhotoMarketAlbumUpload:
+                    DispatchPhotoMarketAlbumUpload(photoStream, progressCallback, callback);
+                    break;
+                case UploadType.PhotoMarketProductUpload:
+                    DispatchPhotoMarketProductUpload(photoStream, progressCallback, callback);
+                    break;
             }
         }
 
-        private void DispatchPhotoWallUpload(Stream photoStream, Action<double> progressCallback, Action<VKBackendResult<PhotoClass>> callback)
+        private void DispatchPhotoWallUpload(StorageFile photoStream, Action<bool> progressCallback, Action<VKBackendResult<PhotoClass>> callback)
         {
             var parameters = new Dictionary<string, string>();
             if (_ownerId != 0)
@@ -134,7 +154,7 @@ namespace VKCore.API.Core
                 progressCallback);
         }
 
-        private void DispatchPhotoProfileUpload(Stream photoStream, Action<double> progressCallback, Action<VKBackendResult<PhotoClass>> callback)
+        private void DispatchPhotoProfileUpload(StorageFile photoStream, Action<bool> progressCallback, Action<VKBackendResult<PhotoClass>> callback)
         {
             var parameters = new Dictionary<string, string>();
 
@@ -147,7 +167,7 @@ namespace VKCore.API.Core
               progressCallback);           
         }
 
-        private void DispatchPhotoMessageUpload(Stream photoStream, Action<double> progressCallback, Action<VKBackendResult<PhotoClass>> callback)
+        private void DispatchPhotoMessageUpload(StorageFile photoStream, Action<bool> progressCallback, Action<VKBackendResult<PhotoClass>> callback)
         {
             var parameters = new Dictionary<string, string>();
 
@@ -160,7 +180,7 @@ namespace VKCore.API.Core
                 progressCallback);            
         }
 
-        private void DispatchPhotoAlbumUpload(Stream photoStream, Action<double> progressCallback, Action<VKBackendResult<PhotoClass>> callback)
+        private void DispatchPhotoAlbumUpload(StorageFile photoStream, Action<bool> progressCallback, Action<VKBackendResult<PhotoClass>> callback)
         {
             var parameters = new Dictionary<string, string>();
 
@@ -170,8 +190,6 @@ namespace VKCore.API.Core
             {
                 parameters["group_id"] = _groupId.ToString();
             }
-
-
             UploadPhoto(photoStream,
                "photos.getUploadServer",
                 parameters,
@@ -180,14 +198,47 @@ namespace VKCore.API.Core
                 callback,
                 progressCallback);                  
         }
-
-        private void UploadPhoto(Stream photoStream,
-            string getServerMethodName,
-            Dictionary<string, string> parameters,
-            string saveMethodName,
-            bool saveReturnsList,
-            Action<VKBackendResult<PhotoClass>> callback,
-            Action<double> progressCallback)
+        private void DispatchPhotoMarketAlbumUpload(StorageFile photoStream, Action<bool> progressCallback, Action<VKBackendResult<PhotoClass>> callback)
+        {
+            var parameters = new Dictionary<string, string>();
+            if (_ownerId != 0)
+            {
+                parameters.Add("group_id", Math.Abs(_ownerId).ToString());
+            }
+            UploadPhoto(photoStream,
+               "photos.getMarketAlbumUploadServer",
+                parameters,
+                "photos.saveMarketAlbumPhoto",
+                true,
+                callback,
+                progressCallback);
+        }
+        private void DispatchPhotoMarketProductUpload(StorageFile photoStream, Action<bool> progressCallback, Action<VKBackendResult<PhotoClass>> callback)
+        {
+            var parameters = new Dictionary<string, string>();
+            if (_ownerId != 0)
+            {
+                parameters.Add("group_id", Math.Abs(_ownerId).ToString());
+            }
+            if (_is_main_photo)
+            {
+                parameters.Add("main_photo", "1");
+            }
+            UploadPhoto(photoStream,
+               "photos.getMarketUploadServer",
+                parameters,
+                "photos.saveMarketPhoto",
+                true,
+                callback,
+                progressCallback);
+        }
+        private void UploadPhoto(StorageFile photoStream,
+         string getServerMethodName,
+         Dictionary<string, string> parameters,
+         string saveMethodName,
+         bool saveReturnsList,
+         Action<VKBackendResult<PhotoClass>> callback,
+         Action<bool> progressCallback)
         {
 
             var vkParams = new VKRequestParameters(getServerMethodName,
@@ -201,12 +252,9 @@ namespace VKCore.API.Core
                    if (res.ResultCode == VKResultCode.Succeeded)
                    {
                        var uploadUrl = res.Data.upload_url;
-
                        VKHttpRequestHelper.Upload(
                             uploadUrl,
                             photoStream,
-                            "file1",
-                            "image",
                             (uploadRes) =>
                             {
                                 if (uploadRes.IsSucceeded)
@@ -214,7 +262,7 @@ namespace VKCore.API.Core
                                     var serverPhotoHashJson = uploadRes.Data;
 
                                     var uploadData = JsonConvert.DeserializeObject<VKUploadResponseData>(serverPhotoHashJson);
-                                 
+
                                     if (!string.IsNullOrWhiteSpace(uploadData.server))
                                     {
                                         parameters["server"] = uploadData.server;
@@ -230,7 +278,7 @@ namespace VKCore.API.Core
                                     if (!string.IsNullOrWhiteSpace(uploadData.photo))
                                     {
                                         parameters["photo"] = uploadData.photo;
-                                    }                                    
+                                    }
 
                                     var saveWallPhotoVKParams = new VKRequestParameters(saveMethodName,
                                         parameters);
@@ -261,8 +309,7 @@ namespace VKCore.API.Core
                                     callback(new VKBackendResult<PhotoClass> { ResultCode = VKResultCode.UnknownError });
                                 }
                             },
-                            progressCallback,
-                            "Image.jpg");
+                            progressCallback);
                    }
                    else
                    {

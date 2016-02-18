@@ -60,6 +60,8 @@ namespace VKShop_Lite.UserControls.PopupControl
 
                                  CreatedGroup = res.Data;
                                  this.Hide();
+                               //  PopupEx popup = new PopupEx("test","test");
+                               //  popup.ShowAsync();
                              }
                              if (res.ResultCode == VKResultCode.CaptchaRequired)
                              {

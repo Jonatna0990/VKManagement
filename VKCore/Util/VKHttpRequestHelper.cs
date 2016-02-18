@@ -2,11 +2,19 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.Networking.BackgroundTransfer;
+using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.Web.Http;
 using Windows.Web.Http.Filters;
 using VKCore.API.Core;
 using VKCore.API.SDK;
+using HttpClient = Windows.Web.Http.HttpClient;
 
 namespace VKCore.Util
 {
@@ -98,42 +106,67 @@ namespace VKCore.Util
             }
         }
 
-        public static async void Upload(string uri, Stream data, string paramName, string uploadContentType,Action<VKHttpResult> resultCallback, Action<double> progressCallback = null, string fileName = null)
-        {
-
-            try
+     
+       public static async void Upload(string uri, StorageFile data,  Action<VKHttpResult> resultCallback, Action<bool> progressCallback = null)
             {
-                var httpClient = new HttpClient();
-                HttpMultipartFormDataContent content = new HttpMultipartFormDataContent();
-                content.Add(new HttpStreamContent(data.AsInputStream()), paramName, fileName ?? "myDataFile");
-                content.Headers.Add("Content-Type", uploadContentType);
-                var postAsyncOp =  httpClient.PostAsync(new Uri(uri, UriKind.Absolute),
-                    content);
 
-                postAsyncOp.Progress = (r, progress) =>
+                try
+              {
+                    progressCallback?.Invoke(true);
+                    HttpMultipartContent form = new HttpMultipartContent();
+                    var fileStream = await data.OpenReadAsync();
+                    HttpStreamContent streamContent = new HttpStreamContent(fileStream.AsStreamForRead().AsInputStream());
+                    form.Headers.ContentLength = fileStream.Size;
+                    form.Add(streamContent);
+                    byte[] fileBytes = await ReadFileToByteArray(data);
+                    System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
+                    MultipartContent content = new System.Net.Http.MultipartFormDataContent();
+                    var file1 = new ByteArrayContent(fileBytes);
+                    file1.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
                     {
-                        if (progressCallback != null && progress.TotalBytesToSend.HasValue && progress.TotalBytesToSend > 0)
-                        {
-                            progressCallback(((double)progress.BytesSent * 100) / progress.TotalBytesToSend.Value);
-                        }
+                        Name = "file1",
+                        FileName = data.Name,
                     };
+                    content.Add(file1);
+                    System.Net.Http.HttpResponseMessage response = await client.PostAsync(uri, content);
+
+                    var raw_response = await response.Content.ReadAsByteArrayAsync();
+                    var r2 = Encoding.UTF8.GetString(raw_response, 0, raw_response.Length);
+                    if (r2[0] == '\uFEFF')
+                    {
+                        r2 = r2.Substring(1);
+                    }
+                    Logger.Info(r2);
+                  progressCallback?.Invoke(false);
+                  SafeInvokeCallback(resultCallback, response.IsSuccessStatusCode, r2);
+
+                }
+                catch (Exception exc)
+                {
+                    Logger.Error("VKHttpRequestHelper.Upload failed.", exc);
+
+                    SafeInvokeCallback(resultCallback, false, null);
 
 
-                var result = await postAsyncOp;
-
-                var resultStr = await result.Content.ReadAsStringAsync();
-
-                SafeInvokeCallback(resultCallback, result.IsSuccessStatusCode, resultStr);
-
+                }
             }
-            catch (Exception exc)
+   
+         
+        public static async Task<byte[]> ReadFileToByteArray(StorageFile file)
+        {
+            byte[] fileBytes = null;
+            using (IRandomAccessStreamWithContentType stream = await file.OpenReadAsync())
             {
-                Logger.Error("VKHttpRequestHelper.Upload failed.", exc);
-                SafeInvokeCallback(resultCallback, false, null);
-
+                fileBytes = new byte[stream.Size];
+                using (DataReader reader = new DataReader(stream))
+                {
+                    await reader.LoadAsync((uint)stream.Size);
+                    reader.ReadBytes(fileBytes);
+                }
             }
-        }
 
+            return fileBytes;
+        }
 
         private static void SafeInvokeCallback(Action<VKHttpResult> action, bool p, string stringContent)
         {          

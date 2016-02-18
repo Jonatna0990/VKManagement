@@ -19,6 +19,45 @@
         <Color x:Key="Color1">#FFD5DDE5</Color>
         <Color x:Key="Color2">#FF45688E</Color>
         <Color x:Key="Color3">#FF29313C</Color>
-        <Color x:Key="VkAccentBrush">#FF597DA3</Color> 
+        <Color x:Key="VkAccentBrush">#FF597DA3</Color>
+        <Style x:Key="RoundedButton" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="30"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Ellipse Name="Ellipse" Grid.Row="0" StrokeThickness="1" Fill="{TemplateBinding Background}" Height="40" Width="40"  Stroke="{TemplateBinding  BorderBrush}"></Ellipse>
+                            <ContentPresenter Name="Content" Grid.Row="0" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
+                            <TextBlock Text="{TemplateBinding Tag}" Grid.Row="1" Margin="0,-2,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" Foreground="{TemplateBinding  BorderBrush}" FontFamily="Segoe Ui"></TextBlock>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Ellipse">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="0.8"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="Ellipse">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="Content">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Red"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Application.Resources>
 </Application>

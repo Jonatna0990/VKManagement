@@ -10,17 +10,18 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:main="using:VKShop_Lite.ViewModels.Groups.Main"
     xmlns:converters="using:VKShop_Lite.Helpers.Converters"
+    xmlns:converters1="using:VKShop_Lite.Views.Groups.Market.Converters"
     mc:Ignorable="d"
     x:Name="GroupMain">
+
     <Page.Resources>
         <converters:IntToVisibillityConverter x:Key="IntToVisibillityConverter"/>
-        
         <DataTemplate x:Key="GroupCountersTemplate">
             <GridView >
                 <Border Width="80" Height="50" Margin="1">
                     <interactivity:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">
-                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.MembersOpenCommand}" CommandParameter="{Binding }">
+                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.MembersOpenCommand}" CommandParameter="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup }">
                             </core:InvokeCommandAction>
                         </core:EventTriggerBehavior>
                     </interactivity:Interaction.Behaviors>
@@ -35,7 +36,7 @@
                 <Border Width="80" Height="50" Margin="1">
                     <interactivity:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">
-                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.TopicOpenCommand}" CommandParameter="{Binding }">
+                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.TopicOpenCommand}" CommandParameter="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup }">
                             </core:InvokeCommandAction>
                         </core:EventTriggerBehavior>
                     </interactivity:Interaction.Behaviors>
@@ -50,7 +51,7 @@
                 <Border Width="80" Height="50" Margin="1">
                     <interactivity:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">
-                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.AudioOpenCommand}" CommandParameter="{Binding }">
+                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.AudioOpenCommand}" CommandParameter="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup }">
                             </core:InvokeCommandAction>
                         </core:EventTriggerBehavior>
                     </interactivity:Interaction.Behaviors>
@@ -65,7 +66,7 @@
                 <Border Width="80" Height="50" Margin="1">
                     <interactivity:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">
-                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.VideoOpenCommand}" CommandParameter="{Binding }">
+                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.VideoOpenCommand}" CommandParameter="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup }">
                             </core:InvokeCommandAction>
                         </core:EventTriggerBehavior>
                     </interactivity:Interaction.Behaviors>
@@ -80,7 +81,7 @@
                 <Border Width="80" Height="50" Margin="1">
                     <interactivity:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">
-                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.PhotoOpenCommand}" CommandParameter="{Binding }">
+                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.PhotoOpenCommand}" CommandParameter="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup }">
                             </core:InvokeCommandAction>
                         </core:EventTriggerBehavior>
                     </interactivity:Interaction.Behaviors>
@@ -92,10 +93,10 @@
                         <Run FontSize="12" Text=" фото"> </Run>
                     </TextBlock>
                 </Border>
-                <Border Width="80" Height="50" Margin="1" Visibility="{Binding market.enabled,Converter={StaticResource IntToVisibillityConverter}}">
+                <Border Width="80" Height="50" Margin="1" Visibility="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.market.enabled,Converter={StaticResource IntToVisibillityConverter}}">
                     <interactivity:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">
-                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.PhotoOpenCommand}" CommandParameter="{Binding }">
+                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.MarketOpenCommand}" CommandParameter="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup }">
                             </core:InvokeCommandAction>
                         </core:EventTriggerBehavior>
                     </interactivity:Interaction.Behaviors>
@@ -105,43 +106,51 @@
                     <TextBlock TextAlignment="Center" Text="товары" VerticalAlignment="Center" HorizontalAlignment="Center">
                     </TextBlock>
                 </Border>
-
-
             </GridView>
         </DataTemplate>
-
         <DataTemplate x:Key="GroupInfoTemplate">
-            <StackPanel Margin="10">
-                <StackPanel  Orientation="Horizontal">
-                    <Ellipse VerticalAlignment="Top" HorizontalAlignment="Left"  Width="60"  Height="60">
-                        <Ellipse.Fill>
-                            <ImageBrush>
-                                <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="{Binding photo_100}" />
-                                </ImageBrush.ImageSource>
-                            </ImageBrush>
-                        </Ellipse.Fill>
-                    </Ellipse>
-                    <StackPanel>
-                        <TextBlock FontSize="25" Text="{Binding name}"></TextBlock>
-                        <TextBlock FontSize="20" Text="{Binding description}">
-                            <TextBlock.Foreground>
-                                <SolidColorBrush Color="{StaticResource Brush8}"/>
-                            </TextBlock.Foreground></TextBlock>
+            <Grid>
+                <StackPanel Margin="10">
+                    <StackPanel  Orientation="Horizontal">
+                        <Ellipse VerticalAlignment="Top" HorizontalAlignment="Left"  Width="60"  Height="60">
+                            <Ellipse.Fill>
+                                <ImageBrush>
+                                    <ImageBrush.ImageSource>
+                                        <BitmapImage UriSource="{Binding photo_100}" />
+                                    </ImageBrush.ImageSource>
+                                </ImageBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <StackPanel>
+                            <TextBlock FontSize="25" Text="{Binding name}"></TextBlock>
+                            <TextBlock FontSize="20" Text="{Binding description}">
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="{StaticResource Brush8}"/>
+                                </TextBlock.Foreground></TextBlock>
+                        </StackPanel>
                     </StackPanel>
+                    <ContentControl  ContentTemplate="{StaticResource GroupCountersTemplate}"></ContentControl>
                 </StackPanel>
-                <ContentControl ContentTemplate="{StaticResource GroupCountersTemplate}"></ContentControl>
-            </StackPanel>
-
+                <AppBar  VerticalAlignment="Bottom">
+                    <StackPanel Orientation="Horizontal">
+                        <AppBarButton Icon="Add" Label="написать на стене" Visibility="{Binding can_post, Converter={StaticResource IntToVisibillityConverter}}"  Command="{Binding  ElementName=GroupMain,Path=DataContext.CreatePostCommand}" />
+                        <AppBarButton Icon="Find" Label="поиск"  />
+                    </StackPanel>
+                </AppBar>
+            </Grid>
         </DataTemplate>
-         <DataTemplate x:Key="GroupWallTemplate">
-            <ListView ItemsSource="{Binding ElementName=GroupMain,Path=DataContext.WallColl.GroupWall.items}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <wallControl:WallPostControl />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+        <DataTemplate x:Key="GroupWallTemplate">
+             <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <ListView ItemsSource="{Binding ElementName=GroupMain,Path=DataContext.WallColl.GroupWall.items}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <wallControl:WallPostControl />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+              
+            </Grid>
+           
         </DataTemplate>
         <DataTemplate x:Key="AdminControlTemplate">
             <ListView>
@@ -196,25 +205,13 @@
             </ListView>
 
         </DataTemplate>
-        <DataTemplate x:Key="AdminTemplate">
-            <Pivot>
-                <PivotItem Header="информация"  ContentTemplate="{StaticResource GroupInfoTemplate}"/>
-                <PivotItem Header="стена"  ContentTemplate="{StaticResource GroupWallTemplate}" Margin="0"/>
-                <PivotItem Header="управление" ContentTemplate="{StaticResource AdminControlTemplate}"/>
-            </Pivot>
-        </DataTemplate>
-        <DataTemplate x:Key="NotAdminTemplate">
-            <Pivot>
-                <PivotItem Header="информация"  ContentTemplate="{StaticResource GroupInfoTemplate}"/>
-                <PivotItem Header="стена"  ContentTemplate="{StaticResource GroupWallTemplate}" Margin="0"/>
-            </Pivot>
-        </DataTemplate>
-        <local:AdminTemplateSelector AdminTemplate="{StaticResource AdminTemplate }" NotAdminemplate="{StaticResource NotAdminTemplate}" x:Key="AdminTemplateSelector"/>
     </Page.Resources>
     
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-      
-        <ContentControl Content="{Binding WallColl.MainGroup }" ContentTemplateSelector="{Binding Source={StaticResource AdminTemplateSelector}}"></ContentControl>
-
+    <Grid x:Name="Grid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Pivot>
+            <PivotItem Margin="0" Header="информация"  DataContext="{Binding WallColl.MainGroup}" ContentTemplate="{StaticResource GroupInfoTemplate}"/>
+            <PivotItem Margin="0" Header="стена"  ContentTemplate="{StaticResource GroupWallTemplate}" />
+        </Pivot>
+       
     </Grid>
 </Page>

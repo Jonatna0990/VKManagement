@@ -31,6 +31,7 @@ namespace VKShop_Lite.ViewModels.Counters
                this,
                message =>
                {
+                   if(message!=null)
                    Load(message.id);
                });
 

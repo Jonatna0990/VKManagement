@@ -10,9 +10,7 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:captchaControl="using:VKCore.UserControls.CaptchaControl"
     mc:Ignorable="d">
-    <Page.DataContext>
-        <userMain:UserMainViewModel/>
-    </Page.DataContext>
+  
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid  Height="40" VerticalAlignment="Top">
             <Grid.Background>
@@ -35,10 +33,10 @@
                 BorderThickness="0" Grid.ColumnSpan="2" />
         </Grid>
 
-        <SplitView x:Name="SplitView"  PaneClosed="SplitView_OnPaneClosed" 
+        <SplitView x:Name="SplitView" IsPaneOpen="False" PaneClosed="SplitView_OnPaneClosed" 
                    CompactPaneLength="40"
                    OpenPaneLength="200"
-                   DisplayMode="Overlay" Margin="0,40,0,0" PaneBackground="#FF636363">
+                   DisplayMode="Overlay"  Margin="0,40,0,0" PaneBackground="#FF636363">
             <SplitView.Pane>
                 <StackPanel>
                     <StackPanel.Background>

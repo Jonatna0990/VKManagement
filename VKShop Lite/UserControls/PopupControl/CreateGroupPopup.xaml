@@ -51,11 +51,11 @@
             </StackPanel>
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="140*"/>
-                    <ColumnDefinition Width="140*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                <Button  x:Name="CreateButton" Margin="1" Click="CreateButton_OnClick"  Content="создать" Width="140"></Button>
-                <Button Grid.Column="1" Margin="1" x:Name="CancelButton" Click="CancelButton_OnClick" Content="отмена" Width="140" ></Button>
+                <Button  x:Name="CreateButton" Margin="1" Click="CreateButton_OnClick" HorizontalAlignment="Stretch"  Content="создать" ></Button>
+                <Button Grid.Column="1" Margin="1" x:Name="CancelButton" Click="CancelButton_OnClick" Content="отмена" HorizontalAlignment="Stretch" ></Button>
             </Grid>
         </StackPanel>
     </Grid>

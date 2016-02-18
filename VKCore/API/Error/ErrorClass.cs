@@ -46,7 +46,9 @@ namespace VKCore.API.Error
                     case 200: return ErrorType.AccessDeniedAlbumError;
                     case 201: return ErrorType.AccessDeniedAudioError;
                     case 203: return ErrorType.AccessDeniedGroupError;
+                    case 205: return ErrorType.AccessDeniedMarketError;
                     case 300: return ErrorType.AlbumFullError;
+                    case 1405: return ErrorType.MarketCountLimitError;
                     default: return ErrorType.UnknownError;
                 
                 }
@@ -124,10 +126,14 @@ namespace VKCore.API.Error
        AccessDeniedAudioError,
        //203 - Доступ к группе запрещён. 
        AccessDeniedGroupError,
+       //205 - Доступ к товарам запрещён. 
+       AccessDeniedMarketError,
        //300 - Альбом переполнен. 
-       AlbumFullError
-   
-   }
+       AlbumFullError,
+       //Превышен лимит на количество товаров
+       MarketCountLimitError
+
+    }
 
 
 }

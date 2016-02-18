@@ -47,10 +47,9 @@ namespace VKShop_Lite.ViewModels.Groups.Main
         {
             VKRequest.Dispatch<List<GroupsClass>>(
                         new VKRequestParameters(
-                                    SGroups.groups_getById, "group_id", string.Format("{0}", param.id), "fields", "members_count,description,site, links,finish_date, fixed_post, verified, can_post, can_see_all_posts,city,place,start_date,links,status,contacts,counters,market,is_closed"),
+                                    SGroups.groups_getById, "group_id", string.Format("{0}", param.id), "fields", "members_count,description,site,links,finish_date,fixed_post,verified,can_post,can_see_all_posts,city,place,start_date,links,status,contacts,counters,market,is_closed"),
                         (res) =>
                         {
-                          
                             var q = res.ResultCode;
                             if (res.ResultCode == VKResultCode.Succeeded)
                             {
