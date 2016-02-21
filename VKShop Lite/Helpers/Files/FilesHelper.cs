@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace VKShop_Lite.Helpers.Files
@@ -16,6 +17,7 @@ namespace VKShop_Lite.Helpers.Files
 
         public static async Task<StorageFile> GetImageFiles()
         {
+            
             var fop = new FileOpenPicker();
             fop.ViewMode = PickerViewMode.Thumbnail;
             fop.SuggestedStartLocation = PickerLocationId.Desktop;

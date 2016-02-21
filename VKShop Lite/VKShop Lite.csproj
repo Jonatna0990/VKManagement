@@ -103,10 +103,14 @@
     <Compile Include="Common\SuspensionManager.cs" />
     <Compile Include="Helpers\Converters\IntToVisibillityConverter.cs" />
     <Compile Include="Helpers\Files\FilesHelper.cs" />
+    <Compile Include="Helpers\ParameterPassingHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\Attachment\APhotoUploadControl.xaml.cs">
       <DependentUpon>APhotoUploadControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ImageCrop\CropBitmap.cs" />
+    <Compile Include="UserControls\ImageCrop\ImageCropper.cs" />
+    <Compile Include="UserControls\ImageCrop\SelectedRegion.cs" />
     <Compile Include="UserControls\PopupControl\BoolToVisibillityConverter.cs" />
     <Compile Include="UserControls\PopupControl\CreateGroupPopup.xaml.cs">
       <DependentUpon>CreateGroupPopup.xaml</DependentUpon>
@@ -129,48 +133,67 @@
     <Compile Include="UserControls\WallControl\WallPostControl.xaml.cs">
       <DependentUpon>WallPostControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\Counters\Group\SelectedTopicViewModel.cs" />
+    <Compile Include="ViewModels\Counters\User\UserFollowersViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Admin\GroupControl\GroupBlackListViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Admin\GroupControl\GroupInfoEditViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Admin\GroupControl\GroupLinksViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Admin\GroupControl\GroupMarketEditViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Admin\GroupControl\GroupServiceViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Admin\GroupControl\GroupsMembersEditViewModel.cs" />
     <Compile Include="ViewModels\Groups\Admin\Messages\GroupConversationViewModel.cs" />
     <Compile Include="ViewModels\Groups\Admin\Messages\GroupDialogsViewModel.cs" />
     <Compile Include="ViewModels\Groups\Admin\Messages\GroupMessagesViewModel.cs" />
-    <Compile Include="ViewModels\Auth\AuthPageViewModel.cs" />
+    <Compile Include="ViewModels\Auth\AuthViewModel.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="ViewModels\Base\NavigateCommand.cs" />
-    <Compile Include="ViewModels\Counters\AudioPageViewModel.cs" />
-    <Compile Include="ViewModels\Counters\GroupTopicsViewModel.cs" />
-    <Compile Include="ViewModels\Counters\GroupMembersViewModel.cs" />
-    <Compile Include="ViewModels\Counters\PhotoPageViewModel.cs" />
-    <Compile Include="ViewModels\Counters\VideoPageViewModel.cs" />
+    <Compile Include="ViewModels\Counters\GroupAndUser\AudioViewModel.cs" />
+    <Compile Include="ViewModels\Counters\Group\GroupTopicsViewModel.cs" />
+    <Compile Include="ViewModels\Counters\Group\GroupMembersViewModel.cs" />
+    <Compile Include="ViewModels\Counters\GroupAndUser\PhotoViewModel.cs" />
+    <Compile Include="ViewModels\Counters\GroupAndUser\VideoViewModel.cs" />
     <Compile Include="ViewModels\Groups\Main\GroupMainViewModel.cs" />
     <Compile Include="ViewModels\Groups\Main\UserGroupsViewModel.cs" />
     <Compile Include="ViewModels\Groups\Main\WallCollection.cs" />
     <Compile Include="ViewModels\Groups\Market\MarketMainViewModel.cs" />
+    <Compile Include="ViewModels\Profile\ProfileViewModel.cs" />
     <Compile Include="ViewModels\UserMain\UserMainViewModel.cs" />
+    <Compile Include="ViewModels\Wall\SelectedPostViewModel.cs" />
     <Compile Include="Views\Auth\AuthPage.xaml.cs">
       <DependentUpon>AuthPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Counters\AudioPage.xaml.cs">
+    <Compile Include="Views\Counters\GroupAndUser\AudioPage.xaml.cs">
       <DependentUpon>AudioPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Counters\GroupMembersPage.xaml.cs">
+    <Compile Include="Views\Counters\Group\GroupMembersPage.xaml.cs">
       <DependentUpon>GroupMembersPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Counters\GroupTopicsPage.xaml.cs">
+    <Compile Include="Views\Counters\Group\GroupTopicsPage.xaml.cs">
       <DependentUpon>GroupTopicsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Counters\PhotoAlbumMainPage.xaml.cs">
+    <Compile Include="Views\Counters\GroupAndUser\PhotoAlbumMainPage.xaml.cs">
       <DependentUpon>PhotoAlbumMainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Counters\PhotoAlbumsPage.xaml.cs">
+    <Compile Include="Views\Counters\GroupAndUser\PhotoAlbumsPage.xaml.cs">
       <DependentUpon>PhotoAlbumsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Counters\TopicMainPage.xaml.cs">
-      <DependentUpon>TopicMainPage.xaml</DependentUpon>
+    <Compile Include="Views\Counters\Group\SelectedTopicMainPage.xaml.cs">
+      <DependentUpon>SelectedTopicMainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Counters\VideoPage.xaml.cs">
+    <Compile Include="Views\Counters\GroupAndUser\VideoPage.xaml.cs">
       <DependentUpon>VideoPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Counters\VideoPlayerMainPage.xaml.cs">
+    <Compile Include="Views\Counters\GroupAndUser\VideoPlayerMainPage.xaml.cs">
       <DependentUpon>VideoPlayerMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\User\ProfileFriendsPage.xaml.cs">
+      <DependentUpon>ProfileFriendsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\User\ProfileGroupsPage.xaml.cs">
+      <DependentUpon>ProfileGroupsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\User\ProfileFollowersPage.xaml.cs">
+      <DependentUpon>ProfileFollowersPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Groups\Main\AdminTemplateSelector.cs" />
     <Compile Include="Views\Groups\Admin\GroupBackListPage.xaml.cs">
@@ -220,6 +243,9 @@
     </Compile>
     <Compile Include="Views\Settings\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Wall\SelectedPostPage.xaml.cs">
+      <DependentUpon>SelectedPostPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -291,35 +317,47 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Counters\AudioPage.xaml">
+    <Page Include="Views\Counters\GroupAndUser\AudioPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Counters\GroupMembersPage.xaml">
+    <Page Include="Views\Counters\Group\GroupMembersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Counters\GroupTopicsPage.xaml">
+    <Page Include="Views\Counters\Group\GroupTopicsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Counters\PhotoAlbumMainPage.xaml">
+    <Page Include="Views\Counters\GroupAndUser\PhotoAlbumMainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Counters\PhotoAlbumsPage.xaml">
+    <Page Include="Views\Counters\GroupAndUser\PhotoAlbumsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Counters\TopicMainPage.xaml">
+    <Page Include="Views\Counters\Group\SelectedTopicMainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Counters\VideoPage.xaml">
+    <Page Include="Views\Counters\GroupAndUser\VideoPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Counters\VideoPlayerMainPage.xaml">
+    <Page Include="Views\Counters\GroupAndUser\VideoPlayerMainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\User\ProfileFriendsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\User\ProfileGroupsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\User\ProfileFollowersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -383,13 +421,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Wall\SelectedPostPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">
       <Name>Behaviors SDK %28XAML%29</Name>
-    </SDKReference>
-    <SDKReference Include="Telerik UI For Windows Universal, Version=2016.1.113.45">
-      <Name>Telerik UI For Windows Universal</Name>
     </SDKReference>
   </ItemGroup>
   <ItemGroup>

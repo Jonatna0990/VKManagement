@@ -15,7 +15,7 @@ namespace VKShop_Lite.Views.Groups.Market.Converters
 
             if (value != null)
             {
-                int a = (int) value;
+                long a = System.Convert.ToInt64(value);
                 if (a > 1) return Visibility.Visible;
                 return Visibility.Collapsed;
             }
@@ -26,7 +26,7 @@ namespace VKShop_Lite.Views.Groups.Market.Converters
         {
             if (value != null)
             {
-                int a = (int) value;
+                long a = System.Convert.ToInt64(value);
                 if (a > 1) return Visibility.Visible;
                 return Visibility.Collapsed;
             }

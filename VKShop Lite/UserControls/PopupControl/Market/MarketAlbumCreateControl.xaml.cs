@@ -29,22 +29,22 @@ namespace VKShop_Lite.UserControls.PopupControl.Market
 {
     public sealed partial class MarketAlbumCreateControl : ContentDialog
     {
-        private GroupsClass group = null;
+        private string group_id = "";
         private PhotoClass album_photo = null;
         private Action<MarketAlbumId> callback = null;
-        public MarketAlbumCreateControl(GroupsClass gr,Action<MarketAlbumId> callbackAction)
+        public MarketAlbumCreateControl(string gr,Action<MarketAlbumId> callbackAction)
         {
             this.InitializeComponent();
             callback = callbackAction;
-            group = gr;
+            group_id = gr;
         }
 
        
         void Create()
         {
-            if (group == null || string.IsNullOrEmpty(Name.Text)) return;
+            if (string.IsNullOrEmpty(group_id) == null || string.IsNullOrEmpty(Name.Text)) return;
             Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("owner_id", String.Format("-{0}", group.id));
+            param.Add("owner_id", String.Format("-{0}", group_id));
             param.Add("title", Name.Text);
             if (MainSwitch.IsOn) param.Add("main_album", "1");
             if (album_photo != null) param.Add("photo_id", album_photo.id.ToString());
@@ -93,7 +93,7 @@ namespace VKShop_Lite.UserControls.PopupControl.Market
             {
                 album_photo = t;
                 AlbumImage.Source = new BitmapImage() {UriSource =new Uri(t.photoMax)};
-            }, a, UploadType.PhotoMarketProductUpload, group.id);
+            }, a, UploadType.PhotoMarketProductUpload, Convert.ToInt64(group_id));
         }
     }
 }

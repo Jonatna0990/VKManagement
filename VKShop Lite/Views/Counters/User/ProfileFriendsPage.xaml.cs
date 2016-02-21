@@ -12,29 +12,19 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using GalaSoft.MvvmLight.Messaging;
-using VKCore.API.VKModels.Group;
-using VKShop_Lite.ViewModels.Counters;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace VKShop_Lite.Views.Counters
+namespace VKShop_Lite.Views.Counters.User
 {
     /// <summary>
     /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
     /// </summary>
-    public sealed partial class AudioPage : Page
+    public sealed partial class ProfileFriendsPage : Page
     {
-        public AudioPage()
+        public ProfileFriendsPage()
         {
             this.InitializeComponent();
-        }
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            this.DataContext = new AudioPageViewModel();
-            Messenger.Default.Send<GroupsClass>(e.Parameter as GroupsClass); 
-          
         }
     }
 }

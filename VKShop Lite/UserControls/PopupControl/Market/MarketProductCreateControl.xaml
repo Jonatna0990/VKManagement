@@ -5,11 +5,10 @@
     xmlns:local="using:VKShop_Lite.UserControls.PopupControl.Market"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+    xmlns:imageCrop="using:VKShop_Lite.UserControls.ImageCrop"
+    mc:Ignorable="d" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
     Title="Добавление нового товара" Height="600">
-
-    <Grid>
-       
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <StackPanel>
             <TextBox x:Name="Name" Header="название товара"></TextBox>
             <TextBox x:Name="Description" Header="описание товара"></TextBox>
@@ -29,6 +28,7 @@
             <TextBlock Text="фотография товара"></TextBlock>
             <Border Background="LightGray" Height="100">
                 <Grid >
+                 
                     <Button x:Name="AddButton" Click="AddButton_OnClick" Content="&#xE710;" Style="{StaticResource RoundedButton}" FontSize="19" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" HorizontalAlignment="Center"  Tag="выбрать" Background="{x:Null}" BorderBrush="#FF444444" >
                         <Button.Foreground>
                             <SolidColorBrush Color="{StaticResource Brush4}"/>
@@ -39,6 +39,7 @@
                 </Grid>
 
             </Border>
+        
             <Grid Margin="0,10,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>

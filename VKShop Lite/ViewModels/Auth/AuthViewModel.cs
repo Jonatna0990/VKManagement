@@ -17,7 +17,7 @@ using VKShop_Lite.Views.Main;
 
 namespace VKShop_Lite.ViewModels.Auth
 {
-    public class AuthPageViewModel : BaseViewModel
+    public class AuthViewModel : BaseViewModel
     {
         private Visibility _contentVisibility;
 
@@ -27,7 +27,7 @@ namespace VKShop_Lite.ViewModels.Auth
             set { _contentVisibility = value; RaisePropertyChanged("ContentVisibility"); }
         }
 
-        public AuthPageViewModel()
+        public AuthViewModel( )
         {
             VKSDK.Initialize(APISettings.app_id);
             VKSDK.AccessTokenReceived += (sender, args) =>

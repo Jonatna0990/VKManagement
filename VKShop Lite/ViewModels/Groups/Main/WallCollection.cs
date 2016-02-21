@@ -34,11 +34,11 @@ namespace VKShop_Lite.ViewModels.Groups.Main
             set { _isLoaded = value; RaisePropertyChanged("IsLoaded"); }
         }
         private GroupsClass param;
-        public WallCollection(GroupsClass par)
+        public WallCollection(GroupsClass group)
         {
-            if(par == null) return;
-            param = par;
-            Load();
+            if(group == null) return;
+            param = group;
+             Load();
         }
         /// <summary>
         /// Загружает информацию о группе. Id<0
@@ -47,7 +47,7 @@ namespace VKShop_Lite.ViewModels.Groups.Main
         {
             VKRequest.Dispatch<List<GroupsClass>>(
                         new VKRequestParameters(
-                                    SGroups.groups_getById, "group_id", string.Format("{0}", param.id), "fields", "members_count,description,site,links,finish_date,fixed_post,verified,can_post,can_see_all_posts,city,place,start_date,links,status,contacts,counters,market,is_closed"),
+                                    SGroups.groups_getById, "group_id",  param.id.ToString(), "fields", "members_count,description,site,links,finish_date,fixed_post,verified,can_post,can_see_all_posts,city,place,start_date,links,status,contacts,counters,market,is_closed"),
                         (res) =>
                         {
                             var q = res.ResultCode;

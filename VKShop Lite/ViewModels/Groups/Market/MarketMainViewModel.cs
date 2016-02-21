@@ -20,7 +20,7 @@ namespace VKShop_Lite.ViewModels.Groups.Market
     public class MarketMainViewModel : BaseViewModel
     {
         private VKCollection<MarketItem> _marketCollection;
-        private GroupsClass _group;
+        private string _group;
 
         public ICommand CreateProductCommand { get; set; }
         public ICommand CreateAlbumCommand { get; set; }
@@ -31,7 +31,7 @@ namespace VKShop_Lite.ViewModels.Groups.Market
             set { _marketCollection = value; RaisePropertyChanged("MarketCollection"); }
         }
 
-        public GroupsClass Group
+        public string Group
         {
             get { return _group; }
             set { _group = value; RaisePropertyChanged("Group"); }
@@ -39,36 +39,32 @@ namespace VKShop_Lite.ViewModels.Groups.Market
 
         public MarketMainViewModel()
         {
-            CreateProductCommand = new DelegateCommand(t =>
+          //  Group = Param;
+          /*  CreateProductCommand = new DelegateCommand(t =>
             {
-                MarketProductCreateControl market = new MarketProductCreateControl(Group, arg =>
+                MarketProductCreateControl market = new MarketProductCreateControl(Param, arg =>
                 {
                     var d = arg;
+                    
                 });
                 market.ShowAsync();
             });
             CreateAlbumCommand = new DelegateCommand(t =>
             {
-                MarketAlbumCreateControl market = new MarketAlbumCreateControl(Group, arg =>
+                MarketAlbumCreateControl market = new MarketAlbumCreateControl(Param, arg =>
                 {
                     var tt = arg;
-                    Load(Group.id);
+                    
+                    Load(Param);
                 });
+                market.Height = 600;
                 market.ShowAsync();
             });
-           
-            Messenger.Default.Register<GroupsClass>(
-          this,
-          message =>
-          {
-              if (message != null)
-              {
-                  Load(message.id);
-                  Group = message;
-              }
-          });
+
+            Load(Param);*/
         }
-        void Load(int id)
+
+        void Load(string id)
         {
             VKRequest.Dispatch<VKCollection<MarketItem>>(
                        new VKRequestParameters(

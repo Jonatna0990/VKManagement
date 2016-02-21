@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
-using GalaSoft.MvvmLight.Messaging;
+using System.Windows.Input;
 using VKCore.API.Core;
 using VKCore.API.VKModels.Group;
 using VKCore.Helpers;
+using VKShop_Lite.Common;
 using VKShop_Lite.ViewModels.Base;
-using VKShop_Lite.ViewModels.Groups;
-using ВКонтакте.Models.List;
+using VKShop_Lite.Views.Profile;
 
-namespace VKShop_Lite.ViewModels.Counters
+namespace VKShop_Lite.ViewModels.Counters.Group
 {
     public class GroupMembersViewModel : BaseViewModel
     {
@@ -25,24 +19,23 @@ namespace VKShop_Lite.ViewModels.Counters
             set { _membersRoot = value;RaisePropertyChanged("MembersRoot"); }
         }
 
-        public GroupMembersViewModel()
+        public ICommand UserPageOpenCommand { get; set; }
+        public GroupMembersViewModel(GroupsClass group)
         {
-            Messenger.Default.Register<GroupsClass>(
-               this,
-               message =>
-               {
-                   if(message!=null)
-                   Load(message.id);
-               });
+            Load(group);
+            UserPageOpenCommand = new DelegateCommand(t =>
+            {
+                NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(ProfileMainPage) });
+            });
 
         }
-        public void Load(int id)
+        public void Load(GroupsClass group)
         {
 
 
             VKRequest.Dispatch<GroupMembersRoot>(
                   new VKRequestParameters(
-                    SExecute.get_group_members, "group_id", String.Format("-{0}", id)),
+                    SExecute.get_group_members, "group_id", String.Format("-{0}", group.id),"sort", "time_asc"),
                   (res) =>
                   {
                       var q = res.ResultCode;

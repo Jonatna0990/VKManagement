@@ -31,7 +31,7 @@ namespace VKShop_Lite.Views.Main
         public UserMainPage()
         {
             this.InitializeComponent();
-            NavigationCacheMode = NavigationCacheMode.Disabled;
+            NavigationCacheMode = NavigationCacheMode.Enabled;
             Current = this;
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 

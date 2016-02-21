@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GalaSoft.MvvmLight.Messaging;
 using VKCore.API.Core;
-using VKCore.API.VKModels.Audio;
 using VKCore.API.VKModels.Group;
 using VKCore.API.VKModels.User;
 using VKCore.API.VKModels.Video;
 using VKCore.API.VKModels.VKList;
 using VKShop_Lite.ViewModels.Base;
 
-namespace VKShop_Lite.ViewModels.Counters
+namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
 {
-    public class VideoPageViewModel : BaseViewModel
+    public class VideoViewModel : BaseViewModel
     {
         private VKCollection<VideoClass> _audioCollection;
 
@@ -24,11 +19,16 @@ namespace VKShop_Lite.ViewModels.Counters
             set { _audioCollection = value; RaisePropertyChanged("VideoCollection"); }
         }
 
-        private void Load(int id)
+        private void Load(GroupsClass group, UserClass user)
         {
+            Dictionary<string, string> param = new Dictionary<string, string>();
+
+            if (group != null) param.Add("owner_id", String.Format("-{0}", group.id));
+            else param.Add("owner_id", String.Format("{0}", user.id));
+
             VKRequest.Dispatch<VKCollection<VideoClass>>(
                 new VKRequestParameters(
-                  SVideos.video_get, "owner_id", String.Format("{0}", id)),
+                  SVideos.video_get, param),
                 (res) =>
                 {
                     var q = res.ResultCode;
@@ -40,20 +40,9 @@ namespace VKShop_Lite.ViewModels.Counters
 
         }
 
-        public VideoPageViewModel()
+        public VideoViewModel(GroupsClass group, UserClass user)
         {
-            Messenger.Default.Register<GroupsClass>(
-            this,
-            message =>
-            {
-                Load(-message.id);
-            });
-            Messenger.Default.Register<UserClass>(
-           this,
-           message =>
-           {
-               Load((int)message.id);
-           });
+            Load(group,user);
         }
     }
 }

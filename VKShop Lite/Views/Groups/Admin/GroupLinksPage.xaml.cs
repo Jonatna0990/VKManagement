@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using VKShop_Lite.ViewModels.Groups.Admin.GroupControl;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -25,6 +26,11 @@ namespace VKShop_Lite.Views.Groups.Admin
         public GroupLinksPage()
         {
             this.InitializeComponent();
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            this.DataContext = new GroupLinksViewModel();
         }
     }
 }

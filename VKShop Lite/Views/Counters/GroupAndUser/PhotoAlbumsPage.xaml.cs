@@ -14,7 +14,9 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Messaging;
 using VKCore.API.VKModels.Group;
+using VKCore.API.VKModels.User;
 using VKShop_Lite.ViewModels.Counters;
+using VKShop_Lite.ViewModels.Counters.GroupAndUser;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -32,8 +34,9 @@ namespace VKShop_Lite.Views.Counters
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            this.DataContext = new PhotoPageViewModel();
-            Messenger.Default.Send<GroupsClass>(e.Parameter as GroupsClass);
+            if (e.Parameter is GroupsClass) this.DataContext = new PhotoViewModel(e.Parameter as GroupsClass, null);
+            else this.DataContext = new PhotoViewModel(null, e.Parameter as UserClass);
+            
 
         }
     }

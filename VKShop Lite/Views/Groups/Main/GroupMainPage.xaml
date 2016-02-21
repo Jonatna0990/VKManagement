@@ -2,7 +2,6 @@
     x:Class="VKShop_Lite.Views.Groups.Main.GroupMainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:VKShop_Lite.Views.Groups"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:wallControl="using:VKShop_Lite.UserControls.WallControl"
@@ -44,7 +43,7 @@
                         <SolidColorBrush Color="{StaticResource VkAccentBrush}"/>
                     </Border.Background>
                     <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.Counters.audios}"/><LineBreak/>
+                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.Counters.topics}"/><LineBreak/>
                         <Run FontSize="12" Text=" обсуждений"> </Run>
                     </TextBlock>
                 </Border>
@@ -157,7 +156,7 @@
                 <ListViewItem>
                     <interactivity:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">
-                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.GroupInfoEditOpenCommand}" CommandParameter="{Binding }">
+                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.GroupInfoEditOpenCommand}" CommandParameter="{Binding  id}">
                             </core:InvokeCommandAction>
                         </core:EventTriggerBehavior>
                     </interactivity:Interaction.Behaviors>

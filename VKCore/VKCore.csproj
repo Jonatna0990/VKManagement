@@ -142,6 +142,7 @@
     <Compile Include="API\VKModels\Audio\AudioAlbumClass.cs" />
     <Compile Include="API\VKModels\Audio\AudioClass.cs" />
     <Compile Include="API\VKModels\Audio\LyricsClass.cs" />
+    <Compile Include="API\VKModels\Board\BoarsClass.cs" />
     <Compile Include="API\VKModels\Doc\DocClass.cs" />
     <Compile Include="API\VKModels\Geo\GeoClass.cs" />
     <Compile Include="API\VKModels\Geo\PlaceClass.cs" />

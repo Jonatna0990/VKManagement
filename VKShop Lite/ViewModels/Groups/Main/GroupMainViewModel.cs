@@ -4,12 +4,16 @@ using GalaSoft.MvvmLight.Messaging;
 using VKCore.API.VKModels.Group;
 using VKCore.Helpers;
 using VKShop_Lite.Common;
+using VKShop_Lite.Helpers;
 using VKShop_Lite.UserControls.PopupControl;
 using VKShop_Lite.ViewModels.Base;
 using VKShop_Lite.Views.Counters;
 using VKShop_Lite.Views.Groups.Admin;
 using VKShop_Lite.Views.Groups.Main;
 using VKShop_Lite.Views.Groups.Market;
+using AudioPage = VKShop_Lite.Views.Counters.GroupAndUser.AudioPage;
+using GroupMembersPage = VKShop_Lite.Views.Counters.Group.GroupMembersPage;
+using GroupTopicsPage = VKShop_Lite.Views.Counters.Group.GroupTopicsPage;
 
 namespace VKShop_Lite.ViewModels.Groups.Main
 {
@@ -24,21 +28,16 @@ namespace VKShop_Lite.ViewModels.Groups.Main
         }
         public ICommand MembersOpenCommand { get; set; }
         public ICommand TopicOpenCommand { get; set; }
-        public ICommand AudioOpenCommand { get; set; }
-        public ICommand VideoOpenCommand { get; set; }
-        public ICommand PhotoOpenCommand { get; set; }
+      
         public ICommand GroupInfoEditOpenCommand { get; set; }
         public ICommand MarketOpenCommand { get; set; }
         public ICommand CreatePostCommand { get; set; }
         //CreatePostControl
-        public GroupMainViewModel()
+        public GroupMainViewModel(GroupsClass group)
         {
-            Messenger.Default.Register<GroupsClass>(
-                 this,
-                 message =>
-                 {
-                     WallColl = new WallCollection(message);
-                 });
+            
+            WallColl = new WallCollection(group);
+           
             MembersOpenCommand = new DelegateCommand(t =>
             {
                 NavigateToCurrentPage(t,new Scenario() { ClassType = typeof(GroupMembersPage)});
@@ -47,18 +46,7 @@ namespace VKShop_Lite.ViewModels.Groups.Main
             {
                 NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(GroupTopicsPage) });
             });
-            AudioOpenCommand = new DelegateCommand(t =>
-            {
-                NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(AudioPage) });
-            });
-            VideoOpenCommand = new DelegateCommand(t =>
-            {
-                NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(VideoPage) });
-            });
-            PhotoOpenCommand = new DelegateCommand(t =>
-            {
-                NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(PhotoAlbumsPage) });
-            });
+           
             GroupInfoEditOpenCommand = new DelegateCommand(t =>
             {
                 NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(GroupInfoEditPage) });

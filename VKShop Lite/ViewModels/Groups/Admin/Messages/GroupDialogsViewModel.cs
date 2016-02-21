@@ -20,23 +20,16 @@ namespace VKShop_Lite.ViewModels.Groups.Admin.Messages
         }
 
         private List<int> users; 
-        public GroupDialogsViewModel( )
+        public GroupDialogsViewModel( GroupsClass group)
         {
-            users = new List<int>();
-            Messenger.Default.Register<GroupMessages>(
-            this,
-            message =>
-            {
-                if(message != null)
-                Load(message.id);
-            });
+            Load(group);
         }
 
-        void Load(int id)
+        void Load(GroupsClass group )
         {
             VKRequest.Dispatch<DialogsClass>(
                        new VKRequestParameters(
-                         SMessages.messages_getdialogs, "get_group_messages", id.ToString()),
+                         SMessages.messages_getdialogs, "get_group_messages", group.id.ToString()),
                        (res) =>
                        {
                            var q = res.ResultCode;

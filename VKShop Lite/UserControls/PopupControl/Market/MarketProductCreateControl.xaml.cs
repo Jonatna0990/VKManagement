@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -19,6 +20,7 @@ using VKCore.API.VKModels.Market;
 using VKCore.API.VKModels.Photo;
 using VKShop_Lite.Helpers.Files;
 using VKShop_Lite.UserControls.Attachment;
+using VKShop_Lite.UserControls.ImageCrop;
 using ВКонтакте.Models.List;
 
 // Документацию по шаблону элемента диалогового окна содержимого см. в разделе http://go.microsoft.com/fwlink/?LinkId=234238
@@ -27,14 +29,14 @@ namespace VKShop_Lite.UserControls.PopupControl.Market
 {
     public sealed partial class MarketProductCreateControl : ContentDialog
     {
-        private GroupsClass group = null;
+        private string group_id = null;
         private PhotoClass product_photo = null;
         private Action<MarketAlbumId> callback = null;
-        public MarketProductCreateControl(GroupsClass gr, Action<MarketAlbumId> callbackAction)
+        public MarketProductCreateControl(string gr, Action<MarketAlbumId> callbackAction)
         {
             this.InitializeComponent();
             callback = callbackAction;
-            group = gr;
+            group_id = gr;
             LoadCategories();
         }
         void LoadCategories()
@@ -64,11 +66,11 @@ namespace VKShop_Lite.UserControls.PopupControl.Market
 
         void Create()
         {
-            if (group == null || string.IsNullOrEmpty(Name.Text) || string.IsNullOrEmpty(Description.Text) 
+            if (string.IsNullOrEmpty(group_id) || string.IsNullOrEmpty(Name.Text) || string.IsNullOrEmpty(Description.Text) 
                 || CategoryBox.SelectionBoxItem == null || product_photo == null ||string.IsNullOrEmpty(Price.Text)) return;
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("description", Description.Text);
-            param.Add("owner_id", String.Format("-{0}", group.id));
+            param.Add("owner_id", String.Format("-{0}", group_id));
             param.Add("name", Name.Text);
             param.Add("price", Price.Text);
             param.Add("category_id", (CategoryBox.SelectionBoxItem as MarketCategories).id.ToString());
@@ -91,8 +93,9 @@ namespace VKShop_Lite.UserControls.PopupControl.Market
 
                else
                {
-                   PopupEx popup = new PopupEx("Ошибка", res.Error.error_msg);
-                   popup.ShowAsync();
+                   MessageDialog z = new MessageDialog(res.Error.error_msg, "Ошибка");
+                   z.ShowAsync();
+                 
                }
 
 
@@ -116,9 +119,15 @@ namespace VKShop_Lite.UserControls.PopupControl.Market
             var a = await FilesHelper.GetImageFiles();
             var aa = new APhotoUploadControl(t =>
             {
+                if (t.height < 400 || t.width < 400 || t.height > 7000 || t.width > 7000)
+                {
+                    MessageDialog z = new MessageDialog("Неверный формат изображения","Ошибка");
+                    z.ShowAsync();
+                }
                 product_photo = t;
                 AlbumImage.Source = new BitmapImage() { UriSource = new Uri(t.photoMax) };
-            }, a, UploadType.PhotoMarketProductUpload, group.id,true);
+            }, a, UploadType.PhotoMarketProductUpload, Convert.ToInt64(group_id), true);
+           
         }
     }
 }

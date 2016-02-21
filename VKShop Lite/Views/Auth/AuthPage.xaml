@@ -8,7 +8,7 @@
     xmlns:auth="using:VKShop_Lite.ViewModels.Auth"
     mc:Ignorable="d">
 <Page.DataContext>
-        <auth:AuthPageViewModel/>
+        <auth:AuthViewModel/>
 </Page.DataContext>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid x:Name="ContentPanel" Visibility="{Binding ContentVisibility}" VerticalAlignment="Top">
