@@ -46,7 +46,7 @@ namespace VKShop_Lite.UserControls.Attachment
             get { return (ICommand)GetValue(DeleteCommandProperty); }
             set { SetValue(DeleteCommandProperty, value); }
         }
-        public APhotoUploadControl(Action<PhotoClass> callbackAction, StorageFile file, UploadType type,  long group_id=0, bool is_main = false, long album_id=0)
+        public APhotoUploadControl(Action<PhotoClass> callbackAction, StorageFile file, UploadType type,  long group_id=0,  long album_id=0, bool is_main = false)
         {
             this.InitializeComponent();
             Upload(file,type, callbackAction, is_main, group_id, album_id);

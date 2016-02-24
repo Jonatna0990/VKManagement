@@ -7,7 +7,11 @@ using System.Windows.Input;
 using Windows.UI.Xaml;
 using VKCore.API.Core;
 using VKCore.API.VKModels.User;
+using VKCore.Helpers;
+using VKShop_Lite.Common;
 using VKShop_Lite.ViewModels.Base;
+using VKShop_Lite.Views.Counters.User;
+using VKShop_Lite.Views.Profile;
 
 namespace VKShop_Lite.ViewModels.Profile
 {
@@ -37,6 +41,14 @@ namespace VKShop_Lite.ViewModels.Profile
 
                       }
                   });
+            FollowersOpenCommand =  new DelegateCommand(t =>
+            {
+                NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(ProfileFollowersPage) });
+            });
+            FriendsOpenCommand = new DelegateCommand(t =>
+            {
+                NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(ProfileFriendsPage) });
+            });
         }
 
         public ProfileViewModel(UserClass user)

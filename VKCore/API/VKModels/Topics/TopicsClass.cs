@@ -40,6 +40,8 @@ namespace VKCore.API.VKModels.Topics
         private long _updated;
         private PostedBy _updatedby;
 
+        public long id { get; set; }
+
         [JsonProperty("title")]
         public string title { get; set; }
 

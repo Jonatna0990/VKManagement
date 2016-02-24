@@ -12,7 +12,6 @@ namespace VKShop_Lite.Views.Groups.Market.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string culture)
         {
-
             if (value != null)
             {
                 long a = System.Convert.ToInt64(value);

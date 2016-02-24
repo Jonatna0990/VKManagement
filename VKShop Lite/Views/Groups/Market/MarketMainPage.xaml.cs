@@ -33,9 +33,7 @@ namespace VKShop_Lite.Views.Groups.Market
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            this.DataContext = new MarketMainViewModel();
-            Messenger.Default.Send<GroupsClass>(e.Parameter as GroupsClass);
-
+            this.DataContext = new MarketMainViewModel(e.Parameter as GroupsClass);
 
         }
     }

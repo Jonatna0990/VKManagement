@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="VKShop_Lite.Views.Counters.VideoPage"
+    x:Class="VKShop_Lite.Views.Counters.GroupAndUser.VideosPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:VKShop_Lite.Views.Counters"
@@ -10,13 +10,21 @@
     <Page.Resources>
         <DataTemplate x:Key="VideoTemplate">
             
-            <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
-                <Image Height="100"  Width="150" Source="{Binding  photo_130}"></Image>
+            <StackPanel Height="150" Width="150" Margin="5,0,0,0" VerticalAlignment="Center">
+                <Grid Height="100"  Width="150">
+                    <Grid.Background>
+                        <ImageBrush ImageSource="{Binding photo_130}"></ImageBrush>
+                    </Grid.Background>
+                    <Border Background="Black" Opacity="0.6"  VerticalAlignment="Bottom" HorizontalAlignment="Right" >
+                        <TextBlock    Style="{StaticResource CaptionTextBlockStyle}" Foreground="White"  TextWrapping="NoWrap">
+                         <Run Text="{Binding _duration}"/>
+                        </TextBlock>
+                    </Border>
+                </Grid>
+            
                 <TextBlock  Style="{StaticResource SubtitleTextBlockStyle}" Height="25" Text="{Binding description}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
                 <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}" Height="17" Text="{Binding title}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
-                <TextBlock   Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  VerticalAlignment="Top" TextWrapping="NoWrap">
-                         <Run Text="{Binding _duration}"/>
-                </TextBlock>
+             
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="GroupsFooterTemplate">
@@ -27,6 +35,6 @@
     </Page.Resources>
   
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <ListView HeaderTemplate="{StaticResource GroupsFooterTemplate}" ItemsSource="{Binding  VideoCollection.items}" ItemTemplate="{StaticResource VideoTemplate}"></ListView>
+        <GridView SelectedItem="{Binding SelectedItem,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" HeaderTemplate="{StaticResource GroupsFooterTemplate}" ItemsSource="{Binding  VideoCollection.items}" ItemTemplate="{StaticResource VideoTemplate}"></GridView>
     </Grid>
 </Page>

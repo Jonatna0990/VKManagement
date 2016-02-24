@@ -8,11 +8,46 @@
     xmlns:counters="using:VKShop_Lite.ViewModels.Counters"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:selector="using:VKShop_Lite.Views.Counters.Group.Selector"
     mc:Ignorable="d" x:Name="Page">
 
     <Page.Resources>
         <DataTemplate x:Key="UpdatedByGroupTemplate">
-            
+            <StackPanel>
+                <TextBlock  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding title}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                <TextBlock  Style="{StaticResource CaptionTextBlockStyle}"   VerticalAlignment="Top" TextWrapping="NoWrap">
+                   <Run Text="{Binding comments}"/>
+                       <Run Text=" сообщений"/>
+                </TextBlock>
+
+                <StackPanel Orientation="Horizontal" Height="60">
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.BoardOpenCommand}" CommandParameter="{Binding }">
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                    <Ellipse  Width="50"  Height="50">
+                        <Ellipse.Fill>
+                            <ImageBrush>
+                                <ImageBrush.ImageSource>
+                                    <BitmapImage UriSource="{Binding Path=UpadtedBy.PostedByGroup.photo_100}" />
+                                </ImageBrush.ImageSource>
+                            </ImageBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+                        <TextBlock  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding UpadtedBy.PostedByGroup.name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                        <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}" Height="17" Text="{Binding last_comment}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                        <TextBlock   Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  VerticalAlignment="Top" TextWrapping="NoWrap">
+                         <Run Text="{Binding CreatedDate}"/>
+
+                        </TextBlock>
+                    </StackPanel>
+
+                </StackPanel>
+
+            </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="UpdatedByUserTemplate">
             <StackPanel>
@@ -25,7 +60,7 @@
                 <StackPanel Orientation="Horizontal" Height="60">
                     <interactivity:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">
-                            <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.NavigateToGroupCommand}" CommandParameter="{Binding }">
+                            <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.BoardOpenCommand}" CommandParameter="{Binding }">
                             </core:InvokeCommandAction>
                         </core:EventTriggerBehavior>
                     </interactivity:Interaction.Behaviors>
@@ -51,9 +86,10 @@
 
             </StackPanel>
          </DataTemplate>
+        <selector:PostedByTemplateSelector x:Key="PostedByTemplateSelector" GroupTemplate="{StaticResource UpdatedByGroupTemplate }" UserTemplate="{StaticResource UpdatedByUserTemplate}"/>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView ItemTemplate="{StaticResource UpdatedByUserTemplate}" ItemsSource="{Binding Topics.items}">
+        <ListView ItemTemplateSelector="{StaticResource PostedByTemplateSelector}" ItemsSource="{Binding Topics.items}">
          
         </ListView>
     </Grid>

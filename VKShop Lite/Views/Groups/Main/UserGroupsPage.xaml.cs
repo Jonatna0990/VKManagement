@@ -17,7 +17,7 @@ namespace VKShop_Lite.Views.Groups.Main
         public UserGroupsPage()
         {
             this.InitializeComponent();
-            
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -28,11 +28,18 @@ namespace VKShop_Lite.Views.Groups.Main
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            if (SearchBox.Visibility == Visibility.Collapsed) SearchBox.Visibility = Visibility.Visible;
+            if (SearchBox.Visibility == Visibility.Collapsed)
+            {
+                SearchBox.Visibility = Visibility.Visible;
+                SearchBox.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+                this.BottomAppBar.IsOpen = false;
+            }
             else
             {
-
+                SearchBox.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+                this.BottomAppBar.IsOpen = false;
             }
+           
         }
     }
 }

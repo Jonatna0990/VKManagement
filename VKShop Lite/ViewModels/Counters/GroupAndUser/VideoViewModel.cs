@@ -1,17 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Input;
 using VKCore.API.Core;
 using VKCore.API.VKModels.Group;
 using VKCore.API.VKModels.User;
 using VKCore.API.VKModels.Video;
 using VKCore.API.VKModels.VKList;
+using VKCore.Helpers;
+using VKShop_Lite.Common;
 using VKShop_Lite.ViewModels.Base;
+using VKShop_Lite.Views.Counters;
+using VKShop_Lite.Views.Profile;
+using SelectedVideoMainPage = VKShop_Lite.Views.Counters.GroupAndUser.SelectedVideoMainPage;
 
 namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
 {
-    public class VideoViewModel : BaseViewModel
+    public class VideosViewModel : BaseViewModel
     {
+     
+        public VideoClass SelectedItem
+        {
+            get { return _selectedItem; }
+            set
+            {
+                _selectedItem = value;
+                VideoParamClass param = new VideoParamClass()
+                {
+                    owner_id = value.owner_id,
+                    video_id = value.id,
+
+
+                };
+                if (!string.IsNullOrEmpty(value.access_key)) param.access_key = value.access_key;
+                NavigateToCurrentPage(param, new Scenario() { ClassType = typeof(SelectedVideoMainPage) });
+
+            }
+        }
+
         private VKCollection<VideoClass> _audioCollection;
+        private VideoClass _selectedItem;
 
         public VKCollection<VideoClass> VideoCollection
         {
@@ -40,7 +67,7 @@ namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
 
         }
 
-        public VideoViewModel(GroupsClass group, UserClass user)
+        public VideosViewModel(GroupsClass group, UserClass user)
         {
             Load(group,user);
         }

@@ -28,12 +28,7 @@
         </DataTemplate>
         <DataTemplate x:Key="GroupTemplate">
             <StackPanel Orientation="Horizontal" Height="60">
-                <interactivity:Interaction.Behaviors>
-                    <core:EventTriggerBehavior EventName="Tapped">
-                        <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.NavigateToGroupCommand}" CommandParameter="{Binding }">
-                        </core:InvokeCommandAction>
-                    </core:EventTriggerBehavior>
-                </interactivity:Interaction.Behaviors>
+              
                 <Ellipse  Width="50"  Height="50">
                     <Ellipse.Fill>
                         <ImageBrush>
@@ -75,34 +70,37 @@
         </DataTemplate>
      
         <DataTemplate x:Key="SearchTemplate">
-            <StackPanel DataContext="{Binding ElementName=Page,Path=DataContext}">
-                <Border Background="#f2f2f2" Margin="0,12,0,0" Padding="18,8,0,8" Visibility="{Binding LocalSearchList.Count, Converter={StaticResource NullToVisibilityConverter}}">
-                    <TextBlock Foreground="#8b8f94" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="16.5">
+            <ScrollViewer>
+                <StackPanel DataContext="{Binding ElementName=Page,Path=DataContext}">
+                    <Border Background="#f2f2f2" Margin="0,12,0,0" Padding="18,8,0,8" Visibility="{Binding LocalSearchList.Count, Converter={StaticResource NullToVisibilityConverter}}">
+                        <TextBlock Foreground="#8b8f94" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="16.5">
                         <Run Text=" локальный поиск  "></Run>
                     <Run Text="Найдено" />
                         <Run Text="{Binding LocalSearchList.Count}"/>
-                    </TextBlock>
-                </Border>
-                <ItemsControl ItemsSource="{Binding LocalSearchList}" ItemTemplate="{StaticResource GroupTemplate}" />
+                        </TextBlock>
+                    </Border>
+                    <ListView ScrollViewer.VerticalScrollMode="Disabled" SelectedItem="{Binding SelectedGroup,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ItemsSource="{Binding LocalSearchList}" ItemTemplate="{StaticResource GroupTemplate}" />
 
-                <Border Background="#f2f2f2" Margin="0,12,0,0" Padding="18,8,0,8" Visibility="{Binding GlobalSearchList.count, Converter={StaticResource NullToVisibilityConverter}}">
-                    <TextBlock Foreground="#8b8f94" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="16.5">
+                    <Border Background="#f2f2f2" Margin="0,12,0,0" Padding="18,8,0,8" Visibility="{Binding GlobalSearchList.count, Converter={StaticResource NullToVisibilityConverter}}">
+                        <TextBlock Foreground="#8b8f94" FontFamily="Segoe WP" FontWeight="SemiBold" FontSize="16.5">
                         <Run Text=" глобальный поиск  "></Run>
                     <Run Text="Найдено" />
                         <Run Text="{Binding GlobalSearchList.count}"/>
-                    </TextBlock>
-                </Border>
-                <ItemsControl ItemsSource="{Binding GlobalSearchList.items}" ItemTemplate="{StaticResource GroupTemplate}" />
+                        </TextBlock>
+                    </Border>
+                    <ListView ScrollViewer.VerticalScrollMode="Disabled" SelectedItem="{Binding SelectedGroup,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ItemsSource="{Binding GlobalSearchList.items}" ItemTemplate="{StaticResource GroupTemplate}" />
 
-            </StackPanel>
-        
+                </StackPanel>
+
+
+            </ScrollViewer>
         </DataTemplate>
         <DataTemplate x:Key="NormalTemplate">
             <Pivot DataContext="{Binding ElementName=Page,Path=DataContext}">
                 <PivotItem x:Name="PivotItem1"  Header="группы" Margin="0">
 
-                    <ListView ItemTemplate="{StaticResource GroupTemplate}" HeaderTemplate="{StaticResource GroupsFooterTemplate}"  ItemsSource="{Binding MainList}">
-
+                    <ListView x:Name="Viewq" SelectedItem="{Binding SelectedGroup,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ItemTemplate="{StaticResource GroupTemplate}" HeaderTemplate="{StaticResource GroupsFooterTemplate}"  ItemsSource="{Binding MainList}">
+                    
                     </ListView>
                 </PivotItem>
                 <PivotItem Header="события">
@@ -116,11 +114,12 @@
         <main:SeacrhTemplateSelector  x:Key="SeacrhTemplateSelector" NormalTemplate="{StaticResource NormalTemplate}" SearchTemplate="{StaticResource SearchTemplate}"/>
     </Page.Resources>
   
-    <Page.BottomAppBar>
+    <Page.BottomAppBar >
         <AppBar >
             <StackPanel Orientation="Horizontal">
                 <AppBarButton Icon="Add" Label="создать"  Command="{Binding OpenCreatePopupCommand}" />
-                <AppBarButton Icon="Find" Label="поиск"  Click="ButtonBase_OnClick" />
+                <AppBarButton Icon="Find" Label="поиск"  Click="ButtonBase_OnClick" >
+                    </AppBarButton>
                 </StackPanel>
             </AppBar>
     </Page.BottomAppBar>

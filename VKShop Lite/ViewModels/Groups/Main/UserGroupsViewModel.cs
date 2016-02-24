@@ -17,12 +17,22 @@ namespace VKShop_Lite.ViewModels.Groups.Main
 {
     public class UserGroupsViewModel : BaseViewModel
     {
+        public GroupsClass SelectedGroup
+        {
+            get { return _selectedGroup; }
+            set
+            {
+                _selectedGroup = value;
+                RaisePropertyChanged("SelectedGroup");
+                this.NavigateToCurrentPage(value, new Scenario() { ClassType = typeof(GroupMainPage) });
+
+            }
+        }
+
         public UserGroupsViewModel()
         {
-            NavigateToGroupCommand = new DelegateCommand(t =>
-            {
-                this.NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(GroupMainPage) });
-            });
+            LoadGroups();
+          
             OpenCreatePopupCommand = new DelegateCommand(async t =>
             {
                 CreateGroupPopup popup = new CreateGroupPopup();
@@ -33,7 +43,7 @@ namespace VKShop_Lite.ViewModels.Groups.Main
                     NavigateToCurrentPage(popup.CreatedGroup, new Scenario() { ClassType = typeof(GroupMainPage) });
                 }
             });
-               LoadGroups();
+              
         }
         private Visibility _isLoaded;
 
@@ -42,7 +52,7 @@ namespace VKShop_Lite.ViewModels.Groups.Main
             get { return _isLoaded; }
             set { _isLoaded = value; RaisePropertyChanged("IsLoaded"); }
         }
-        public ICommand NavigateToGroupCommand { get; set; }
+    
         public ICommand OpenCreatePopupCommand { get; set; }
         private ObservableCollection<GroupsClass> _editorList;
         private ObservableCollection<GroupsClass> _mainList;
@@ -51,6 +61,7 @@ namespace VKShop_Lite.ViewModels.Groups.Main
         private VKCollection<GroupsClass> _globalseacrhList;
         private string _searchQuery;
         private PageMode _mode = PageMode.Normal;
+        private GroupsClass _selectedGroup;
 
         public PageMode Mode
         {
@@ -142,7 +153,7 @@ namespace VKShop_Lite.ViewModels.Groups.Main
                      LocalSearchList = new ObservableCollection<GroupsClass>();
                      foreach (var t in MainList)
                      {
-                         if (t.is_admin == 1)
+                         if (t.name.Contains(param.ToLower()))
                          {
                              LocalSearchList.Add(t);
                          }

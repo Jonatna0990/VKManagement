@@ -12,26 +12,27 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using VKCore.API.VKModels.User;
-using VKShop_Lite.ViewModels.Counters.User;
+using VKCore.API.VKModels.Market;
+using VKShop_Lite.ViewModels.Groups.Market;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace VKShop_Lite.Views.Counters.User
+namespace VKShop_Lite.Views.Groups.Market.Edit
 {
     /// <summary>
     /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
     /// </summary>
-    public sealed partial class ProfileFriendsPage : Page
+    public sealed partial class SelectedProductEditPage : Page
     {
-        public ProfileFriendsPage()
+        public SelectedProductEditPage()
         {
             this.InitializeComponent();
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            this.DataContext = new UserFiendsViewModel(e.Parameter as UserClass);
+            this.DataContext = new SelectedProductViewModel(e.Parameter as MarketItem);
+
         }
     }
 }

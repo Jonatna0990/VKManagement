@@ -5,7 +5,6 @@
     xmlns:local="using:VKShop_Lite.Views.Counters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:counters="using:VKShop_Lite.ViewModels.Counters"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core" x:Name="Page"
     mc:Ignorable="d">
@@ -65,6 +64,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Pivot >
             <PivotItem Header="участники">
+                
                 <ListView ItemTemplate="{StaticResource UserTemplate}" ItemsSource="{Binding MembersRoot.members.items}">
                     
                 </ListView>

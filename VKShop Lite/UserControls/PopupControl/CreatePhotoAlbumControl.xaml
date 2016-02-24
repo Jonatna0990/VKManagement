@@ -1,0 +1,29 @@
+﻿<ContentDialog
+    x:Class="VKShop_Lite.UserControls.PopupControl.CreatePhotoAlbumControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VKShop_Lite.UserControls.PopupControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Создать альбом">
+    <ContentControl.Resources>
+        <local:BoolToVisibillityConverter x:Key="BoolToVisibillityConverter"/>
+    </ContentControl.Resources>
+    <Grid>
+        <StackPanel>
+            <TextBox x:Name="AlbumName" PlaceholderText="введите название..." Header="название"></TextBox>
+            <TextBox x:Name="AlbumDescription" PlaceholderText="введите описание..." Header="описание"></TextBox>
+            <CheckBox Content="фотографии могут добавлять только редакторы и администраторы"></CheckBox>
+            <CheckBox Content="отключить комментирование альбома"></CheckBox>
+            <Grid Margin="0,10,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Button  x:Name="CreateButton" Margin="1"   HorizontalAlignment="Stretch"  Content="создать" ></Button>
+                <Button Grid.Column="1" Margin="1" x:Name="CancelButton"  Content="отмена" HorizontalAlignment="Stretch" ></Button>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</ContentDialog>

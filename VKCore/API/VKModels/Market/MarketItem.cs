@@ -5,18 +5,28 @@ using System.Text;
 using System.Threading.Tasks;
 using VKCore.API.VKModels.Photo;
 using VKCore.API.VKModels.Wall;
+using VKCore.Converters.DateTimeConverter;
 
 namespace VKCore.API.VKModels.Market
 {
     public class MarketItem
     {
+        private int _date;
         public int id { get; set; }
         public int owner_id { get; set; }
         public string title { get; set; }
         public string description { get; set; }
         public Price price { get; set; }
         public Category category { get; set; }
-        public int date { get; set; }
+
+        public string Date { get; set; }
+
+        public int date
+        {
+            get { return _date; }
+            set { _date = value; Date = NewsDataTimeConvert.getTimeAgo(value); }
+        }
+
         public string thumb_photo { get; set; }
         public int availability { get; set; }
         public int can_comment { get; set; }

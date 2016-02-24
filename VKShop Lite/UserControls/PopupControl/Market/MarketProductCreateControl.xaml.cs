@@ -126,7 +126,7 @@ namespace VKShop_Lite.UserControls.PopupControl.Market
                 }
                 product_photo = t;
                 AlbumImage.Source = new BitmapImage() { UriSource = new Uri(t.photoMax) };
-            }, a, UploadType.PhotoMarketProductUpload, Convert.ToInt64(group_id), true);
+            }, a, UploadType.PhotoMarketProductUpload, Convert.ToInt64(group_id),0, true);
            
         }
     }

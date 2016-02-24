@@ -31,7 +31,7 @@ namespace VKShop_Lite.Views.Main
         public UserMainPage()
         {
             this.InitializeComponent();
-            NavigationCacheMode = NavigationCacheMode.Enabled;
+            NavigationCacheMode = NavigationCacheMode.Required;
             Current = this;
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
@@ -57,23 +57,10 @@ namespace VKShop_Lite.Views.Main
                 }
             }
         }
-
-
-        private void HamburgerButton_OnChecked(object sender, RoutedEventArgs e)
+        private void HamburgerButton_OnClick(object sender, RoutedEventArgs e)
         {
-            SplitView.IsPaneOpen = true;
+            if (SplitView.IsPaneOpen) SplitView.IsPaneOpen = false;
+            else SplitView.IsPaneOpen = true;
         }
-
-        private void HamburgerButton_OnUnchecked(object sender, RoutedEventArgs e)
-        {
-            SplitView.IsPaneOpen = false;
-        }
-
-        private void SplitView_OnPaneClosed(SplitView sender, object args)
-        {
-            HamburgerButton.IsChecked = false;
-        }
-
-      
     }
 }

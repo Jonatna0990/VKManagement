@@ -8,25 +8,35 @@
     xmlns:counters="using:VKShop_Lite.ViewModels.Counters"
     mc:Ignorable="d">
 <Page.Resources>
-    
-</Page.Resources>
-    
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView ItemsSource="{Binding AlbumCollection.albums.items}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <Image HorizontalAlignment="Stretch" Height="200" Source="{Binding thumb_src}"></Image>
-                        <TextBlock Text="{Binding title}"></TextBlock>
-
-
-                        <TextBlock >
+    <DataTemplate x:Name="PhotoAlbumTemplate">
+            <StackPanel Height="120" Width="150" Margin="5,0,0,0" VerticalAlignment="Center">
+                <Grid Height="100"  Width="150">
+                    <Grid.Background>
+                        <ImageBrush Stretch="UniformToFill" ImageSource="{Binding thumb_src}"></ImageBrush>
+                    </Grid.Background>
+                    <Border Background="Black" Opacity="0.6"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" >
+                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Foreground="White" TextWrapping="NoWrap">
                             <Run Text="{Binding size}"/>
                             <Run Text="фотографий"/>
                         </TextBlock>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+
+                    </Border>
+                </Grid>
+                <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}" Height="17" Text="{Binding title}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+
+            </StackPanel>
+        </DataTemplate>
+</Page.Resources>
+    <Page.BottomAppBar>
+        <AppBar Visibility="{Binding CanAddVisibility,Mode=OneWay}" >
+            <StackPanel Orientation="Horizontal">
+                <AppBarButton Icon="Add" Label="создать"  Command="{Binding OpenCreatePopupCommand}" />
+                
+            </StackPanel>
+        </AppBar>
+    </Page.BottomAppBar>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <GridView SelectedItem="{Binding SelectedAlbumsItem,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ItemTemplate="{StaticResource PhotoAlbumTemplate}" ItemsSource="{Binding AlbumCollection.albums.items}">
+         </GridView>
     </Grid>
 </Page>

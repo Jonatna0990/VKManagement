@@ -103,6 +103,7 @@
     <Compile Include="Common\SuspensionManager.cs" />
     <Compile Include="Helpers\Converters\IntToVisibillityConverter.cs" />
     <Compile Include="Helpers\Files\FilesHelper.cs" />
+    <Compile Include="Helpers\OpenMenuFlyoutAction.cs" />
     <Compile Include="Helpers\ParameterPassingHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\Attachment\APhotoUploadControl.xaml.cs">
@@ -114,6 +115,12 @@
     <Compile Include="UserControls\PopupControl\BoolToVisibillityConverter.cs" />
     <Compile Include="UserControls\PopupControl\CreateGroupPopup.xaml.cs">
       <DependentUpon>CreateGroupPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PopupControl\CreatePhotoAlbumControl.xaml.cs">
+      <DependentUpon>CreatePhotoAlbumControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PopupControl\CreatePhotoControl.xaml.cs">
+      <DependentUpon>CreatePhotoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\PopupControl\CreatePostControl.xaml.cs">
       <DependentUpon>CreatePostControl.xaml</DependentUpon>
@@ -133,8 +140,12 @@
     <Compile Include="UserControls\WallControl\WallPostControl.xaml.cs">
       <DependentUpon>WallPostControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\Counters\GroupAndUser\SelectedPhotoAlbumViewModel.cs" />
+    <Compile Include="ViewModels\Counters\GroupAndUser\SelectedVideoViewModel.cs" />
     <Compile Include="ViewModels\Counters\Group\SelectedTopicViewModel.cs" />
+    <Compile Include="ViewModels\Counters\User\UserFiendsViewModel.cs" />
     <Compile Include="ViewModels\Counters\User\UserFollowersViewModel.cs" />
+    <Compile Include="ViewModels\Counters\User\UserGroupsViewModel.cs" />
     <Compile Include="ViewModels\Groups\Admin\GroupControl\GroupBlackListViewModel.cs" />
     <Compile Include="ViewModels\Groups\Admin\GroupControl\GroupInfoEditViewModel.cs" />
     <Compile Include="ViewModels\Groups\Admin\GroupControl\GroupLinksViewModel.cs" />
@@ -156,6 +167,10 @@
     <Compile Include="ViewModels\Groups\Main\UserGroupsViewModel.cs" />
     <Compile Include="ViewModels\Groups\Main\WallCollection.cs" />
     <Compile Include="ViewModels\Groups\Market\MarketMainViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Market\SelectedMarketAlbumEditViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Market\SelectedMarketAlbumViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Market\SelectedProductEditViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Market\SelectedProductViewModel.cs" />
     <Compile Include="ViewModels\Profile\ProfileViewModel.cs" />
     <Compile Include="ViewModels\UserMain\UserMainViewModel.cs" />
     <Compile Include="ViewModels\Wall\SelectedPostViewModel.cs" />
@@ -165,14 +180,14 @@
     <Compile Include="Views\Counters\GroupAndUser\AudioPage.xaml.cs">
       <DependentUpon>AudioPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Counters\GroupAndUser\SelectedPhotoAlbumPage.xaml.cs">
+      <DependentUpon>SelectedPhotoAlbumPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Counters\Group\GroupMembersPage.xaml.cs">
       <DependentUpon>GroupMembersPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Counters\Group\GroupTopicsPage.xaml.cs">
       <DependentUpon>GroupTopicsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Counters\GroupAndUser\PhotoAlbumMainPage.xaml.cs">
-      <DependentUpon>PhotoAlbumMainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Counters\GroupAndUser\PhotoAlbumsPage.xaml.cs">
       <DependentUpon>PhotoAlbumsPage.xaml</DependentUpon>
@@ -180,12 +195,14 @@
     <Compile Include="Views\Counters\Group\SelectedTopicMainPage.xaml.cs">
       <DependentUpon>SelectedTopicMainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Counters\GroupAndUser\VideoPage.xaml.cs">
-      <DependentUpon>VideoPage.xaml</DependentUpon>
+    <Compile Include="Views\Counters\GroupAndUser\VideosPage.xaml.cs">
+      <DependentUpon>VideosPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Counters\GroupAndUser\VideoPlayerMainPage.xaml.cs">
-      <DependentUpon>VideoPlayerMainPage.xaml</DependentUpon>
+    <Compile Include="Views\Counters\GroupAndUser\SelectedVideoMainPage.xaml.cs">
+      <DependentUpon>SelectedVideoMainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Counters\Group\Selector\GroupOrUserTemplateSelector.cs" />
+    <Compile Include="Views\Counters\Group\Selector\PostedByTemplateSelector.cs" />
     <Compile Include="Views\Counters\User\ProfileFriendsPage.xaml.cs">
       <DependentUpon>ProfileFriendsPage.xaml</DependentUpon>
     </Compile>
@@ -195,6 +212,7 @@
     <Compile Include="Views\Counters\User\ProfileFollowersPage.xaml.cs">
       <DependentUpon>ProfileFollowersPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Groups\Market\Converters\AdminCanEditDeleteConverter.cs" />
     <Compile Include="Views\Groups\Main\AdminTemplateSelector.cs" />
     <Compile Include="Views\Groups\Admin\GroupBackListPage.xaml.cs">
       <DependentUpon>GroupBackListPage.xaml</DependentUpon>
@@ -209,8 +227,20 @@
       <DependentUpon>GroupMarketEditPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Groups\Market\Converters\AdminEditVisibillityConverter.cs" />
+    <Compile Include="Views\Groups\Market\Edit\SelectedMarketAlbumEditPage.xaml.cs">
+      <DependentUpon>SelectedMarketAlbumEditPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Market\Edit\SelectedProductEditPage.xaml.cs">
+      <DependentUpon>SelectedProductEditPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Groups\Market\MarketMainPage.xaml.cs">
       <DependentUpon>MarketMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Market\SelectedMarketAlbumPage.xaml.cs">
+      <DependentUpon>SelectedMarketAlbumPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Market\SelectedProductPage.xaml.cs">
+      <DependentUpon>SelectedProductPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Groups\Messages\GroupConversationPage.xaml.cs">
       <DependentUpon>GroupConversationPage.xaml</DependentUpon>
@@ -285,11 +315,39 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Styles\Colors\ColorsStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Styles\Group\GroupStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Styles\Player\PlayerControlStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Styles\TemplateSelectors\TemplateSelectorStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="UserControls\Attachment\APhotoUploadControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\PopupControl\CreateGroupPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PopupControl\CreatePhotoAlbumControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PopupControl\CreatePhotoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -321,15 +379,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Counters\GroupAndUser\SelectedPhotoAlbumPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Counters\Group\GroupMembersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Counters\Group\GroupTopicsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Counters\GroupAndUser\PhotoAlbumMainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -341,11 +399,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Counters\GroupAndUser\VideoPage.xaml">
+    <Page Include="Views\Counters\GroupAndUser\VideosPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Counters\GroupAndUser\VideoPlayerMainPage.xaml">
+    <Page Include="Views\Counters\GroupAndUser\SelectedVideoMainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -377,7 +435,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Groups\Market\Edit\SelectedMarketAlbumEditPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Market\Edit\SelectedProductEditPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Groups\Market\MarketMainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Market\SelectedMarketAlbumPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Market\SelectedProductPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -432,6 +506,7 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Styles\User\" />
     <Folder Include="UserControls\MessagesControl\" />
   </ItemGroup>
   <ItemGroup>

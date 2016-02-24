@@ -40,7 +40,7 @@ namespace VKShop_Lite.UserControls.PopupControl.Market
         }
 
        
-        void Create()
+        private void Create()
         {
             if (string.IsNullOrEmpty(group_id) == null || string.IsNullOrEmpty(Name.Text)) return;
             Dictionary<string, string> param = new Dictionary<string, string>();

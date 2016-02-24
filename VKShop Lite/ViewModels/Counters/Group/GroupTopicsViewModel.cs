@@ -2,12 +2,14 @@
 using System.Linq;
 using System.Windows.Input;
 using VKCore.API.Core;
+using VKCore.API.VKModels.Board;
 using VKCore.API.VKModels.Group;
 using VKCore.API.VKModels.Topics;
 using VKCore.API.VKModels.Wall;
 using VKCore.Helpers;
 using VKShop_Lite.Common;
 using VKShop_Lite.ViewModels.Base;
+using VKShop_Lite.Views.Counters.Group;
 using VKShop_Lite.Views.Profile;
 
 namespace VKShop_Lite.ViewModels.Counters.Group
@@ -16,6 +18,7 @@ namespace VKShop_Lite.ViewModels.Counters.Group
     {
         private TopicsClass _topics;
         public ICommand BoardOpenCommand { get; set; }
+        private GroupsClass groups = null;
         public TopicsClass Topics
         {
             get { return _topics; }
@@ -24,9 +27,16 @@ namespace VKShop_Lite.ViewModels.Counters.Group
 
         void Load(GroupsClass group)
         {
+            if (group != null) groups = group;
             BoardOpenCommand =  new DelegateCommand(t =>
             {
-                NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(ProfileMainPage) });
+                if (t is TopicComment)
+                {
+                    TopicComment top = t as TopicComment;
+                    BoardParamClass param = new BoardParamClass() { group_id = groups.id, topic_id = top.id};
+                    NavigateToCurrentPage(param, new Scenario() { ClassType = typeof(SelectedTopicMainPage) });
+
+                }
             });
 
             VKRequest.Dispatch<TopicsClass>(
@@ -60,7 +70,7 @@ namespace VKShop_Lite.ViewModels.Counters.Group
                 }
                 else
                 {
-                    var a = topics.groups.FirstOrDefault(w => w.id == t.updated_by);
+                    var a = topics.groups.FirstOrDefault(w => Math.Abs(w.id) == Math.Abs(t.updated_by));
                     if (a != null) t.UpadtedBy = new PostedBy() { PostedByGroup = a };
                 }
             }

@@ -1,4 +1,8 @@
 ﻿using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
+using VKCore.API.VKModels.Board;
+using VKCore.API.VKModels.Group;
+using VKShop_Lite.ViewModels.Counters.Group;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -12,6 +16,12 @@ namespace VKShop_Lite.Views.Counters.Group
         public SelectedTopicMainPage()
         {
             this.InitializeComponent();
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            this.DataContext = new SelectedTopicViewModel(e.Parameter as BoardParamClass);
+
         }
     }
 }

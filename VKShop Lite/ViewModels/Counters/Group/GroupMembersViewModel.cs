@@ -19,14 +19,11 @@ namespace VKShop_Lite.ViewModels.Counters.Group
             set { _membersRoot = value;RaisePropertyChanged("MembersRoot"); }
         }
 
-        public ICommand UserPageOpenCommand { get; set; }
+     
         public GroupMembersViewModel(GroupsClass group)
         {
             Load(group);
-            UserPageOpenCommand = new DelegateCommand(t =>
-            {
-                NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(ProfileMainPage) });
-            });
+           
 
         }
         public void Load(GroupsClass group)

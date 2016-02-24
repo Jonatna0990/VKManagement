@@ -12,18 +12,60 @@ using VKCore.API.VKModels.Market;
 using VKCore.API.VKModels.Messages;
 using VKCore.API.VKModels.VKList;
 using VKCore.Helpers;
+using VKShop_Lite.Common;
 using VKShop_Lite.UserControls.PopupControl.Market;
 using VKShop_Lite.ViewModels.Base;
+using VKShop_Lite.Views.Counters.Group;
+using VKShop_Lite.Views.Groups.Market;
 
 namespace VKShop_Lite.ViewModels.Groups.Market
 {
     public class MarketMainViewModel : BaseViewModel
     {
         private VKCollection<MarketItem> _marketCollection;
-        private string _group;
+        private GroupsClass group = null;
+        private Visibility _canAddVisibility = Visibility.Collapsed;
+        private int _adminLevel = 0;
+        private MarketItem _selectedProduct = null;
+        private MarketAlbum _selectedAlbumItem = null;
+
+        public MarketItem SelectedProductItem
+        {
+            get { return _selectedProduct; }
+            set
+            {
+                _selectedProduct = value;
+                if (value != null)
+                {
+                    NavigateToCurrentPage(value, new Scenario() { ClassType = typeof(SelectedProductPage) });
+                }
+            }
+        }
+
+        public MarketAlbum SelectedAlbumItem
+        {
+            get { return _selectedAlbumItem; }
+            set
+            {
+                _selectedAlbumItem = value;
+                if (value != null)
+                {
+                    NavigateToCurrentPage(value, new Scenario() { ClassType = typeof(SelectedMarketAlbumPage) });
+                }
+            }
+        }
+
+        public GroupsClass Group
+        {
+            get { return group; }
+            set { group = value; RaisePropertyChanged("Group"); }
+        }
 
         public ICommand CreateProductCommand { get; set; }
         public ICommand CreateAlbumCommand { get; set; }
+
+      
+
         public VKCollection<MarketAlbum> MarketAlbumCollection { get; set; } 
         public VKCollection<MarketItem> MarketCollection
         {
@@ -31,16 +73,12 @@ namespace VKShop_Lite.ViewModels.Groups.Market
             set { _marketCollection = value; RaisePropertyChanged("MarketCollection"); }
         }
 
-        public string Group
+        public MarketMainViewModel(GroupsClass group)
         {
-            get { return _group; }
-            set { _group = value; RaisePropertyChanged("Group"); }
-        }
 
-        public MarketMainViewModel()
-        {
-          //  Group = Param;
-          /*  CreateProductCommand = new DelegateCommand(t =>
+            this.Group = group;
+           
+           /* CreateProductCommand = new DelegateCommand(t =>
             {
                 MarketProductCreateControl market = new MarketProductCreateControl(Param, arg =>
                 {
@@ -59,16 +97,17 @@ namespace VKShop_Lite.ViewModels.Groups.Market
                 });
                 market.Height = 600;
                 market.ShowAsync();
-            });
+            });*/
 
-            Load(Param);*/
+            Load();
         }
 
-        void Load(string id)
+        void Load()
         {
-            VKRequest.Dispatch<VKCollection<MarketItem>>(
+            if(group !=null)
+            {            VKRequest.Dispatch<VKCollection<MarketItem>>(
                        new VKRequestParameters(
-                         SMarket.market_get, "owner_id", String.Format("-{0}",id)),
+                         SMarket.market_get, "owner_id", String.Format("-{0}", Group.id)),
                        (res) =>
                        {
                            var q = res.ResultCode;
@@ -77,17 +116,20 @@ namespace VKShop_Lite.ViewModels.Groups.Market
                                MarketCollection = res.Data;
                            }
                        });
-            VKRequest.Dispatch<VKCollection<MarketAlbum>>(
-                     new VKRequestParameters(
-                       SMarket.market_getAlbums, "owner_id", String.Format("-{0}", id)),
-                     (res) =>
+
+                VKRequest.Dispatch<VKCollection<MarketAlbum>>(
+                 new VKRequestParameters(
+                   SMarket.market_getAlbums, "owner_id", String.Format("-{0}", Group.id)),
+                 (res) =>
+                 {
+                     var q = res.ResultCode;
+                     if (res.ResultCode == VKResultCode.Succeeded)
                      {
-                         var q = res.ResultCode;
-                         if (res.ResultCode == VKResultCode.Succeeded)
-                         {
-                             MarketAlbumCollection = res.Data;
-                         }
-                     });
+                         MarketAlbumCollection = res.Data;
+                     }
+                 });
+            }
+        
 
 
         }

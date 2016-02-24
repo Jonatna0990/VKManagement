@@ -5,9 +5,84 @@
     xmlns:local="using:VKShop_Lite.Views.Counters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:selector="using:VKShop_Lite.Views.Counters.Group.Selector"
+    mc:Ignorable="d" x:Name="Page">
+<Page.Resources>
+        <DataTemplate x:Key="BoardUserTemplate">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" >
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.NavigateToGroupCommand}" CommandParameter="{Binding }">
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                    <Ellipse  Width="50"  Height="50">
+                        <Ellipse.Fill>
+                            <ImageBrush>
+                                <ImageBrush.ImageSource>
+                                    <BitmapImage UriSource="{Binding posted_by.PostedByUser.photo_100}" />
+                                </ImageBrush.ImageSource>
+                            </ImageBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
 
+                        <TextBlock  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding posted_by.PostedByUser.full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                        <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left"  Text="{Binding str_date}" MaxWidth="250" TextWrapping="Wrap"/>
+
+                        
+                    </StackPanel>
+
+                </StackPanel>
+                <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  Text="{Binding text}" MaxWidth="250" TextWrapping="Wrap"/>
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Image Height="35" Width="35" Opacity="0.3" Source="ms-appx:///Icons/Dark/Counters/like.png" />
+                    <TextBlock Margin="0,3,0,0" TextAlignment="Center" Foreground="#FF727272" FontSize="18" Text="{Binding Path=likes.count}"/>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="BoardGroupTemplate">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" >
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.NavigateToGroupCommand}" CommandParameter="{Binding }">
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                    <Ellipse  Width="50"  Height="50">
+                        <Ellipse.Fill>
+                            <ImageBrush>
+                                <ImageBrush.ImageSource>
+                                    <BitmapImage UriSource="{Binding posted_by.PostedByGroup.photo_100}" />
+                                </ImageBrush.ImageSource>
+                            </ImageBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+
+                        <TextBlock  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding posted_by.PostedByGroup.name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                        <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Left"  Text="{Binding str_date}" MaxWidth="250" TextWrapping="Wrap"/>
+
+                      
+                    </StackPanel>
+
+                </StackPanel>
+                <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  Text="{Binding text}" MaxWidth="250" TextWrapping="Wrap"/>
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Image Height="35" Width="35" Opacity="0.3" Source="ms-appx:///Icons/Dark/Counters/like.png" />
+                    <TextBlock Margin="0,3,0,0" TextAlignment="Center" Foreground="#FF727272" FontSize="18" Text="{Binding Path=likes.count}"/>
+                </StackPanel>
+            </StackPanel>
+         </DataTemplate>
+        <selector:GroupOrUserTemplateSelector x:Key="GroupOrUserTemplateSelector" GroupTemplate="{StaticResource BoardGroupTemplate }" UserTemplate="{StaticResource BoardUserTemplate}"/>
+    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+        <ListView  ItemTemplateSelector="{StaticResource GroupOrUserTemplateSelector}" DataContext="{Binding ElementName=Page,Path=DataContext}" ItemsSource="{Binding messages}">
+    
+        </ListView>
     </Grid>
 </Page>
