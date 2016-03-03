@@ -10,7 +10,7 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:captchaControl="using:VKCore.UserControls.CaptchaControl"
     mc:Ignorable="d">
-  
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid  x:Name="TopGrid" Height="40" VerticalAlignment="Top">
             <Grid.Background>
@@ -21,7 +21,7 @@
                 <ColumnDefinition Width="290*"/>
                 <ColumnDefinition Width="40*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="HamburgerButton"  Click="HamburgerButton_OnClick"
+            <Button x:Name="HamburgerButton" Command="{Binding ToggleSplitViewPaneCommand}"
                 FontFamily="Segoe MDL2 Assets"
                 Content="&#xE700;"
                 Margin="0"
@@ -31,96 +31,115 @@
                 Foreground="Black"
                 VerticalAlignment="Top"
                 BorderThickness="0" Grid.ColumnSpan="2" />
-            <Grid x:Name="TopCenterGroid" Grid.ColumnSpan="1" Grid.Column="1">
-              
+            <Grid x:Name="TopCenterGrid" Grid.ColumnSpan="1" Grid.Column="1">
+
             </Grid>
-            <Grid x:Name="TopRightGroid" Grid.ColumnSpan="1" Grid.Column="2">
+            <Grid x:Name="TopRightGrid" Grid.ColumnSpan="1" Grid.Column="2">
 
             </Grid>
         </Grid>
 
-        <SplitView x:Name="SplitView" IsPaneOpen="False" 
+        <SplitView  x:Name="SplitView" IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay}" 
                    CompactPaneLength="40"
                    OpenPaneLength="200"
                    DisplayMode="Overlay"  Margin="0,40,0,0" PaneBackground="#FF636363">
             <SplitView.Pane>
-                <StackPanel>
-                    <StackPanel.Background>
-                        <SolidColorBrush Color="{StaticResource Brush7}"/>
-                    </StackPanel.Background>
-                    <StackPanel Margin="5">
-                        <StackPanel Orientation="Horizontal" Height="60">
-                            <Ellipse  Width="50"  Height="50">
-                                <Ellipse.Fill>
-                                    <ImageBrush>
-                                        <ImageBrush.ImageSource>
-                                            <BitmapImage UriSource="{Binding User.photo_100}" />
-                                        </ImageBrush.ImageSource>
-                                    </ImageBrush>
-                                </Ellipse.Fill>
-                            </Ellipse>
-                            <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
-                                <TextBlock  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding User.full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
-                                <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  Text="{Binding User.Online}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
-                                <TextBlock   Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding User.city.title}"  VerticalAlignment="Top" TextWrapping="NoWrap">
-                                </TextBlock>
+                <Grid>
+                    <StackPanel>
+                        <StackPanel.Background>
+                            <SolidColorBrush Color="{StaticResource Brush7}"/>
+                        </StackPanel.Background>
+                        <StackPanel Margin="5">
+                            <StackPanel Orientation="Horizontal" Height="60">
+                                <interactivity:Interaction.Behaviors>
+                                    <core:EventTriggerBehavior EventName="Tapped">
+                                        <core:ChangePropertyAction TargetObject="{Binding ElementName=SplitView}" PropertyName="IsPaneOpen" Value="false"/>
+
+                                        <core:InvokeCommandAction Command="{Binding UserPageOpenCommand}" CommandParameter="{Binding User}">
+                                        </core:InvokeCommandAction>
+                                    </core:EventTriggerBehavior>
+                                </interactivity:Interaction.Behaviors>
+                                <Ellipse  Width="50"  Height="50">
+                                    <Ellipse.Fill>
+                                        <ImageBrush>
+                                            <ImageBrush.ImageSource>
+                                                <BitmapImage UriSource="{Binding User.photo_100}" />
+                                            </ImageBrush.ImageSource>
+                                        </ImageBrush>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+                                    <TextBlock Foreground="White"  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding User.full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                                    <TextBlock Foreground="White" Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  Text="{Binding User.Online}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                                    <TextBlock  Foreground="White" Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding User.city.title}"  VerticalAlignment="Top" TextWrapping="NoWrap">
+                                    </TextBlock>
+                                </StackPanel>
                             </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                    <ItemsControl 
+                        <ItemsControl 
                               Margin="0 20 0 0"
                               VerticalAlignment="Top">
-                      
-                        <ListViewItem>
-                            <interactivity:Interaction.Behaviors>
-                                <core:EventTriggerBehavior EventName="Tapped">
-                                    <core:InvokeCommandAction Command="{Binding  NavigeteToGroupsPage}">
-                                    </core:InvokeCommandAction>
-                                </core:EventTriggerBehavior>
-                            </interactivity:Interaction.Behaviors>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock   FontFamily="Segoe MDL2 Assets" Text="&#xE716;" FontSize="22" VerticalAlignment="Center" />
-                                <TextBlock  Margin="5,0,0,0" Text="группы" FontSize="18" VerticalAlignment="Center" />
-                            
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <interactivity:Interaction.Behaviors>
-                                <core:EventTriggerBehavior EventName="Tapped">
-                                    <core:InvokeCommandAction Command="{Binding  NavigeteToMessagesPage}">
-                                    </core:InvokeCommandAction>
-                                </core:EventTriggerBehavior>
-                            </interactivity:Interaction.Behaviors>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock   FontFamily="Segoe MDL2 Assets" Text="&#xE715;" FontSize="22" VerticalAlignment="Center" />
-                                <TextBlock  Margin="5,0,0,0" Text="сообщения" FontSize="18" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <interactivity:Interaction.Behaviors>
-                                <core:EventTriggerBehavior EventName="Tapped">
-                                    <core:InvokeCommandAction Command="{Binding  NavigeteToSettingsPage}">
-                                    </core:InvokeCommandAction>
-                                </core:EventTriggerBehavior>
-                            </interactivity:Interaction.Behaviors>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock   FontFamily="Segoe MDL2 Assets" Text="&#xE713;" FontSize="22" VerticalAlignment="Center"/> 
-                                <TextBlock  Margin="5,0,0,0" Text="настройки" FontSize="18" VerticalAlignment="Center" />
-                                
-                            </StackPanel>
-                        </ListViewItem>
-                    </ItemsControl>
 
-                </StackPanel>
+                            <ListViewItem>
+                                <interactivity:Interaction.Behaviors>
+                                    <core:EventTriggerBehavior EventName="Tapped">
+                                        <core:ChangePropertyAction TargetObject="{Binding ElementName=SplitView}" PropertyName="IsPaneOpen" Value="false"/>
+                                        <core:InvokeCommandAction Command="{Binding  NavigeteToGroupsPage}"/>
+                                    </core:EventTriggerBehavior>
+                                </interactivity:Interaction.Behaviors>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Foreground="White"  FontFamily="Segoe MDL2 Assets" Text="&#xE716;" FontSize="22" VerticalAlignment="Center" />
+                                    <TextBlock Foreground="White" Margin="5,0,0,0" Text="группы" FontSize="18" VerticalAlignment="Center" />
+
+                                </StackPanel>
+                            </ListViewItem>
+                            <ListViewItem>
+                                <interactivity:Interaction.Behaviors>
+                                    <core:EventTriggerBehavior EventName="Tapped">
+                                        <core:ChangePropertyAction TargetObject="{Binding ElementName=SplitView}" PropertyName="IsPaneOpen" Value="false"/>
+                                        <core:InvokeCommandAction Command="{Binding  NavigeteToMessagesPage}"/>
+                                    </core:EventTriggerBehavior>
+                                </interactivity:Interaction.Behaviors>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Foreground="White"  FontFamily="Segoe MDL2 Assets" Text="&#xE715;" FontSize="22" VerticalAlignment="Center" />
+                                    <TextBlock Foreground="White" Margin="5,0,0,0" Text="сообщения" FontSize="18" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </ListViewItem>
+                            <ListViewItem>
+                                <interactivity:Interaction.Behaviors>
+                                    <core:EventTriggerBehavior EventName="Tapped">
+                                        <core:ChangePropertyAction TargetObject="{Binding ElementName=SplitView}" PropertyName="IsPaneOpen" Value="false"/>
+                                        <core:InvokeCommandAction Command="{Binding  NavigeteToSettingsPage}"/>
+                                    </core:EventTriggerBehavior>
+                                </interactivity:Interaction.Behaviors>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock  Foreground="White" FontFamily="Segoe MDL2 Assets" Text="&#xE713;" FontSize="22" VerticalAlignment="Center"/>
+                                    <TextBlock Foreground="White" Margin="5,0,0,0" Text="настройки" FontSize="18" VerticalAlignment="Center" />
+
+                                </StackPanel>
+                            </ListViewItem>
+
+                        </ItemsControl>
+
+                    </StackPanel>
+                    <Grid VerticalAlignment="Bottom" Background="Red">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <AppBarButton Icon="Play"></AppBarButton>
+                        <AppBarButton Grid.Column="1" Icon="Play"></AppBarButton>
+                        <AppBarButton Grid.Column="2" Icon="Play"></AppBarButton>
+                    </Grid>
+                </Grid>
             </SplitView.Pane>
             <SplitView.Content>
-                <Frame Canvas.ZIndex="1" x:Name="RootFrame">
-
-                </Frame>
+                <Frame   Canvas.ZIndex="1" x:Name="RootFrame"/>
             </SplitView.Content>
         </SplitView>
 
-        
+
     </Grid>
 </Page>
 

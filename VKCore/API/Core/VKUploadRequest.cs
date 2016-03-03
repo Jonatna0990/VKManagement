@@ -4,11 +4,20 @@ using System.IO;
 using System.Linq;
 using Windows.Storage;
 using Newtonsoft.Json;
+using VKCore.API.VKModels.Doc;
 using VKCore.API.VKModels.Photo;
 using VKCore.Util;
 
 namespace VKCore.API.Core
 {
+    public class VKUploadServerAddress
+    {
+        public string upload_url { get; set; }
+        public long video_id { get; set; }
+        public long owner_id { get; set; }
+        public string descriprion { get; set; }
+        public string access_key { get; set; }
+    }
     public enum UploadType
     {
         PhotoAlbumUpload,
@@ -16,15 +25,18 @@ namespace VKCore.API.Core
         PhotoProfileUpload,
         PhotoMessageUpload,
         PhotoMarketAlbumUpload,
-        PhotoMarketProductUpload
+        PhotoMarketProductUpload,
+        VideoProfileUpload,
+        VideoWallUpload,
+        VideoMessageUpload,
+        DocProfileUpload,
+        DocMessageUpload,
+        DocWallUpload
+
     }
     public class VKUploadRequest
     {
-
-        class VKUploadServerAddress
-        {
-            public string upload_url { get; set; }
-        }
+    
 
         class VKUploadResponseData
         {
@@ -37,6 +49,7 @@ namespace VKCore.API.Core
             public long gid { get; set; }
             public string crop_data { get; set; }
             public string crop_hash { get; set; }
+            public string file { get; set; }
         }
 
      
@@ -46,6 +59,10 @@ namespace VKCore.API.Core
         private long _ownerId;
         private bool _is_main_photo;
         private long _groupId;
+        private string privacy_view;
+        private string privacy_comment;
+        private int is_private;
+        private int wallpost;
         protected VKUploadRequest()
         {
         }
@@ -60,8 +77,7 @@ namespace VKCore.API.Core
 
             return uploadRequest;   
         }
-
-        public static VKUploadRequest CreatePhotoWallUploadRequest(long ownerId=0)
+        public static VKUploadRequest CreatePhotoWallUploadRequest(long ownerId = 0)
         {
             var uploadRequest = new VKUploadRequest();
 
@@ -70,7 +86,6 @@ namespace VKCore.API.Core
 
             return uploadRequest;
         }
-
         public static VKUploadRequest CreatePhotoProfileUploadRequest(long ownerId)
         {
             var uploadRequest = new VKUploadRequest();
@@ -80,7 +95,6 @@ namespace VKCore.API.Core
 
             return uploadRequest;
         }
-
         public static VKUploadRequest CreatePhotoMessageUploadRequest()
         {
             var uploadRequest = new VKUploadRequest();
@@ -106,11 +120,53 @@ namespace VKCore.API.Core
             uploadRequest._is_main_photo = is_main;
             return uploadRequest;
         }
+        public static VKUploadRequest VideoProfileUploadRequest(long group_id, long album_id)
+        {
+            var uploadRequest = new VKUploadRequest();
+
+            uploadRequest._uploadType = UploadType.PhotoMarketProductUpload;
+            uploadRequest._ownerId = group_id;
+            return uploadRequest;
+        }
+        public static VKUploadRequest VideoMessageUploadRequest()
+        {
+            var uploadRequest = new VKUploadRequest();
+
+            uploadRequest._uploadType = UploadType.PhotoMarketProductUpload;
+            uploadRequest.is_private = 1;
+            return uploadRequest;
+        }
+        public static VKUploadRequest VideoWallUploadRequest(long group_id)
+        {
+            var uploadRequest = new VKUploadRequest();
+
+            uploadRequest._uploadType = UploadType.PhotoMarketProductUpload;
+            uploadRequest._ownerId = group_id;
+            uploadRequest.wallpost = 1;
+            return uploadRequest;
+        }
+        public static VKUploadRequest DocProfileUploadRequest(long group_id)
+        {
+            var uploadRequest = new VKUploadRequest();
+            uploadRequest._uploadType = UploadType.DocProfileUpload;
+            uploadRequest._ownerId = group_id;
+            return uploadRequest;
+        }
+        public static VKUploadRequest DocWallUploadRequest(long group_id, bool is_main)
+        {
+            var uploadRequest = new VKUploadRequest();
+
+            uploadRequest._uploadType = UploadType.DocWallUpload;
+            uploadRequest._ownerId = group_id;
+            uploadRequest._is_main_photo = is_main;
+            return uploadRequest;
+        }
+
 
         public void Dispatch(
             StorageFile photoStream,
             Action<bool> progressCallback,
-            Action<VKBackendResult<PhotoClass>> callback)
+            Action<VKBackendResult<PhotoClass>> callback, Action<VKBackendResult<DocClass>> doccallback=null)
         {
             switch (_uploadType)
             {
@@ -132,7 +188,29 @@ namespace VKCore.API.Core
                 case UploadType.PhotoMarketProductUpload:
                     DispatchPhotoMarketProductUpload(photoStream, progressCallback, callback);
                     break;
+                case UploadType.DocProfileUpload:
+                    DispatchDocProfileUpload(photoStream, progressCallback, doccallback);
+                    break;
+                case UploadType.DocMessageUpload: DispatchDocProfileUpload(photoStream, progressCallback, doccallback);
+                    break;
+                case UploadType.DocWallUpload:
+                    DispatchDocProfileUpload(photoStream, progressCallback, doccallback);
+                    break;
             }
+        }
+        private void DispatchDocProfileUpload(StorageFile photoStream, Action<bool> progressCallback, Action<VKBackendResult<DocClass>> callback)
+        {
+            var parameters = new Dictionary<string, string>();
+            if (_ownerId != 0)
+            {
+                parameters["group_id"] = _ownerId.ToString();
+            }
+            UploadDoc(photoStream,
+              "docs.getUploadServer",
+              parameters,
+              "docs.save",
+              callback,
+              progressCallback);
         }
 
         private void DispatchPhotoWallUpload(StorageFile photoStream, Action<bool> progressCallback, Action<VKBackendResult<PhotoClass>> callback)
@@ -279,6 +357,18 @@ namespace VKCore.API.Core
                                     {
                                         parameters["photo"] = uploadData.photo;
                                     }
+                                    if (!string.IsNullOrWhiteSpace(uploadData.file))
+                                    {
+                                        parameters["file"] = uploadData.file;
+                                    }
+                                    if (!string.IsNullOrWhiteSpace(uploadData.crop_data))
+                                    {
+                                        parameters["crop_data"] = uploadData.crop_data;
+                                    }
+                                    if (!string.IsNullOrWhiteSpace(uploadData.crop_hash))
+                                    {
+                                        parameters["crop_hash"] = uploadData.crop_hash;
+                                    }
 
                                     var saveWallPhotoVKParams = new VKRequestParameters(saveMethodName,
                                         parameters);
@@ -317,5 +407,135 @@ namespace VKCore.API.Core
                    }
                });
         }
+
+        private void UploadDoc(StorageFile photoStream,
+      string getServerMethodName,
+      Dictionary<string, string> parameters,
+      string saveMethodName,
+      Action<VKBackendResult<DocClass>> callback,
+      Action<bool> progressCallback)
+        {
+
+            var vkParams = new VKRequestParameters(getServerMethodName,
+               parameters);
+
+            var getServerRequest = new VKRequest(vkParams);
+
+            getServerRequest.Dispatch<VKUploadServerAddress>(
+               (res) =>
+               {
+                   if (res.ResultCode == VKResultCode.Succeeded)
+                   {
+                       var uploadUrl = res.Data.upload_url;
+                       VKHttpRequestHelper.Upload(
+                            uploadUrl,
+                            photoStream,
+                            (uploadRes) =>
+                            {
+                                if (uploadRes.IsSucceeded)
+                                {
+                                    var serverPhotoHashJson = uploadRes.Data;
+
+                                    var uploadData = JsonConvert.DeserializeObject<VKUploadResponseData>(serverPhotoHashJson);
+                                    if (!string.IsNullOrWhiteSpace(uploadData.file))
+                                    {
+                                        parameters["file"] = uploadData.file;
+                                    }
+                                   
+                                  
+
+                                    var saveWallPhotoVKParams = new VKRequestParameters(saveMethodName,
+                                        parameters);
+
+                                    var saveWallPhotoRequest = new VKRequest(saveWallPhotoVKParams);
+
+                                    saveWallPhotoRequest.Dispatch(
+                                        callback,
+                                        (jsonStr) =>
+                                        {
+                                                var resp = JsonConvert.DeserializeObject<GenericRoot<List<DocClass>>>(jsonStr);
+                                                return resp.response.First();
+                                           
+                                        });
+
+                                }
+                                else
+                                {
+                                    callback(new VKBackendResult<DocClass> { ResultCode = VKResultCode.UnknownError });
+                                }
+                            },
+                            progressCallback);
+                   }
+                   else
+                   {
+                       callback(new VKBackendResult<DocClass> { ResultCode = res.ResultCode, Error = res.Error });
+                   }
+               });
+        }
+        private void UploadVideo(StorageFile photoStream,
+     string getServerMethodName,
+     Dictionary<string, string> parameters,
+     string saveMethodName,
+     Action<VKBackendResult<DocClass>> callback,
+     Action<bool> progressCallback)
+        {
+
+            var vkParams = new VKRequestParameters(getServerMethodName,
+               parameters);
+
+            var getServerRequest = new VKRequest(vkParams);
+
+            getServerRequest.Dispatch<VKUploadServerAddress>(
+               (res) =>
+               {
+                   if (res.ResultCode == VKResultCode.Succeeded)
+                   {
+                       var uploadUrl = res.Data.upload_url;
+                       VKHttpRequestHelper.Upload(
+                            uploadUrl,
+                            photoStream,
+                            (uploadRes) =>
+                            {
+                                if (uploadRes.IsSucceeded)
+                                {
+                                    var serverPhotoHashJson = uploadRes.Data;
+
+                                    var uploadData = JsonConvert.DeserializeObject<VKUploadResponseData>(serverPhotoHashJson);
+                                    if (!string.IsNullOrWhiteSpace(uploadData.file))
+                                    {
+                                        parameters["file"] = uploadData.file;
+                                    }
+
+
+
+                                    var saveWallPhotoVKParams = new VKRequestParameters(saveMethodName,
+                                        parameters);
+
+                                    var saveWallPhotoRequest = new VKRequest(saveWallPhotoVKParams);
+
+                                    saveWallPhotoRequest.Dispatch(
+                                        callback,
+                                        (jsonStr) =>
+                                        {
+                                            var resp = JsonConvert.DeserializeObject<GenericRoot<List<DocClass>>>(jsonStr);
+                                            return resp.response.First();
+
+                                        });
+
+                                }
+                                else
+                                {
+                                    callback(new VKBackendResult<DocClass> { ResultCode = VKResultCode.UnknownError });
+                                }
+                            },
+                            progressCallback);
+                   }
+                   else
+                   {
+                       callback(new VKBackendResult<DocClass> { ResultCode = res.ResultCode, Error = res.Error });
+                   }
+               });
+        }
+
     }
 }

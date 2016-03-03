@@ -9,9 +9,9 @@
             <ResourceDictionary.MergedDictionaries>
 
             <ResourceDictionary Source="Styles/Group/GroupStyles.xaml"></ResourceDictionary>
-            <ResourceDictionary Source="Styles/Colors/ColorsStyles.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Styles/Colors/ColorsStyles.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
-            <Style x:Name="ContentDialogTemplate" TargetType="ContentDialog">
+            <Style x:Name="ContentStyle" TargetType="ContentDialog">
                 <Setter Property="Foreground" Value="{ThemeResource SystemControlPageTextBaseHighBrush}" />
                 <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
                 <Setter Property="HorizontalAlignment" Value="Center" />
@@ -29,12 +29,9 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
-
-                                    <!-- COMMENT OUT THESE FOLLOWING LINES -->
-
                                     <!--<Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>-->
+                                     <ColumnDefinition Width="Auto" />
+                                     </Grid.ColumnDefinitions>-->
                                     <Border x:Name="BackgroundElement" Background="{TemplateBinding Background}" FlowDirection="{TemplateBinding FlowDirection}" MaxWidth="{TemplateBinding MaxWidth}" MaxHeight="{TemplateBinding MaxHeight}" MinWidth="{TemplateBinding MinWidth}" MinHeight="{TemplateBinding MinHeight}">
                                         <Grid x:Name="DialogSpace" VerticalAlignment="Stretch">
                                             <Grid.RowDefinitions>
@@ -63,9 +60,7 @@
                                                     <ColumnDefinition />
                                                     <ColumnDefinition />
                                                 </Grid.ColumnDefinitions>
-                                                <Border x:Name="Button1Host" Margin="{ThemeResource ContentDialogButton1HostMargin}" MinWidth="{ThemeResource ContentDialogButtonMinWidth}" MaxWidth="{ThemeResource ContentDialogButtonMaxWidth}" Height="{ThemeResource ContentDialogButtonHeight}" HorizontalAlignment="Stretch" />
-                                                <Border x:Name="Button2Host" Margin="{ThemeResource ContentDialogButton2HostMargin}" MinWidth="{ThemeResource ContentDialogButtonMinWidth}" MaxWidth="{ThemeResource ContentDialogButtonMaxWidth}" Height="{ThemeResource ContentDialogButtonHeight}" Grid.Column="1" HorizontalAlignment="Stretch" />
-                                            </Grid>
+                                             </Grid>
                                         </Grid>
                                     </Border>
                                 </Grid>
@@ -73,6 +68,7 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
+
             </Style>
         </ResourceDictionary>
      

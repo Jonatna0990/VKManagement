@@ -1,0 +1,54 @@
+﻿<Page
+    x:Class="VKShop_Lite.Views.Groups.Market.SelectedProductPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VKShop_Lite.Views.Groups.Market"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:market="using:VKShop_Lite.ViewModels.Groups.Market"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:helpers="using:VKShop_Lite.Helpers"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer>
+            <StackPanel  Margin="5,0,0,0" VerticalAlignment="Top" >
+                <Image Source="{Binding  Product.thumb_photo}"></Image>
+             
+                <TextBlock Style="{StaticResource CaptionTextBlockStyle}"  TextWrapping="NoWrap">
+                             <Run Text="просмотров: "/>
+                         <Run Text="{Binding Product.views_count}"/>
+                </TextBlock>
+                <TextBlock Opacity="0.7" Style="{StaticResource SubtitleTextBlockStyle }"  Text="{Binding Product.title}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  Text="{Binding Product.description}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                <TextBlock  Style="{StaticResource SubtitleTextBlockStyle}"  VerticalAlignment="Top" TextWrapping="NoWrap">
+                <Run Text="цена: "></Run>    
+                     <Run Text="{Binding Product.price.text}"></Run>
+                </TextBlock>
+                <TextBlock  Style="{StaticResource CaptionTextBlockStyle}"  VerticalAlignment="Top" TextWrapping="NoWrap">
+                <Run Text="создан: "></Run>    
+                     <Run Text="{Binding Product.Date}"></Run>
+                </TextBlock>
+                <StackPanel Margin="5,0,5,0">
+                    <Grid>
+                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                            <Image Height="35" Width="35" Opacity="0.3" Source="ms-appx:///Icons/Dark/Counters/appbar_message.png" />
+                            <TextBlock Margin="0,3,0,0" Foreground="#FF727272" FontSize="18" Text="{Binding Path=CommentsCount, Mode=OneWay}"/>
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <Image Height="35" Width="35" Opacity="0.3" Source="ms-appx:///Icons/Dark/Counters/appbar.sound.0.png" />
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                            <Image Height="35" Width="35" Opacity="0.3" Source="ms-appx:///Icons/Dark/Counters/like.png" />
+                            <TextBlock Margin="0,3,0,0" TextAlignment="Center" Foreground="#FF727272" FontSize="18" Text="{Binding Path=Product.likes.count}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+                <Button Content="написать продавцу" HorizontalAlignment="Stretch" Margin="10,0,10,0"></Button>
+            </StackPanel>
+
+           
+        </ScrollViewer>
+    </Grid>
+</Page>

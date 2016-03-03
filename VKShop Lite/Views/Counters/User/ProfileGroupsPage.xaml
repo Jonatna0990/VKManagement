@@ -5,9 +5,50 @@
     xmlns:local="using:VKShop_Lite.Views.Counters.User"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:group="using:VKCore.API.VKModels.Group"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    mc:Ignorable="d" x:Name="Page">
+<Page.Resources>
+        <DataTemplate x:Key="GroupsFooterTemplate">
+            <TextBlock TextWrapping="Wrap"  FontSize="16"  HorizontalAlignment="Center" Foreground="#FF424242">
+            <Run Text="{Binding UsersCollection.Count}"></Run><Run Text=" сообществ"></Run>
+            </TextBlock>
+        </DataTemplate>
+        <DataTemplate x:Key="GroupTemplate" x:DataType="group:GroupsClass">
+            <StackPanel Orientation="Horizontal" Height="60">
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Tapped">
+                        <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.NavigateToGroupCommand}" CommandParameter="{Binding  }">
+                        </core:InvokeCommandAction>
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+                <Border Background="LightGray" CornerRadius="33" Height="50" Width="50">
+                    <Ellipse  Width="50" x:Phase="2" DataContext="{x:Bind }"  Height="50">
+                        <Ellipse.Fill>
 
+                            <ImageBrush>
+                                <ImageBrush.ImageSource>
+                                    <BitmapImage UriSource="{Binding photo_100}" />
+                                </ImageBrush.ImageSource>
+                            </ImageBrush>
+                        </Ellipse.Fill>
+                    </Ellipse >
+                </Border>
+
+                <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+                    <TextBlock x:Phase="0"  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{x:Bind name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                    <TextBlock x:Phase="0" Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  Text="{x:Bind type}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                    <TextBlock x:Phase="0" Text="{x:Bind members_count }"  Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  VerticalAlignment="Top" TextWrapping="NoWrap">
+
+
+                    </TextBlock>
+                </StackPanel>
+
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+        <ListView ItemsSource="{Binding UsersCollection}" ItemTemplate="{StaticResource GroupTemplate}" HeaderTemplate="{StaticResource GroupsFooterTemplate}"></ListView>
     </Grid>
 </Page>

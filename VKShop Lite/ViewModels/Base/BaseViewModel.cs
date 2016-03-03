@@ -21,20 +21,29 @@ namespace VKShop_Lite.ViewModels.Base
 {
     public class BaseViewModel : ViewModelBase
     {
+        private bool _isOpenAppBar;
         public ICommand AudioOpenCommand { get; set; }
         public ICommand VideoOpenCommand { get; set; }
         public ICommand PhotoOpenCommand { get; set; }
         public ICommand UserPageOpenCommand { get; set; }
+        public ICommand DocsOpenCommand { get; set; }
         public ICommand NavigateToGroupCommand { get; set; }
+         
+        public bool IsOpenAppBar
+        {
+            get { return _isOpenAppBar; }
+            set { _isOpenAppBar = value; RaisePropertyChanged("IsOpenAppBar"); }
+        }
         public BaseViewModel()
         {
+            
             UserPageOpenCommand = new DelegateCommand(t =>
             {
                 NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(ProfileMainPage) });
             });
             AudioOpenCommand = new DelegateCommand(t =>
             {
-                NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(AudioPage) });
+                NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(AudiosPage) });
             });
             VideoOpenCommand = new DelegateCommand(t =>
             {
@@ -48,16 +57,15 @@ namespace VKShop_Lite.ViewModels.Base
             {
                 this.NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(GroupMainPage) });
             });
-        }
-        public virtual void NavigateToCurrentPage(object param, Scenario page) 
-        {
-            Frame scenarioFrame = UserMainPage.Current.FindName("RootFrame") as Frame;
-            SplitView toggle = UserMainPage.Current.FindName("SplitView") as SplitView;
-            if (toggle != null) toggle.IsPaneOpen = false;
-            if (scenarioFrame != null)
+            DocsOpenCommand = new DelegateCommand(t =>
             {
-                scenarioFrame.Navigate(page.ClassType,param);
-            }
+                NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(DocsPage) });
+            });
+        }
+        public virtual void NavigateToCurrentPage(object param, Scenario page)
+        {
+            UserMainPage.CurrentFrame.Navigate(page.ClassType, param);
+            
         }
 
         protected void ClearBackStack(bool is_secondpage = false)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Windows.UI.Xaml;
@@ -8,15 +9,18 @@ using VKCore.API.VKModels.VKList;
 using VKCore.Helpers;
 using VKShop_Lite.Common;
 using VKShop_Lite.UserControls.PopupControl;
+using VKShop_Lite.UserControls.PopupControl.Group;
 using VKShop_Lite.ViewModels.Base;
 using VKShop_Lite.Views.Groups;
 using ВКонтакте.Models.List;
+using CreateGroupPopup = VKShop_Lite.UserControls.PopupControl.Group.CreateGroupPopup;
 using GroupMainPage = VKShop_Lite.Views.Groups.Main.GroupMainPage;
 
 namespace VKShop_Lite.ViewModels.Groups.Main
 {
     public class UserGroupsViewModel : BaseViewModel
     {
+        private Dictionary<string, string> paramsDictionary = null; 
         public GroupsClass SelectedGroup
         {
             get { return _selectedGroup; }
@@ -29,8 +33,29 @@ namespace VKShop_Lite.ViewModels.Groups.Main
             }
         }
 
+        private bool is_filter_open = false;
         public UserGroupsViewModel()
         {
+            paramsDictionary = new Dictionary<string, string>();
+            OpenFilterCommand = new DelegateCommand(t =>
+            {
+                if (filterControl != null)
+                {
+                    filterControl.ShowAsync();
+                }
+                else
+                {
+                    var p = new SearchGroupFilterControl(a =>
+                    {
+                        paramsDictionary = a;
+
+                    });
+                    filterControl = p;
+                    filterControl.ShowAsync();
+                }
+               
+               
+            });
             LoadGroups();
           
             OpenCreatePopupCommand = new DelegateCommand(async t =>
@@ -59,9 +84,11 @@ namespace VKShop_Lite.ViewModels.Groups.Main
         private ObservableCollection<GroupsClass> _eventList;
         private ObservableCollection<GroupsClass> _localsearchList;
         private VKCollection<GroupsClass> _globalseacrhList;
+        private SearchGroupFilterControl filterControl;
         private string _searchQuery;
         private PageMode _mode = PageMode.Normal;
         private GroupsClass _selectedGroup;
+        public ICommand OpenFilterCommand { get; set; }
 
         public PageMode Mode
         {
@@ -138,9 +165,11 @@ namespace VKShop_Lite.ViewModels.Groups.Main
 
         private void Search(string param)
         {
+            if (!paramsDictionary.ContainsKey("q")) paramsDictionary.Add("q", param);
+            else paramsDictionary["q"] = param;
             VKRequest.Dispatch<VKList<GroupsClass>>(
              new VKRequestParameters(
-               SGroups.groups_search, "q", param),
+               SGroups.groups_search, paramsDictionary),
              (res) =>
              {
                  var q = res.ResultCode;
@@ -153,7 +182,7 @@ namespace VKShop_Lite.ViewModels.Groups.Main
                      LocalSearchList = new ObservableCollection<GroupsClass>();
                      foreach (var t in MainList)
                      {
-                         if (t.name.Contains(param.ToLower()))
+                         if (t.name.ToLower().StartsWith(param.ToLower()))
                          {
                              LocalSearchList.Add(t);
                          }

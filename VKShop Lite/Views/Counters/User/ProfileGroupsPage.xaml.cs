@@ -12,6 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using VKCore.API.VKModels.User;
+using VKShop_Lite.ViewModels.Counters.User;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -25,6 +27,11 @@ namespace VKShop_Lite.Views.Counters.User
         public ProfileGroupsPage()
         {
             this.InitializeComponent();
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            this.DataContext = new ProfileGroupsViewModel(e.Parameter as UserClass);
         }
     }
 }

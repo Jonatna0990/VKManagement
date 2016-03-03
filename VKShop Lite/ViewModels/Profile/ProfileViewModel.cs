@@ -29,19 +29,28 @@ namespace VKShop_Lite.ViewModels.Profile
         public ICommand FollowersOpenCommand { get; set; }
         private void Load(UserClass user)
         {
-            VKRequest.Dispatch<List<UserClass>>(
-                  new VKRequestParameters(
-                              SUsers.user_get, "user_ids", string.Format("{0}", user.id), "fields", "photo_100,counters"),
-                  (res) =>
-                  {
-                      var q = res.ResultCode;
-                      if (res.ResultCode == VKResultCode.Succeeded)
-                      {
-                          User = res.Data.FirstOrDefault();
+            if (user != null)
+            {
+                VKRequest.Dispatch<List<UserClass>>(
+                 new VKRequestParameters(
+                             SUsers.user_get, "user_ids", string.Format("{0}", user.id), "fields", "photo_100,counters"),
+                 (res) =>
+                 {
+                     var q = res.ResultCode;
+                     if (res.ResultCode == VKResultCode.Succeeded)
+                     {
+                         User = res.Data.FirstOrDefault();
 
-                      }
-                  });
-            FollowersOpenCommand =  new DelegateCommand(t =>
+                     }
+                 });
+            }
+  
+           
+        }
+
+        public ProfileViewModel(UserClass user)
+        {
+            FollowersOpenCommand = new DelegateCommand(t =>
             {
                 NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(ProfileFollowersPage) });
             });
@@ -49,10 +58,10 @@ namespace VKShop_Lite.ViewModels.Profile
             {
                 NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(ProfileFriendsPage) });
             });
-        }
-
-        public ProfileViewModel(UserClass user)
-        {
+            GroupsOpenCommand = new DelegateCommand(t =>
+            {
+                NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(ProfileGroupsPage) });
+            });
             Load(user);
         }
     }

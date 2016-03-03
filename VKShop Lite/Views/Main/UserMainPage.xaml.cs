@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -28,14 +29,20 @@ namespace VKShop_Lite.Views.Main
     public sealed partial class UserMainPage : Page
     {
         public static UserMainPage Current;
+        public static Frame CurrentFrame;
         public UserMainPage()
         {
             this.InitializeComponent();
             NavigationCacheMode = NavigationCacheMode.Required;
             Current = this;
+            CurrentFrame = RootFrame;
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
         }
+
+    
+      
+
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
         {
             if (RootFrame.CanGoBack)
@@ -48,19 +55,8 @@ namespace VKShop_Lite.Views.Main
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this.DataContext = new UserMainViewModel();
-            if (RootFrame.Content == null)
-            {
-                // When the navigation stack isn't restored navigate to the ScenarioList
-                if (!RootFrame.Navigate(typeof(UserGroupsPage)))
-                {
-                    throw new Exception("Ошибка");
-                }
-            }
+            RootFrame.Navigate(typeof (UserGroupsPage));
         }
-        private void HamburgerButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (SplitView.IsPaneOpen) SplitView.IsPaneOpen = false;
-            else SplitView.IsPaneOpen = true;
-        }
+   
     }
 }

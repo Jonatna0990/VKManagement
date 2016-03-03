@@ -7,7 +7,7 @@ namespace VKShop_Lite.Views.Groups.Main
     public class AdminTemplateSelector : DataTemplateSelector
     {
         public DataTemplate AdminTemplate { get; set; }
-        public DataTemplate NotAdminemplate { get; set; }
+        public DataTemplate NotAdminTemplate { get; set; }
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
             if (item != null)
@@ -16,7 +16,7 @@ namespace VKShop_Lite.Views.Groups.Main
                 if (t != null)
                 {
                     if (t.is_admin == 0)
-                        return NotAdminemplate;
+                        return NotAdminTemplate;
                     else
 
                         return AdminTemplate;

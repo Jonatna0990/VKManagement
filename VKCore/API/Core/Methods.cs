@@ -328,7 +328,7 @@
             public const string docs_save = "docs.save";
             public const string docs_delete = "docs.delete";
             public const string docs_add = "docs.add";
-
+            public const string docs_edit = "docs.edit";
         }
         public struct SFaves
         {
@@ -398,7 +398,16 @@
             public const string get_group_members = "execute.GetGroupMembers";
             public const string get_albums = "execute.GetPhoto";
 
-    }
+        }
+
+        public struct SDatabase
+        {
+            public const string database_get_countries = "database.getCountries";
+            public const string database_get_regions = "database.getRegions";
+            public const string database_get_countries_by_id = "database.getCountriesById";
+            public const string database_get_cities_by_id = "database.getCitiesById";
+            public const string database_get_cities = "database.getCities";
+        }
         public enum FriendsOrder
         { 
             Name, Hints, Random, Mobile

@@ -142,6 +142,7 @@
     <Compile Include="API\VKModels\Audio\AudioAlbumClass.cs" />
     <Compile Include="API\VKModels\Audio\AudioClass.cs" />
     <Compile Include="API\VKModels\Audio\LyricsClass.cs" />
+    <Compile Include="API\VKModels\Audio\PlayerBase.cs" />
     <Compile Include="API\VKModels\Board\BoarsClass.cs" />
     <Compile Include="API\VKModels\Doc\DocClass.cs" />
     <Compile Include="API\VKModels\Geo\GeoClass.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="API\VKModels\Note\NoteClass.cs" />
     <Compile Include="API\VKModels\Photo\PhotoAlbumsClass.cs" />
     <Compile Include="API\VKModels\Photo\PhotoClass.cs" />
+    <Compile Include="API\VKModels\Photo\PhotoSendParamClass.cs" />
     <Compile Include="API\VKModels\Poll\PollClass.cs" />
     <Compile Include="API\VKModels\Sticker\StickerClass.cs" />
     <Compile Include="API\VKModels\Topics\TopicsClass.cs" />
@@ -179,7 +181,8 @@
     <Compile Include="Converters\UserOnlineDataTimeConvert.cs" />
     <Compile Include="Helpers\DataExHelper.cs" />
     <Compile Include="Helpers\DateTimeHelper.cs" />
-    <Compile Include="Helpers\DelegateCommand.cs" />
+    <Compile Include="Helpers\PlayCommand.cs" />
+    <Compile Include="Helpers\Files\FilesHelper.cs" />
     <Compile Include="Helpers\ListExtensions.cs" />
     <Compile Include="Helpers\ScrollerEx.cs" />
     <Compile Include="Localization\Resources.cs" />
@@ -214,7 +217,12 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Localization\en\counters\" />
+    <Folder Include="Localization\en\group\" />
+    <Folder Include="Localization\en\usercontrols\" />
+    <Folder Include="Localization\en\user\" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="UserControls\CaptchaControl\VKCaptchaRequestUserControl.xaml">
       <SubType>Designer</SubType>
@@ -228,6 +236,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LastFmLib\LastFmLib.csproj">
+      <Project>{d9305d05-1112-4806-bfeb-390794464626}</Project>
+      <Name>LastFmLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

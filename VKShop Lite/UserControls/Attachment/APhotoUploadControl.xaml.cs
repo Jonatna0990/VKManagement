@@ -24,8 +24,8 @@ using Windows.UI.Xaml.Navigation;
 using VKCore.API.Core;
 using VKCore.API.VKModels.Attachment;
 using VKCore.API.VKModels.Photo;
+using VKCore.Helpers.Files;
 using VKCore.Util;
-using VKShop_Lite.Helpers.Files;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 

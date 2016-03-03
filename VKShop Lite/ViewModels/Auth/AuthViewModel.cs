@@ -41,7 +41,8 @@ namespace VKShop_Lite.ViewModels.Auth
             UpdateUIState();
             ButtonClickCommand = new DelegateCommand(s =>
             {
-                List<String> _scope = VKScope.ParseVKPermissionsFromInteger(143572991);
+                //143572991 
+                List<String> _scope = VKScope.ParseVKPermissionsFromInteger(135204894);
                 ContentVisibility = Visibility.Collapsed;
                 VKSDK.Authorize(_scope, false, false);
             });

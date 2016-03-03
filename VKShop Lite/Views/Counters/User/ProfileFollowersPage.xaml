@@ -10,33 +10,37 @@
     mc:Ignorable="d" x:Name="Page">
 <Page.Resources>
         <DataTemplate x:Key="UserTemplate">
-            <StackPanel Orientation="Horizontal" Height="60">
+            <Grid Height="60" HorizontalAlignment="Stretch">
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Tapped">
                         <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.UserPageOpenCommand}" CommandParameter="{Binding }">
                         </core:InvokeCommandAction>
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
-                <Ellipse  Width="50"  Height="50">
-                    <Ellipse.Fill>
-                        <ImageBrush>
-                            <ImageBrush.ImageSource>
-                                <BitmapImage UriSource="{Binding Path=photo_100}" />
-                            </ImageBrush.ImageSource>
-                        </ImageBrush>
-                    </Ellipse.Fill>
-                </Ellipse>
-                <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
-                    <TextBlock  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                <StackPanel Orientation="Horizontal">
+                  
+                    <Ellipse  Width="50"  Height="50">
+                        <Ellipse.Fill>
+                            <ImageBrush>
+                                <ImageBrush.ImageSource>
+                                    <BitmapImage UriSource="{Binding Path=photo_100}" />
+                                </ImageBrush.ImageSource>
+                            </ImageBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+                        <TextBlock  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+
+                    </StackPanel>
 
                 </StackPanel>
 
-            </StackPanel>
+            </Grid>
         </DataTemplate>
 
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView ItemTemplate="{StaticResource UserTemplate}" ItemsSource="{Binding UsersCollection.items}">
+        <ListView  ItemTemplate="{StaticResource UserTemplate}" ItemsSource="{Binding UsersCollection.items}">
 
         </ListView>
     </Grid>

@@ -445,6 +445,8 @@ namespace VKCore.API.VKModels.User
         public long id { get; set; }
         [JsonProperty("title")]
         public string title { get; set; }
+        [JsonProperty("important")]
+        public int important { get; set; }
     }
 
     public class UserExports

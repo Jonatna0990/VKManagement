@@ -9,9 +9,10 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView x:Name="View">
-         
-        </ListView>
-        <Button x:Name="Upload" Content="Upload" Click="Upload_OnClick"></Button>
+       <StackPanel>
+
+            <Button Content="Выйти" HorizontalAlignment="Stretch" Margin="10,10,10,0" Command="{Binding ExitCommand}"></Button>
+           <Button Content="toast" Click="ButtonBase_OnClick"></Button>
+       </StackPanel>
     </Grid>
 </Page>

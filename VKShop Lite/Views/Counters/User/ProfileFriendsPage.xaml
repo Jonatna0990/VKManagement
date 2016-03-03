@@ -47,11 +47,8 @@
         <Pivot>
             <PivotItem Header="друзья">
                 <ListView ItemTemplate="{StaticResource UserTemplate}" ItemsSource="{Binding FriendsCollection.items}">
-                    
-                </ListView>
-            </PivotItem>
-            <PivotItem Header="общие">
 
+                </ListView>
             </PivotItem>
         </Pivot>
     </Grid>

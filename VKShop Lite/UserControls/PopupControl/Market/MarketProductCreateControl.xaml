@@ -6,9 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:imageCrop="using:VKShop_Lite.UserControls.ImageCrop"
-    mc:Ignorable="d" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-    Title="Добавление нового товара" Height="600">
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    mc:Ignorable="d"  Style="{StaticResource ContentStyle}" 
+    Title="Добавление нового товара">
+    <Grid x:Name="RootGrid" >
         <StackPanel>
             <TextBox x:Name="Name" Header="название товара"></TextBox>
             <TextBox x:Name="Description" Header="описание товара"></TextBox>
@@ -26,15 +26,15 @@
                 </ComboBox.ItemsPanel>
             </ComboBox>
             <TextBlock Text="фотография товара"></TextBlock>
-            <Border Background="LightGray" Height="100">
+            <Border Background="LightGray"  Height="100">
                 <Grid >
-                 
+                 <ProgressRing Canvas.ZIndex="2" Height="50" Width="50" x:Name="UploadProgressRing" IsActive="False"></ProgressRing>
                     <Button x:Name="AddButton" Click="AddButton_OnClick" Content="&#xE710;" Style="{StaticResource RoundedButton}" FontSize="19" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" HorizontalAlignment="Center"  Tag="выбрать" Background="{x:Null}" BorderBrush="#FF444444" >
                         <Button.Foreground>
                             <SolidColorBrush Color="{StaticResource Brush4}"/>
                         </Button.Foreground>
                     </Button>
-                    <Image Stretch="UniformToFill" x:Name="AlbumImage"/>
+                    <Image Width="200" Height="100" Stretch="Fill" x:Name="AlbumImage"/>
 
                 </Grid>
 

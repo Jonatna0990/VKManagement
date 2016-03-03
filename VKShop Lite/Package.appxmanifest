@@ -4,7 +4,7 @@
   <mp:PhoneIdentity PhoneProductId="8cb530d7-01d1-41a6-8f89-e430cb713a2c" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>VKShop Lite</DisplayName>
-    <PublisherDisplayName>HEXAGRAM</PublisherDisplayName>
+    <PublisherDisplayName>Gazaryan Georgie</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
@@ -21,15 +21,11 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-        <uap:Extension Category="windows.fileOpenPicker">
-          <uap:FileOpenPicker>
-            <uap:SupportedFileTypes>
-              <uap:FileType>.jpg</uap:FileType>
-              <uap:FileType>.png</uap:FileType>
-              <uap:FileType>.jpeg</uap:FileType>
-            </uap:SupportedFileTypes>
-          </uap:FileOpenPicker>
-        </uap:Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="BackgroundAudio.BackgroundAudioTask">
+          <BackgroundTasks>
+            <Task Type="audio" />
+          </BackgroundTasks>
+        </Extension>
       </Extensions>
     </Application>
   </Applications>

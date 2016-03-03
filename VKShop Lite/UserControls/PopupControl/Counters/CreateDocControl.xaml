@@ -1,0 +1,28 @@
+﻿<ContentDialog
+    x:Class="VKShop_Lite.UserControls.PopupControl.Counters.CreateDocControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VKShop_Lite.UserControls.PopupControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+   Title="Загрузка документа"
+  Background="White">
+    <ContentControl.Resources>
+        <local:BoolToVisibillityConverter x:Key="BoolToVisibillityConverter"/>
+    </ContentControl.Resources>
+    <Grid>
+        <Grid x:Name="ProgressGrid" Visibility="Collapsed" Background="Black" Opacity="0.7">
+            <ProgressRing Height="100" Width="100" IsActive="True"></ProgressRing>
+        </Grid>
+        <StackPanel>
+            <TextBlock Margin="0,5,0,5" Style="{StaticResource TitleTextBlockStyle}" Text="Ограничения"></TextBlock>
+            <TextBlock Margin="0,5,10,5" Text="- Файл не должен превышать 200 МБ."></TextBlock>
+            <TextBlock TextWrapping="Wrap" Margin="0,5,10,5" Text="- Поддерживаемые типы файлов: doc, docx, xls, xlsx, ppt, pptx, rtf, pdf, gif, psd, djvu, fb2, ps и другие."></TextBlock>
+            <Button Click="ButtonBase_OnClick" HorizontalAlignment="Stretch" Content="выбрать файл"></Button>
+            <StackPanel >
+                
+            </StackPanel>
+          </StackPanel>
+    </Grid>
+</ContentDialog>

@@ -31,7 +31,7 @@ namespace VKShop_Lite.Views.Counters.User
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            this.DataContext = new UserFollowersViewModel(e.Parameter as UserClass);
+            this.DataContext = new ProfileFollowersViewModel(e.Parameter as UserClass);
         }
     }
 }

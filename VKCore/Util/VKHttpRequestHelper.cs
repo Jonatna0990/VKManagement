@@ -14,6 +14,8 @@ using Windows.Web.Http;
 using Windows.Web.Http.Filters;
 using VKCore.API.Core;
 using VKCore.API.SDK;
+using VKCore.API.VKModels.Attachment;
+using VKCore.Helpers.Files;
 using HttpClient = Windows.Web.Http.HttpClient;
 
 namespace VKCore.Util
@@ -122,11 +124,35 @@ namespace VKCore.Util
                     System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
                     MultipartContent content = new System.Net.Http.MultipartFormDataContent();
                     var file1 = new ByteArrayContent(fileBytes);
-                    file1.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                    var type = FilesHelper.GetAttachType(data);
+                    switch (type)
                     {
-                        Name = "file1",
-                        FileName = data.Name,
-                    };
+                        case AttachType.Photo:
+                            file1.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                            {
+                                Name = "file1",
+                                FileName = data.Name,
+                            };
+                            break;
+                        case AttachType.Video:
+                        file1.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                        {
+                            Name = "video_file",
+                            FileName = data.Name,
+                        };
+                        break;
+                        case AttachType.Doc:
+                        case AttachType.Audio:
+                        file1.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                        {
+                            Name = "file",
+                            FileName = data.Name,
+                        };
+                        break;
+                      
+                    }
+                    
+                   
                     content.Add(file1);
                     System.Net.Http.HttpResponseMessage response = await client.PostAsync(uri, content);
 

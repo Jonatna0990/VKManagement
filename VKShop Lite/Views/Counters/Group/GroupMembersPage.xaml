@@ -6,11 +6,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:core="using:Microsoft.Xaml.Interactions.Core" x:Name="Page"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:user="using:VKCore.API.VKModels.User"
+    x:Name="Page"
     mc:Ignorable="d">
 
     <Page.Resources>
-        <DataTemplate x:Key="UserTemplate">
+        <DataTemplate x:Key="UserTemplate" x:DataType="user:UserClass">
             <StackPanel Orientation="Horizontal" Height="60">
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Tapped">
@@ -18,17 +20,21 @@
                         </core:InvokeCommandAction>
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
-                <Ellipse  Width="50"  Height="50">
-                    <Ellipse.Fill>
-                        <ImageBrush>
-                            <ImageBrush.ImageSource>
-                                <BitmapImage UriSource="{Binding Path=photo_100}" />
-                            </ImageBrush.ImageSource>
-                        </ImageBrush>
-                    </Ellipse.Fill>
-                </Ellipse>
+                <Border Background="LightGray" CornerRadius="33" Height="50" Width="50">
+                    <Ellipse  Width="50" x:Phase="2" DataContext="{x:Bind }"  Height="50">
+                        <Ellipse.Fill>
+
+                            <ImageBrush>
+                                <ImageBrush.ImageSource>
+                                    <BitmapImage UriSource="{Binding photo_100}" />
+                                </ImageBrush.ImageSource>
+                            </ImageBrush>
+                        </Ellipse.Fill>
+                    </Ellipse >
+                </Border>
+               
                 <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
-                    <TextBlock  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                    <TextBlock x:Phase="0"  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{x:Bind full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
                    
                 </StackPanel>
 
@@ -64,9 +70,19 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Pivot >
             <PivotItem Header="участники">
-                
-                <ListView ItemTemplate="{StaticResource UserTemplate}" ItemsSource="{Binding MembersRoot.members.items}">
-                    
+
+                <ListView ShowsScrollingPlaceholders="True" ItemTemplate="{StaticResource UserTemplate}" ItemsSource="{Binding MembersRoot.members.items}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListViewItem">
+                                        <ListViewItemPresenter SelectionCheckMarkVisualEnabled="False" SelectedBackground="Orange"/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
                 </ListView>
             </PivotItem>
             <PivotItem Header="друзья">

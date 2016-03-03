@@ -19,7 +19,8 @@ using VKCore.API.VKModels.Group;
 using VKCore.API.VKModels.Market;
 using VKCore.API.VKModels.Photo;
 using VKCore.API.VKModels.Wall;
-using VKShop_Lite.Helpers.Files;
+using VKCore.Helpers.Files;
+using VKShop_Lite.Helpers;
 using VKShop_Lite.UserControls.Attachment;
 using ВКонтакте.Models.List;
 
@@ -35,6 +36,8 @@ namespace VKShop_Lite.UserControls.PopupControl.Market
         public MarketAlbumCreateControl(string gr,Action<MarketAlbumId> callbackAction)
         {
             this.InitializeComponent();
+            RootGrid.Height = Window.Current.Bounds.Height;
+            RootGrid.MaxWidth = Window.Current.Bounds.Width;
             callback = callbackAction;
             group_id = gr;
         }
@@ -42,7 +45,7 @@ namespace VKShop_Lite.UserControls.PopupControl.Market
        
         private void Create()
         {
-            if (string.IsNullOrEmpty(group_id) == null || string.IsNullOrEmpty(Name.Text)) return;
+            if (string.IsNullOrEmpty(group_id) || string.IsNullOrEmpty(Name.Text)) return;
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("owner_id", String.Format("-{0}", group_id));
             param.Add("title", Name.Text);
@@ -60,15 +63,12 @@ namespace VKShop_Lite.UserControls.PopupControl.Market
 
                    this.Hide();
                    if (callback != null) callback.Invoke(res.Data);
-                   PopupEx popup = new PopupEx("Дообавление побдорки", "Побдорка успешно добавлена");
-                   popup.ShowAsync();
+                   MessagesHelper.ShowMessage("Дообавление побдорки", "Побдорка успешно добавлена");
+                 
                }
 
-               else
-               {
-                   PopupEx popup = new PopupEx("Ошибка", res.Error.error_msg);
-                   popup.ShowAsync();
-               }
+               else { this.Hide(); MessagesHelper.ShowMessage("Ошибка", res.Error.error_msg); }
+
 
 
            });

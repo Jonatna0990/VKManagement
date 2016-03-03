@@ -7,6 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:counters="using:VKShop_Lite.ViewModels.Counters"
     mc:Ignorable="d">
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="Add" Content="добавить" Command="{Binding AddDocCommand}"></AppBarButton>
+        </CommandBar>
+    </Page.BottomAppBar>
     <Page.Resources>
         <DataTemplate x:Key="VideoTemplate">
             
@@ -21,10 +26,9 @@
                         </TextBlock>
                     </Border>
                 </Grid>
-            
-                <TextBlock  Style="{StaticResource SubtitleTextBlockStyle}" Height="25" Text="{Binding description}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
-                <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}" Height="17" Text="{Binding title}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
-             
+                <TextBlock Opacity="0.7" Style="{StaticResource SubtitleTextBlockStyle}" Height="25" Text="{Binding title}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                <TextBlock  Style="{StaticResource CaptionTextBlockStyle}" Height="17"  Text="{Binding description}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+               
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="GroupsFooterTemplate">

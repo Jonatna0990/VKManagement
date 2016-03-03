@@ -11,7 +11,7 @@ using VKShop_Lite.Views.Counters;
 using VKShop_Lite.Views.Groups.Admin;
 using VKShop_Lite.Views.Groups.Main;
 using VKShop_Lite.Views.Groups.Market;
-using AudioPage = VKShop_Lite.Views.Counters.GroupAndUser.AudioPage;
+using AudioPage = VKShop_Lite.Views.Counters.GroupAndUser.AudiosPage;
 using GroupMembersPage = VKShop_Lite.Views.Counters.Group.GroupMembersPage;
 using GroupTopicsPage = VKShop_Lite.Views.Counters.Group.GroupTopicsPage;
 
@@ -28,7 +28,6 @@ namespace VKShop_Lite.ViewModels.Groups.Main
         }
         public ICommand MembersOpenCommand { get; set; }
         public ICommand TopicOpenCommand { get; set; }
-      
         public ICommand GroupInfoEditOpenCommand { get; set; }
         public ICommand MarketOpenCommand { get; set; }
         public ICommand CreatePostCommand { get; set; }

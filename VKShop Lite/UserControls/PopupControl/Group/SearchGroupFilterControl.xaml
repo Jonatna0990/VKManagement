@@ -1,0 +1,52 @@
+﻿<ContentDialog
+    x:Class="VKShop_Lite.UserControls.PopupControl.Group.SearchGroupFilterControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VKShop_Lite.UserControls.PopupControl.Group"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:popupControl="using:VKShop_Lite.UserControls.PopupControl"
+    mc:Ignorable="d"  
+    Title="параметры поиска">
+<ContentControl.Resources>
+        <popupControl:BoolToVisibillityConverter x:Key="BoolToVisibillityConverter"/>
+</ContentControl.Resources>
+    <Grid>
+        <ScrollViewer x:Name="Viewer">
+            <StackPanel>
+                <TextBlock Text="тип сообщества"></TextBlock>
+                <RadioButton Content="группа" Tag="group"  x:Name="GroupRadio" />
+                <RadioButton  Content="событие" Tag="event"  x:Name="EventRadio"/>
+                <ToggleSwitch Visibility="{Binding ElementName=EventRadio,Path=IsChecked, Converter={StaticResource BoolToVisibillityConverter}}" x:Name="FutureEventSwitch" Header="предстоящие события"></ToggleSwitch>
+                <RadioButton  Content="страница" Tag="page" x:Name="PageRadio"/>
+
+                <AutoSuggestBox x:Name="CountrySuggestBox" TextChanged="CountrySuggestBox_OnTextChanged"  UpdateTextOnSelect="False"  SuggestionChosen="CountrySuggestBox_OnSuggestionChosen" Header="страна">
+                    <AutoSuggestBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding title}"></TextBlock>
+                        </DataTemplate>
+                    </AutoSuggestBox.ItemTemplate>
+                </AutoSuggestBox>
+                <AutoSuggestBox UpdateTextOnSelect="False" IsSuggestionListOpen="True"  SuggestionChosen="CitySuggestBox_OnSuggestionChosen" TextChanged="CitySuggestBox_OnTextChanged"   IsEnabled="False"  x:Name="CitySuggestBox" Header="город">
+                    <AutoSuggestBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding title}"></TextBlock>
+                        </DataTemplate>
+                    </AutoSuggestBox.ItemTemplate>
+                </AutoSuggestBox>
+                <ToggleSwitch x:Name="GroupsWithMarketSwitch" Header="сообщества с товарами"></ToggleSwitch>
+
+                <Grid Margin="0,10,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button  x:Name="CreateButton" Margin="1" Click="CreateButton_OnClick"  HorizontalAlignment="Stretch"  Content="применить" ></Button>
+                    <Button Grid.Column="1" Margin="1" x:Name="CancelButton" Click="CancelButton_OnClick"  Content="отмена" HorizontalAlignment="Stretch" ></Button>
+                </Grid>
+
+            </StackPanel>
+
+        </ScrollViewer>
+     </Grid>
+</ContentDialog>

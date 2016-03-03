@@ -9,6 +9,6 @@
     Title="TITLE">
 
     <Grid>
-        <TextBlock x:Name="Message" Text="dfasdfas"></TextBlock>
+        <TextBlock x:Name="Message" Text="dfasdfas" TextWrapping="Wrap"></TextBlock>
     </Grid>
 </ContentDialog>

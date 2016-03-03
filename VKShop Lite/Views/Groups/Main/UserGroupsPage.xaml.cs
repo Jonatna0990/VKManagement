@@ -1,5 +1,9 @@
-﻿using Windows.UI.Xaml;
+﻿using System;
+using System.Collections.Generic;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Messaging;
 using VKCore.API.VKModels.Group;
@@ -41,5 +45,7 @@ namespace VKShop_Lite.Views.Groups.Main
             }
            
         }
+        
     }
+
 }

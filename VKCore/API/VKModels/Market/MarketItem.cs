@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GalaSoft.MvvmLight;
 using VKCore.API.VKModels.Photo;
 using VKCore.API.VKModels.Wall;
 using VKCore.Converters.DateTimeConverter;
 
 namespace VKCore.API.VKModels.Market
 {
-    public class MarketItem
+    public class MarketProductId
+    {
+        public long market_item_id { get; set; }
+    }
+    public class MarketItem : ViewModelBase
     {
         private int _date;
         public int id { get; set; }

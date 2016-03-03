@@ -10,6 +10,7 @@
     xmlns:main="using:VKShop_Lite.ViewModels.Groups.Main"
     xmlns:converters="using:VKShop_Lite.Helpers.Converters"
     xmlns:converters1="using:VKShop_Lite.Views.Groups.Market.Converters"
+    xmlns:main1="using:VKShop_Lite.Views.Groups.Main"
     mc:Ignorable="d"
     x:Name="GroupMain">
 
@@ -90,6 +91,21 @@
                     <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.Counters.photos}"/><LineBreak/>
                         <Run FontSize="12" Text=" фото"> </Run>
+                    </TextBlock>
+                </Border>
+                <Border Width="80" Height="50" Margin="1">
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.DocsOpenCommand}" CommandParameter="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup }">
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                    <Border.Background>
+                        <SolidColorBrush Color="{StaticResource VkAccentBrush}"/>
+                    </Border.Background>
+                    <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Run FontSize="18" Text="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.Counters.docs}"/><LineBreak/>
+                        <Run FontSize="12" Text=" документов"> </Run>
                     </TextBlock>
                 </Border>
                 <Border Width="80" Height="50" Margin="1" Visibility="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup.market.enabled,Converter={StaticResource IntToVisibillityConverter}}">
@@ -202,15 +218,37 @@
                     </StackPanel>
                 </ListViewItem>
             </ListView>
+        </DataTemplate>
+        <DataTemplate x:Key="ModeratorDataTemplate">
+            <ListView>
+                <ListViewItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE8F8;" FontSize="22" VerticalAlignment="Center" />
+                        <TextBlock  Margin="5,0,0,0" Text="чёрный список" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListViewItem>
+
+            </ListView>
 
         </DataTemplate>
+        <DataTemplate x:Key="AdminTemplate">
+            <Pivot>
+                <PivotItem Margin="0" Header="информация"  DataContext="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup}"  ContentTemplate="{StaticResource GroupInfoTemplate}"/>
+                <PivotItem Margin="0" Header="стена"  ContentTemplate="{StaticResource GroupWallTemplate}" />
+                <PivotItem Margin="0" Header="администрирование"   ContentTemplate="{StaticResource AdminControlTemplate}" />
+            </Pivot>
+        </DataTemplate>
+        <DataTemplate x:Key="NotAdminTemplate">
+            <Pivot>
+                <PivotItem Margin="0" Header="информация"  DataContext="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup}"  ContentTemplate="{StaticResource GroupInfoTemplate}"/>
+                <PivotItem Margin="0" Header="стена"  ContentTemplate="{StaticResource GroupWallTemplate}" />
+            </Pivot>
+        </DataTemplate>
+        <main1:AdminTemplateSelector  AdminTemplate="{StaticResource AdminTemplate}" NotAdminTemplate="{StaticResource NotAdminTemplate}" x:Key="AdminTemplateSelector"/>
     </Page.Resources>
     
     <Grid x:Name="Grid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Pivot>
-            <PivotItem Margin="0" Header="информация"  DataContext="{Binding WallColl.MainGroup}" ContentTemplate="{StaticResource GroupInfoTemplate}"/>
-            <PivotItem Margin="0" Header="стена"  ContentTemplate="{StaticResource GroupWallTemplate}" />
-        </Pivot>
-       
+        <ContentControl Content="{Binding  ElementName=GroupMain,Path=DataContext.WallColl.MainGroup}"  ContentTemplateSelector="{StaticResource AdminTemplateSelector}">
+        </ContentControl>
     </Grid>
 </Page>
