@@ -16,9 +16,11 @@ namespace VKShop_Lite.Views.Main
 
             if (value != null)
             {
-                int a = (int)value;
-                if (a > 0) return Visibility.Visible;
-                return Visibility.Collapsed;
+                int a = System.Convert.ToInt32(value);
+                int i = 0;
+                if (parameter != null) i =System.Convert.ToInt32(parameter);
+                if (a > 0) return (i == 0) ? Visibility.Visible : Visibility.Collapsed;
+                return  (i == 0) ? Visibility.Collapsed : Visibility.Visible;
             }
             return Visibility.Collapsed;
         }

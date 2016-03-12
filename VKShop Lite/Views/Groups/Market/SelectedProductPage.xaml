@@ -45,7 +45,7 @@
                         </StackPanel>
                     </Grid>
                 </StackPanel>
-                <Button Content="написать продавцу" HorizontalAlignment="Stretch" Margin="10,0,10,0"></Button>
+                <Button Command="{Binding OpenDialogCommand}" CommandParameter="{Binding Product}" Content="написать продавцу" HorizontalAlignment="Stretch" Margin="10,0,10,0"></Button>
             </StackPanel>
 
            

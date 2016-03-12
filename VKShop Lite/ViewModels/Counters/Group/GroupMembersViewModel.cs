@@ -16,7 +16,7 @@ namespace VKShop_Lite.ViewModels.Counters.Group
         public GroupMembersRoot MembersRoot
         {
             get { return _membersRoot; }
-            set { _membersRoot = value;RaisePropertyChanged("MembersRoot"); }
+            set { _membersRoot = value; RaisePropertyChanged("MembersRoot"); }
         }
 
      

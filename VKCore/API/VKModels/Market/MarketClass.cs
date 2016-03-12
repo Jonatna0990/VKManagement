@@ -12,7 +12,7 @@ namespace VKCore.API.VKModels.Market
         public string price_min { get; set; }
         public string price_max { get; set; }
         public int? main_album_id { get; set; }
-        public int? contact_id { get; set; }
+        public long contact_id { get; set; }
         public Currency currency { get; set; }
         public Wiki wiki { get; set; }
     }

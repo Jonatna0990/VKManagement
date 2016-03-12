@@ -34,7 +34,7 @@ namespace VKShop_Lite.Views.Groups.Admin
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            this.DataContext = new GroupInfoEditViewModel();
+            this.DataContext = new GroupInfoEditViewModel(e.Parameter as GroupsClass);
 
         }
     }

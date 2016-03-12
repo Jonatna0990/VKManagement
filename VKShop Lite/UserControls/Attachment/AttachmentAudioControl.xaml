@@ -1,0 +1,49 @@
+﻿<UserControl
+    x:Class="VKShop_Lite.UserControls.Attachment.AttachmentAudioControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VKShop_Lite.UserControls.Attachment"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+ <Grid Background="LightGray" Margin="1" Height="70" >
+
+        <Grid Margin="0,6" Background="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="55"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="55"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding title}"
+                         Grid.Column="1"
+                         Foreground="Gray"
+                         FontSize="26"
+                         FontFamily="{StaticResource PhoneFontFamilySemiLight}"
+                         
+                         VerticalAlignment="Top"/>
+            <TextBlock Grid.Row="0" Text="{Binding artist}"
+                         Grid.Column="1"
+                         FontSize="18"
+                         Foreground="Gray"
+                         VerticalAlignment="Bottom"/>
+            <TextBlock Grid.Row="0" Text="{Binding Stringduration}"
+                         Grid.Column="1"
+                         FontSize="13"
+                         Foreground="Gray"
+                         HorizontalAlignment="Right"
+                         VerticalAlignment="Bottom"/>
+            <Border Grid.Row="0"  Grid.Column="0"  Background="Transparent">
+                <Path Width="48"
+                                 Height="48"
+                                 Stretch="Fill"
+                                 Stroke="Gray"
+                                 Data="F1 M 207,11.5L 194,22.5L 194,0.5L 207,11.5 Z M 199,-12C 212.255,-12 223,-1.25482 223,12C 223,25.2548 212.255,36 199,36C 185.745,36 175,25.2548 175,12C 175,-1.25481 185.745,-12 199,-12 Z M 199,-8.99998C 187.402,-8.99998 178,0.402046 178,12C 178,23.598 187.402,33 199,33C 210.598,33 220,23.598 220,12C 220,0.402039 210.598,-8.99998 199,-8.99998 Z "/>
+            </Border>
+
+            <ProgressBar  Grid.Column="1" Grid.Row="1"></ProgressBar>
+        </Grid>
+    </Grid>
+</UserControl>

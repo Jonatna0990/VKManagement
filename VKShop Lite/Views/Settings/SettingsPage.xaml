@@ -9,10 +9,41 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-       <StackPanel>
+        <SemanticZoom x:Name="semanticZoomControl" Grid.Row="1" >
+            <SemanticZoom.ZoomedInView>
+                <ListView x:Name="itemGridView" SelectionMode="None" IsItemClickEnabled="False"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollMode="Disabled"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      ScrollViewer.HorizontalScrollMode="Auto"
+                      Margin="0,-3,0,0"
+                      Padding="116,0,40,46">
+                    <ListViewItem>
+                        <TextBlock Text="1"></TextBlock>
+                    </ListViewItem>
+                    <ListViewItem>
+                        <TextBlock Text="2"></TextBlock>
+                    </ListViewItem>
 
-            <Button Content="Выйти" HorizontalAlignment="Stretch" Margin="10,10,10,0" Command="{Binding ExitCommand}"></Button>
-           <Button Content="toast" Click="ButtonBase_OnClick"></Button>
-       </StackPanel>
+                </ListView>
+            </SemanticZoom.ZoomedInView>
+            <SemanticZoom.ZoomedOutView>
+                <ListView x:Name="groupGridView" CanDragItems="False"
+                      CanReorderItems="False" SelectionMode="None" IsItemClickEnabled="True"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      ScrollViewer.HorizontalScrollMode="Auto"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollMode="Disabled">
+                    <ListViewItem>
+                        <TextBlock Text="локальный поиск"></TextBlock>
+                    </ListViewItem>
+                    <ListViewItem>
+                        <TextBlock Text="глобавльный поиск"></TextBlock>
+                    </ListViewItem>
+
+                </ListView>
+                </SemanticZoom.ZoomedOutView>
+            </SemanticZoom>
+        <Button Click="ButtonBase_OnClick"></Button>
     </Grid>
 </Page>

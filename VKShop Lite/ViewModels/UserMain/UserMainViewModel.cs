@@ -12,6 +12,7 @@ using VKCore.API.VKModels.User;
 using VKCore.Helpers;
 using VKShop_Lite.Common;
 using VKShop_Lite.ViewModels.Base;
+using VKShop_Lite.Views.Conversation.User;
 using VKShop_Lite.Views.Groups;
 using VKShop_Lite.Views.Groups.Admin;
 using VKShop_Lite.Views.Settings;
@@ -59,7 +60,7 @@ namespace VKShop_Lite.ViewModels.UserMain
             });
             NavigeteToMessagesPage = new DelegateCommand(t =>
             {
-                this.NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(GroupMessagesPage) }); ClearBackStack(true);
+                this.NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(UserDialogsPage) }); ClearBackStack(true);
             });
             NavigeteToSettingsPage= new DelegateCommand(t =>
             {

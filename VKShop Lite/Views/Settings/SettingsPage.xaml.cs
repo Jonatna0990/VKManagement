@@ -26,6 +26,7 @@ using VKCore.API.Core;
 using VKCore.API.VKModels.User;
 using VKCore.Util;
 using VKShop_Lite.UserControls.Attachment;
+using VKShop_Lite.UserControls.MessagesControl.Emoji;
 using VKShop_Lite.ViewModels.Profile;
 using VKShop_Lite.ViewModels.Settings;
 
@@ -52,7 +53,11 @@ namespace VKShop_Lite.Views.Settings
 
         private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            
+            Popup a= new Popup();
+            a.Child = new EmojiControl();
+            a.IsOpen = true;
+
+
             string title = "Andrew sent you a picture";
             string content = "Check this out, Happy Canyon in Utah!";
             string image = "http://blogs.msdn.com/cfs-filesystemfile.ashx/__key/communityserver-blogs-components-weblogfiles/00-00-01-71-81-permanent/2727.happycanyon1_5B00_1_5D00_.jpg";

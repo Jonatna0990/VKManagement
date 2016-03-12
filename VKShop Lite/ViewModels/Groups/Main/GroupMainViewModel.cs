@@ -19,7 +19,14 @@ namespace VKShop_Lite.ViewModels.Groups.Main
 {
     public class GroupMainViewModel : BaseViewModel
     {
+        public GroupsClass Group
+        {
+            get { return _group; }
+            set { _group = value;RaisePropertyChanged("Group"); }
+        }
+
         private WallCollection _wallColl;
+        private GroupsClass _group;
 
         public WallCollection WallColl
         {
@@ -31,12 +38,17 @@ namespace VKShop_Lite.ViewModels.Groups.Main
         public ICommand GroupInfoEditOpenCommand { get; set; }
         public ICommand MarketOpenCommand { get; set; }
         public ICommand CreatePostCommand { get; set; }
+        public ICommand AdminOpenCommand { get; set; }
         //CreatePostControl
         public GroupMainViewModel(GroupsClass group)
         {
-            
+            Group = group;
             WallColl = new WallCollection(group);
-           
+
+            AdminOpenCommand = new DelegateCommand(t =>
+            {
+                NavigateToCurrentPage(Group, new Scenario() { ClassType = typeof(AdminMainPage) });
+            });
             MembersOpenCommand = new DelegateCommand(t =>
             {
                 NavigateToCurrentPage(t,new Scenario() { ClassType = typeof(GroupMembersPage)});
@@ -65,6 +77,8 @@ namespace VKShop_Lite.ViewModels.Groups.Main
                
             });
         }
+
+        
 
     }
 }

@@ -11,63 +11,54 @@
         <ScrollViewer>
             <StackPanel Margin="5">
                 <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="основная информация"></TextBlock>
-                <TextBox Margin="0,10,0,0" PlaceholderText="введите название сообщества">
+                <TextBox Margin="0,10,0,0" PlaceholderText="введите название сообщества" Text="{Binding Settings.title}">
                     <TextBox.Header>
                         <TextBlock Text="название сообщества"></TextBlock>
                     </TextBox.Header>
                 </TextBox>
-                <TextBox Margin="0,10,0,0" PlaceholderText="введите описание сообщества">
+                <TextBox Margin="0,10,0,0" PlaceholderText="введите описание сообщества" Text="{Binding Settings.description}">
                     <TextBox.Header>
                         <TextBlock Text="описание сообщества"></TextBlock>
                     </TextBox.Header>
                 </TextBox>
-                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="короткий адрес"/>
                 <TextBox Margin="0,10,0,0" >
-
+                    <TextBox.Header>
+                        <TextBlock Text="короткий адрес"></TextBlock>
+                    </TextBox.Header>
                 </TextBox>
-                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="тематика сообщества"/>
-                <ComboBox x:Name="Subtitle" Margin="0,5,0,5" SelectedIndex="0" HorizontalAlignment="Stretch">
-                    <ComboBoxItem IsSelected="True" Content="не выбрнано"/>
-                    <ComboBoxItem Content="компания, организация или веб-сайт"/>
-                    <ComboBoxItem Content="известная личность или коллектив"/>
-                    <ComboBoxItem Content="произведение или продукция"/>
-                </ComboBox>
-                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="веб сайт"/>
+               
+                
                 <TextBox Margin="0,10,0,0" >
-
+                    <TextBox.Header>
+                        <TextBlock Text="веб сайт"></TextBlock>
+                    </TextBox.Header>
                 </TextBox>
-                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="тип группы"/>
+              
+                <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="возрастные ограничения"/>
                 <StackPanel x:Name="RadioContainer"  Orientation="Vertical">
                     <RadioButton Tag="group" Margin="0,5,0,5" x:Name="GroupRadio" >
                         <RadioButton.Content>
-                            <TextBlock TextWrapping="Wrap" Width="250">
-                            <Run Text="Группа"/><LineBreak></LineBreak>
-                            <Run  FontSize="12"  Text="Подходит для дискуссий и обмена мнениями" Foreground="#FF535353"/>
-                            </TextBlock>
+                            <TextBlock Text="до 16 лет"/>
                         </RadioButton.Content>
                     </RadioButton>
                     <RadioButton Tag="event" Margin="0,10,0,5" x:Name="EventRadio">
                         <RadioButton.Content>
-                            <TextBlock TextWrapping="Wrap" Width="250">
-                            <Run Text="Мероприятие"/><LineBreak></LineBreak>
-                            <Run  FontSize="12"  Text="Удобно для организации концертов и вечеринок" Foreground="#FF535353"/>
-                            </TextBlock>
+                            <TextBlock Text="до 16 и старше"/>
                         </RadioButton.Content>
                     </RadioButton>
                     <RadioButton Tag="public" x:Name="PageRadio">
                         <RadioButton.Content>
-                            <TextBlock TextWrapping="Wrap" Width="250">
-                            <Run Text="Публичная страница"/><LineBreak></LineBreak>
-                            <Run  FontSize="12"  Text="Идеально для распространения новостей и информации" Foreground="#FF535353"/>
-                            </TextBlock>
+                            <TextBlock Text="до 18 и старше"/>
                         </RadioButton.Content>
                     </RadioButton>
-
-
                 </StackPanel>
-                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="местоположение"/>
-                <TextBox PlaceholderText="выбрать местоположение..." Margin="0,10,0,0" >
+                <TextBlock FontSize="18" Text="фильтр комментариев"/>
 
+                <ToggleSwitch Header="Включить фильтр нецензурных выражений"></ToggleSwitch>
+                <TextBox PlaceholderText="выбрать местоположение..." Margin="0,10,0,0" >
+                    <TextBox.Header>
+                        <TextBlock Text="местоположение"></TextBlock>
+                    </TextBox.Header>
                 </TextBox>
             </StackPanel>
 

@@ -11,11 +11,13 @@
     xmlns:converters="using:VKShop_Lite.Helpers.Converters"
     xmlns:converters1="using:VKShop_Lite.Views.Groups.Market.Converters"
     xmlns:main1="using:VKShop_Lite.Views.Groups.Main"
+    xmlns:converters2="using:VKShop_Lite.Views.Groups.Admin.Converters"
     mc:Ignorable="d"
     x:Name="GroupMain">
 
     <Page.Resources>
         <converters:IntToVisibillityConverter x:Key="IntToVisibillityConverter"/>
+        <converters2:AdminVisibillityConverter x:Key="AdminVisibillityConverter"/>
         <DataTemplate x:Key="GroupCountersTemplate">
             <GridView >
                 <Border Width="80" Height="50" Margin="1">
@@ -146,12 +148,6 @@
                     </StackPanel>
                     <ContentControl  ContentTemplate="{StaticResource GroupCountersTemplate}"></ContentControl>
                 </StackPanel>
-                <AppBar  VerticalAlignment="Bottom">
-                    <StackPanel Orientation="Horizontal">
-                        <AppBarButton Icon="Add" Label="написать на стене" Visibility="{Binding can_post, Converter={StaticResource IntToVisibillityConverter}}"  Command="{Binding  ElementName=GroupMain,Path=DataContext.CreatePostCommand}" />
-                        <AppBarButton Icon="Find" Label="поиск"  />
-                    </StackPanel>
-                </AppBar>
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="GroupWallTemplate">
@@ -163,92 +159,25 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-              
-            </Grid>
-           
-        </DataTemplate>
-        <DataTemplate x:Key="AdminControlTemplate">
-            <ListView>
-                <ListViewItem>
-                    <interactivity:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="Tapped">
-                            <core:InvokeCommandAction Command="{Binding ElementName=GroupMain,Path=DataContext.GroupInfoEditOpenCommand}" CommandParameter="{Binding  id}">
-                            </core:InvokeCommandAction>
-                        </core:EventTriggerBehavior>
-                    </interactivity:Interaction.Behaviors>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE70F;" FontSize="22" VerticalAlignment="Center" />
-                        <TextBlock  Margin="5,0,0,0" Text="информация" FontSize="18" VerticalAlignment="Center" />
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#59155;" FontSize="22" VerticalAlignment="Center" />
-                        <TextBlock  Margin="5,0,0,0" Text="сервисы" FontSize="18" VerticalAlignment="Center" />
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE715;" FontSize="22" VerticalAlignment="Center" />
-                        <TextBlock  Margin="5,0,0,0" Text="сообщения" FontSize="18" VerticalAlignment="Center" />
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE716;" FontSize="22" VerticalAlignment="Center" />
-                        <TextBlock  Margin="5,0,0,0" Text="участники" FontSize="18" VerticalAlignment="Center" />
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE8F8;" FontSize="22" VerticalAlignment="Center" />
-                        <TextBlock  Margin="5,0,0,0" Text="чёрный список" FontSize="18" VerticalAlignment="Center" />
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE71B;" FontSize="22" VerticalAlignment="Center" />
-                        <TextBlock  Margin="5,0,0,0" Text="ссылки" FontSize="18" VerticalAlignment="Center" />
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE719;" FontSize="22" VerticalAlignment="Center" />
-                        <TextBlock  Margin="5,0,0,0" Text="товары" FontSize="18" VerticalAlignment="Center" />
-                    </StackPanel>
-                </ListViewItem>
-            </ListView>
-        </DataTemplate>
-        <DataTemplate x:Key="ModeratorDataTemplate">
-            <ListView>
-                <ListViewItem>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE8F8;" FontSize="22" VerticalAlignment="Center" />
-                        <TextBlock  Margin="5,0,0,0" Text="чёрный список" FontSize="18" VerticalAlignment="Center" />
-                    </StackPanel>
-                </ListViewItem>
-
-            </ListView>
-
-        </DataTemplate>
-        <DataTemplate x:Key="AdminTemplate">
-            <Pivot>
-                <PivotItem Margin="0" Header="информация"  DataContext="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup}"  ContentTemplate="{StaticResource GroupInfoTemplate}"/>
-                <PivotItem Margin="0" Header="стена"  ContentTemplate="{StaticResource GroupWallTemplate}" />
-                <PivotItem Margin="0" Header="администрирование"   ContentTemplate="{StaticResource AdminControlTemplate}" />
-            </Pivot>
-        </DataTemplate>
-        <DataTemplate x:Key="NotAdminTemplate">
-            <Pivot>
-                <PivotItem Margin="0" Header="информация"  DataContext="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup}"  ContentTemplate="{StaticResource GroupInfoTemplate}"/>
-                <PivotItem Margin="0" Header="стена"  ContentTemplate="{StaticResource GroupWallTemplate}" />
-            </Pivot>
-        </DataTemplate>
-        <main1:AdminTemplateSelector  AdminTemplate="{StaticResource AdminTemplate}" NotAdminTemplate="{StaticResource NotAdminTemplate}" x:Key="AdminTemplateSelector"/>
-    </Page.Resources>
-    
+              </Grid>
+           </DataTemplate>
+       </Page.Resources>
+    <Page.BottomAppBar>
+        <CommandBar   IsOpen="False"  x:Name="appBar">
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Icon="Setting" Label="управление" Visibility="{Binding Group.admin_level,Converter={StaticResource AdminVisibillityConverter},FallbackValue=Collapsed}"  Command="{Binding AdminOpenCommand}"/>
+            </CommandBar.PrimaryCommands>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="добавить в закладки"/>
+                <AppBarButton Label="открыть в браузере"/>
+                <AppBarButton Label="пригласить друзей"/>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
     <Grid x:Name="Grid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ContentControl Content="{Binding  ElementName=GroupMain,Path=DataContext.WallColl.MainGroup}"  ContentTemplateSelector="{StaticResource AdminTemplateSelector}">
-        </ContentControl>
+        <Pivot Margin="0">
+            <PivotItem Margin="0"  Header="информация"  DataContext="{Binding ElementName=GroupMain,Path=DataContext.WallColl.MainGroup}"  ContentTemplate="{StaticResource GroupInfoTemplate}"/>
+            <PivotItem Margin="0" Header="стена"  ContentTemplate="{StaticResource GroupWallTemplate}" />
+          </Pivot>
     </Grid>
 </Page>

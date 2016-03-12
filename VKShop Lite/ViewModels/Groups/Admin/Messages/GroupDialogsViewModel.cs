@@ -19,7 +19,7 @@ namespace VKShop_Lite.ViewModels.Groups.Admin.Messages
             set { _dialogs = value;RaisePropertyChanged("Dialogs"); }
         }
 
-        private List<int> users; 
+        private List<long> users; 
         public GroupDialogsViewModel( GroupsClass group)
         {
             Load(group);
@@ -46,7 +46,7 @@ namespace VKShop_Lite.ViewModels.Groups.Admin.Messages
            
         }
 
-        void LoadUsers(List<int> users)
+        void LoadUsers(List<long> users)
         {
             string temp = string.Join(",", users.Select(n => n.ToString()).ToArray());
             VKRequest.Dispatch<List<UserClass>>(

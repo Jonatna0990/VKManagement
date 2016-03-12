@@ -8,6 +8,14 @@ using Newtonsoft.Json;
 
 namespace VKCore.API.VKModels.User
 {
+    public class UserDeleteClass
+    {
+        public int success { get; set; }
+        public int friend_deleted { get; set; }
+        public int out_request_deleted { get; set; }
+        public int in_request_deleted { get; set; }
+        public int suggestion_deleted { get; set; }
+    }
     public class UserClass : ViewModelBase
     {
         private VKAppOnline _onlineApp;
@@ -15,7 +23,7 @@ namespace VKCore.API.VKModels.User
         private string _appPhotoDark;
         private int _online;
         private int _onlineApp1;
-        private void SetApplicationIcon(int app, bool is_online = false, long uid = 0)
+        public void SetApplicationIcon(int app, bool is_online = false, long uid = 0)
         {
             switch (app)
             {
@@ -139,6 +147,15 @@ namespace VKCore.API.VKModels.User
 
         [JsonProperty("blacklisted")]
         public int blacklisted { get; set; }
+        [JsonProperty("blacklisted_by_me")]
+        public int blacklisted_by_me { get; set; }
+        [JsonProperty("is_friend")]
+        public int is_friend { get; set; }
+        [JsonProperty("is_favorite")]
+        public int is_favorite { get; set; }
+
+        [JsonProperty("friend_status")]
+        public int friend_status { get; set; }
 
         [JsonProperty("bdate")]
         public string bdate { get; set; }
@@ -212,6 +229,8 @@ namespace VKCore.API.VKModels.User
 
         [JsonProperty("can_write_private_message")]
         public int can_write_private_message { get; set; }
+        [JsonProperty("can_send_friend_request")]
+        public int can_send_friend_request { get; set; }
 
         [JsonProperty("mobile_phone")]
         public string mobile_phone { get; set; }

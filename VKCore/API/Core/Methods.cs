@@ -16,7 +16,7 @@
             public const string messages_get = "messages.get";
             public const string messages_getHistory = "messages.getHistory";
             public const string messages_setActivity = "messages.setActivity";
-            public const string messages_marsAsRead = "messages.markAsRead";
+            public const string messages_markAsRead = "messages.markAsRead";
             public const string messages_send = "messages.send";
             public const string messages_getdialogs = "messages.getDialogs";
             public const string messages_getById = "messages.getById";

@@ -20,17 +20,6 @@ namespace VKCore.Helpers
             int year_dif = today.Year - he.Date.Year;
             var t = year_dif;
             int dif = today.Date.Day - he.Date.Day;
-            if (dif == 0)
-            {
-                g = he.ToString("H:mm", CultureInfo.CurrentCulture);
-                return g;
-
-            }
-            if (dif == 1)
-            {
-                g = "вчера";
-                return g;
-            }
             if (year_dif >= 1)
             {
                 g = he.ToString("d MMM yyyy", CultureInfo.CurrentCulture);
@@ -38,9 +27,22 @@ namespace VKCore.Helpers
             }
             else
             {
+                if (dif == 0)
+                {
+                    g = he.ToString("H:mm", CultureInfo.CurrentCulture);
+                    return g;
+
+                }
+                if (dif == 1)
+                {
+                    g = "вчера";
+                    return g;
+                }
                 g = he.ToString("d MMM", CultureInfo.CurrentCulture);
                 return g;
             }
+          
+         
         }
         public static string GetTimeAgoForMessages(long str)
         {

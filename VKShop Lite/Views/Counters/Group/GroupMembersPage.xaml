@@ -90,11 +90,7 @@
 
                 </ListView>
             </PivotItem>
-            <PivotItem Header="администраторы">
-                <ListView ItemTemplate="{StaticResource AdminTemplate}" ItemsSource="{Binding MembersRoot.admin.items}">
-
-                </ListView>
-            </PivotItem>
+           
         </Pivot>
        
     </Grid>

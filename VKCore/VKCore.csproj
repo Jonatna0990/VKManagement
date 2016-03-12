@@ -112,6 +112,8 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <PRIResource Include="Localization\en\Resources.resw" />
     <PRIResource Include="Localization\ru\Resources.resw" />
+    <PRIResource Include="Localization\en\Counters\CountersResources.resw" />
+    <PRIResource Include="Localization\ru\Counetrs\CountersResources.resw" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -143,14 +145,18 @@
     <Compile Include="API\VKModels\Audio\AudioClass.cs" />
     <Compile Include="API\VKModels\Audio\LyricsClass.cs" />
     <Compile Include="API\VKModels\Audio\PlayerBase.cs" />
+    <Compile Include="API\VKModels\Ban\BanClass.cs" />
     <Compile Include="API\VKModels\Board\BoarsClass.cs" />
     <Compile Include="API\VKModels\Doc\DocClass.cs" />
     <Compile Include="API\VKModels\Geo\GeoClass.cs" />
     <Compile Include="API\VKModels\Geo\PlaceClass.cs" />
     <Compile Include="API\VKModels\Gift\GiftClass.cs" />
     <Compile Include="API\VKModels\Group\GroupsClass.cs" />
+    <Compile Include="API\VKModels\Group\GroupSettings.cs" />
     <Compile Include="API\VKModels\Link\GroupLink.cs" />
     <Compile Include="API\VKModels\Link\LinkClass.cs" />
+    <Compile Include="API\VKModels\LongPollServer\LongPollServerClass.cs" />
+    <Compile Include="API\VKModels\LongPollServer\LongPollService.cs" />
     <Compile Include="API\VKModels\Market\MarketAlbum.cs" />
     <Compile Include="API\VKModels\Market\MarketCategories.cs" />
     <Compile Include="API\VKModels\Market\MarketClass.cs" />
@@ -161,6 +167,7 @@
     <Compile Include="API\VKModels\Photo\PhotoClass.cs" />
     <Compile Include="API\VKModels\Photo\PhotoSendParamClass.cs" />
     <Compile Include="API\VKModels\Poll\PollClass.cs" />
+    <Compile Include="API\VKModels\Sticker\Smiles.cs" />
     <Compile Include="API\VKModels\Sticker\StickerClass.cs" />
     <Compile Include="API\VKModels\Topics\TopicsClass.cs" />
     <Compile Include="API\VKModels\User\SetOnlineApp.cs" />
@@ -181,10 +188,13 @@
     <Compile Include="Converters\UserOnlineDataTimeConvert.cs" />
     <Compile Include="Helpers\DataExHelper.cs" />
     <Compile Include="Helpers\DateTimeHelper.cs" />
+    <Compile Include="Helpers\LockerClass.cs" />
+    <Compile Include="Helpers\MessageFlagsHelper.cs" />
     <Compile Include="Helpers\PlayCommand.cs" />
     <Compile Include="Helpers\Files\FilesHelper.cs" />
     <Compile Include="Helpers\ListExtensions.cs" />
     <Compile Include="Helpers\ScrollerEx.cs" />
+    <Compile Include="Localization\en\Counters\CountersResources.cs" />
     <Compile Include="Localization\Resources.cs" />
     <Compile Include="Localization\VKLocalizedStrings.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -218,7 +228,6 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Localization\en\counters\" />
     <Folder Include="Localization\en\group\" />
     <Folder Include="Localization\en\usercontrols\" />
     <Folder Include="Localization\en\user\" />

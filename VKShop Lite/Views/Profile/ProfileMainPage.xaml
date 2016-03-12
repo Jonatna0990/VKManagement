@@ -8,9 +8,92 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:localization="using:VKCore.Localization"
+    xmlns:main="using:VKShop_Lite.Views.Main"
+    xmlns:converters="using:VKShop_Lite.Views.Profile.Converters"
     x:Name="Page"
     mc:Ignorable="d">
 <Page.Resources>
+        <DataTemplate x:Key="ProfileTemplate">
+            <StackPanel DataContext="{Binding ElementName=Page,Path=DataContext}">
+                <ScrollViewer>
+                    <StackPanel Margin="5">
+                        <StackPanel Orientation="Horizontal" Height="60">
+                            <Ellipse  Width="50"  Height="50">
+                                <Ellipse.Fill>
+                                    <ImageBrush>
+                                        <ImageBrush.ImageSource>
+                                            <BitmapImage UriSource="{Binding User.photo_100}" />
+                                        </ImageBrush.ImageSource>
+                                    </ImageBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding User.full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                                <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  Text="{Binding User.Online}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                                <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding User.city.title}"  VerticalAlignment="Top" TextWrapping="NoWrap">
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                        <ContentControl ContentTemplate="{StaticResource UserCountersTemplate}"></ContentControl>
+                        <Grid Margin="0,10,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Visibility="{Binding User.is_friend,Converter={StaticResource NullToVisibilityConverter}, FallbackValue=Collapsed}" Margin="1" HorizontalAlignment="Stretch"  Content="у вас в друзьях" >
+                                <Button.Flyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Command="{Binding DeleteFriendCommand}" CommandParameter="{Binding  User}" Text="удалить из друзей"></MenuFlyoutItem>
+                                    </MenuFlyout>
+                                </Button.Flyout>
+                            </Button>
+                            <Button Visibility="{Binding User.is_friend,Converter={StaticResource NullToVisibilityConverter},ConverterParameter=1, FallbackValue=Collapsed}" HorizontalAlignment="Stretch" Command="{Binding AddFriendCommand}" CommandParameter="{Binding  }" Content="добавить в друзья" ></Button>
+                            <Button Grid.Column="1" Margin="1" x:Name="CancelButton" Command="{Binding ElementName=Page,Path=DataContext.OpenDialogCommand}" CommandParameter="{Binding  User}"  Visibility="{Binding User.can_write_private_message,Converter={StaticResource NullToVisibilityConverter}}" Content="сообщение" HorizontalAlignment="Stretch" ></Button>
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+
+
+            </StackPanel>
+
+        </DataTemplate>
+        <DataTemplate x:Key="UserTemplate">
+            <StackPanel DataContext="{Binding ElementName=Page,Path=DataContext}">
+                <ScrollViewer>
+                    <StackPanel Margin="5">
+                        <StackPanel Orientation="Horizontal" Height="60">
+                            <Ellipse  Width="50"  Height="50">
+                                <Ellipse.Fill>
+                                    <ImageBrush>
+                                        <ImageBrush.ImageSource>
+                                            <BitmapImage UriSource="{Binding User.photo_100}" />
+                                        </ImageBrush.ImageSource>
+                                    </ImageBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding User.full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                                <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  Text="{Binding User.Online}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                                <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding User.city.title}"  VerticalAlignment="Top" TextWrapping="NoWrap">
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                        <ContentControl ContentTemplate="{StaticResource UserCountersTemplate}"></ContentControl>
+                       
+                    </StackPanel>
+                </ScrollViewer>
+
+
+            </StackPanel>
+
+        </DataTemplate>
+        <DataTemplate x:Key="DeactivatedOrDeletedTemplate">
+
+        </DataTemplate>
+        <DataTemplate x:Key="BlacklistTemplate">
+
+        </DataTemplate>
+        <main:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <DataTemplate x:Key="UserCountersTemplate">
             <GridView >
                 <Border Width="80" Height="50" Margin="1">
@@ -55,7 +138,7 @@
                     </Border.Background>
                     <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <Run FontSize="18" Text="{Binding ElementName=Page,Path=DataContext.User.counters.audios}"/><LineBreak/>
-                        <Run FontSize="12" Text=" аудио"> </Run>
+                        <Run FontSize="12" Text="{Binding Source={StaticResource LocalizedStrings},Path=CountersResources.audio_null}"> </Run>
                     </TextBlock>
                 </Border>
                 <Border Width="80" Height="50" Margin="1">
@@ -106,42 +189,10 @@
             </GridView>
         </DataTemplate>
         <localization:VKLocalizedStrings x:Key="LocalizedStrings" />
+        <converters:FriendStatusTemplateSelector x:Key="FriendStatusTemplateSelector"/>
+        <converters:ProfileContentTemplateSelector  x:Key="ProfileContentTemplateSelector" BlacklistTemplate="{StaticResource BlacklistTemplate}" DeactivatedOrDeletedTemplate="{StaticResource DeactivatedOrDeletedTemplate}" ProfileTemplate="{StaticResource ProfileTemplate}" UserTemplate="{StaticResource UserTemplate}"/>
      </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel>
-            <ScrollViewer>
-                <StackPanel Margin="5">
-                    <StackPanel Orientation="Horizontal" Height="60">
-                        <Ellipse  Width="50"  Height="50">
-                            <Ellipse.Fill>
-                                <ImageBrush>
-                                    <ImageBrush.ImageSource>
-                                        <BitmapImage UriSource="{Binding User.photo_100}" />
-                                    </ImageBrush.ImageSource>
-                                </ImageBrush>
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
-                            <TextBlock  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding User.full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
-                            <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  Text="{Binding User.Online}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
-                            <TextBlock   Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding User.city.title}"  VerticalAlignment="Top" TextWrapping="NoWrap">
-                            </TextBlock>
-                        </StackPanel>
-                    </StackPanel>
-                    <ContentControl ContentTemplate="{StaticResource UserCountersTemplate}"></ContentControl>
-                    <Grid Margin="0,10,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-                        <Button  x:Name="CreateButton" Margin="1"  HorizontalAlignment="Stretch"  Content="пригласить в группу" ></Button>
-                        <Button Grid.Column="1" Margin="1" x:Name="CancelButton"   Content="{Binding Path=LocalizedResources.Captcha_RequiredText, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Stretch" ></Button>
-                    </Grid>
-                </StackPanel>
-            </ScrollViewer>
-         
-        
-        </StackPanel>
-
+        <ContentControl Content="{Binding User}" ContentTemplateSelector="{StaticResource ProfileContentTemplateSelector}"></ContentControl>
     </Grid>
 </Page>

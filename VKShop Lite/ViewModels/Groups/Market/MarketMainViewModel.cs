@@ -186,7 +186,7 @@ namespace VKShop_Lite.ViewModels.Groups.Market
 
 
         }
-        private async void DeleteAlbum(MarketAlbum album)
+        private  void DeleteAlbum(MarketAlbum album)
         {
             if (album != null)
             {

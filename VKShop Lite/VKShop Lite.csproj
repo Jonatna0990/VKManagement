@@ -102,19 +102,72 @@
     <Compile Include="Common\Scenario.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
     <Compile Include="Helpers\BasePlayerInstance.cs" />
+    <Compile Include="Helpers\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Helpers\Converters\IntToVisibillityConverter.cs" />
+    <Compile Include="Helpers\DialogOpenCommand.cs" />
     <Compile Include="Helpers\ErrorChecker.cs" />
     <Compile Include="Helpers\OpenMenuFlyoutAction.cs" />
     <Compile Include="Helpers\MessagesHelper.cs" />
+    <Compile Include="Helpers\ResolutionScaleHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\Attachment\APhotoUploadControl.xaml.cs">
       <DependentUpon>APhotoUploadControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\ImageCrop\CropBitmap.cs" />
-    <Compile Include="UserControls\ImageCrop\ImageCropper.cs" />
-    <Compile Include="UserControls\ImageCrop\SelectedRegion.cs" />
+    <Compile Include="UserControls\Attachment\AttachmentAudioControl.xaml.cs">
+      <DependentUpon>AttachmentAudioControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Attachment\AttachmentDocControl.xaml.cs">
+      <DependentUpon>AttachmentDocControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Attachment\AttachmentLinkControl.xaml.cs">
+      <DependentUpon>AttachmentLinkControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Attachment\AttachmentRootControl.xaml.cs">
+      <DependentUpon>AttachmentRootControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Attachment\AttachmentStickerControl.xaml.cs">
+      <DependentUpon>AttachmentStickerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Attachment\AttachmentVideoControl.xaml.cs">
+      <DependentUpon>AttachmentVideoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Attachment\AttachmentWallReplyControl.xaml.cs">
+      <DependentUpon>AttachmentWallReplyControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Attachment\Converters\AttachmentListConverter.cs" />
+    <Compile Include="UserControls\Attachment\Converters\AttachmentListVisibillityConverter.cs" />
+    <Compile Include="UserControls\Attachment\Converters\AttachmentVisibillityConverter.cs" />
+    <Compile Include="UserControls\Images\ImageCrop\CropBitmap.cs" />
+    <Compile Include="UserControls\Images\ImageCrop\ImageCropper.cs" />
+    <Compile Include="UserControls\Images\ImageCrop\SelectedRegion.cs" />
     <Compile Include="UserControls\Images\ImagesFilpViewControl.xaml.cs">
       <DependentUpon>ImagesFilpViewControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ListControl\ScrollItemControl.cs" />
+    <Compile Include="UserControls\MessagesControl\ConversationControl.xaml.cs">
+      <DependentUpon>ConversationControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MessagesControl\Converters\AttachmentTextConverter.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\BorderVisibillityConverter.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\DataTemplateConverstaion.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\DataTemplateSelectorDialog.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\DialogImageConverter.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\DialogNameConverter.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\FwdMesssagesTemplateSelector.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\MessageBodyVisibilityConverter.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\MessageOutTextBlock.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\MessageReadColorConverter.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\OnlineVisibillityConverter.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\ReadStateVisibillityConverter.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\TopConversationTemplateSelector.cs" />
+    <Compile Include="UserControls\MessagesControl\DialogControl.xaml.cs">
+      <DependentUpon>DialogControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MessagesControl\Emoji\EmojiControl.xaml.cs">
+      <DependentUpon>EmojiControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MessagesControl\FwdMessagesControl.xaml.cs">
+      <DependentUpon>FwdMessagesControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\PopupControl\BoolToVisibillityConverter.cs" />
     <Compile Include="UserControls\PopupControl\Counters\CreateDocControl.xaml.cs">
@@ -153,6 +206,9 @@
     <Compile Include="UserControls\PopupControl\PopupEx.xaml.cs">
       <DependentUpon>PopupEx.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\PopupControl\Profile\AddFriendControl.xaml.cs">
+      <DependentUpon>AddFriendControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\WallControl\NewsApiSourceConverter.cs" />
     <Compile Include="UserControls\WallControl\SourceImageConverter.cs" />
     <Compile Include="UserControls\WallControl\SourceTitleConverter.cs" />
@@ -160,6 +216,10 @@
       <DependentUpon>WallPostControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\Base\DelegateCommand.cs" />
+    <Compile Include="ViewModels\Conversation\User\DialogConversationViewModel.cs" />
+    <Compile Include="ViewModels\Conversation\User\DialogsCollection.cs" />
+    <Compile Include="ViewModels\Conversation\User\DialogsPageViewModel.cs" />
+    <Compile Include="ViewModels\Conversation\User\MessagesCollection.cs" />
     <Compile Include="ViewModels\Counters\GroupAndUser\DocViewModel.cs" />
     <Compile Include="ViewModels\Counters\GroupAndUser\SelectedPhotoAlbumViewModel.cs" />
     <Compile Include="ViewModels\Counters\GroupAndUser\SelectedVideoViewModel.cs" />
@@ -167,6 +227,7 @@
     <Compile Include="ViewModels\Counters\User\ProfileFiendsViewModel.cs" />
     <Compile Include="ViewModels\Counters\User\ProfileFollowersViewModel.cs" />
     <Compile Include="ViewModels\Counters\User\ProfileGroupsViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Admin\GroupControl\AdminMainViewModel.cs" />
     <Compile Include="ViewModels\Groups\Admin\GroupControl\GroupBlackListViewModel.cs" />
     <Compile Include="ViewModels\Groups\Admin\GroupControl\GroupInfoEditViewModel.cs" />
     <Compile Include="ViewModels\Groups\Admin\GroupControl\GroupLinksViewModel.cs" />
@@ -196,6 +257,15 @@
     <Compile Include="ViewModels\Wall\SelectedPostViewModel.cs" />
     <Compile Include="Views\Auth\AuthPage.xaml.cs">
       <DependentUpon>AuthPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Conversation\User\ChatConversationPage.xaml.cs">
+      <DependentUpon>ChatConversationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Conversation\User\DialogConversationPage.xaml.cs">
+      <DependentUpon>DialogConversationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Conversation\User\UserDialogsPage.xaml.cs">
+      <DependentUpon>UserDialogsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Counters\GroupAndUser\AudiosPage.xaml.cs">
       <DependentUpon>AudiosPage.xaml</DependentUpon>
@@ -235,6 +305,11 @@
     <Compile Include="Views\Counters\User\ProfileFollowersPage.xaml.cs">
       <DependentUpon>ProfileFollowersPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Groups\Admin\AdminMainPage.xaml.cs">
+      <DependentUpon>AdminMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Admin\Converters\AdminPageContentSelector.cs" />
+    <Compile Include="Views\Groups\Admin\Converters\AdminVisibillityConverter.cs" />
     <Compile Include="Views\Groups\Main\AdminLevelTemplateSelector.cs" />
     <Compile Include="Views\Groups\Market\Converters\AdminCanEditDeleteConverter.cs" />
     <Compile Include="Views\Groups\Main\AdminTemplateSelector.cs" />
@@ -293,6 +368,8 @@
     <Compile Include="Views\Main\UserMainPage.xaml.cs">
       <DependentUpon>UserMainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Profile\Converters\FriendStatusTemplateSelector.cs" />
+    <Compile Include="Views\Profile\Converters\ProfileContentTemplateSelector.cs" />
     <Compile Include="Views\Profile\ProfileMainPage.xaml.cs">
       <DependentUpon>ProfileMainPage.xaml</DependentUpon>
     </Compile>
@@ -315,16 +392,50 @@
     <Content Include="Icons\Dark\Counters\appbar.user.png" />
     <Content Include="Icons\Dark\Counters\appbar_message.png" />
     <Content Include="Icons\Dark\Counters\like.png" />
+    <Content Include="Icons\Dark\Menu\android-send.png" />
     <Content Include="Icons\Dark\Menu\appbar.email.png" />
     <Content Include="Icons\Dark\Menu\appbar.group.png" />
     <Content Include="Icons\Dark\Menu\appbar.settings.png" />
+    <Content Include="Icons\Dark\Menu\camera3.png" />
+    <Content Include="Icons\Dark\Menu\clock97 %281%29.png" />
+    <Content Include="Icons\Dark\Menu\clock97.png" />
+    <Content Include="Icons\Dark\Menu\document139.png" />
+    <Content Include="Icons\Dark\Menu\location74.png" />
+    <Content Include="Icons\Dark\Menu\photo camera30.png" />
+    <Content Include="Icons\Dark\Menu\picture76.png" />
+    <Content Include="Icons\Dark\Menu\pin67.png" />
+    <Content Include="Icons\Dark\Menu\quaver36.png" />
+    <Content Include="Icons\Dark\Menu\smiley3.png" />
+    <Content Include="Icons\Dark\Menu\video166.png" />
+    <Content Include="Icons\Dark\News\speech bubble73.png" />
+    <Content Include="Icons\Dark\News\tool.png" />
     <Content Include="Icons\Dark\OnlineApp\appbar.iphone.png" />
     <Content Include="Icons\Dark\OnlineApp\appbar.moon.full.png" />
     <Content Include="Icons\Dark\OnlineApp\appbar.os.android.png" />
     <Content Include="Icons\Dark\OnlineApp\appbar.os.windows.8.png" />
     <Content Include="Icons\Dark\OnlineApp\appbar.social.apple.png" />
     <Content Include="Icons\Dark\OnlineApp\appbar.tablet.windows.png" />
+    <Content Include="Icons\Dark\Player\play107.png" />
     <Content Include="Icons\LeftMenu\speech95.png" />
+    <Content Include="Icons\Light\Messages\android-send.png" />
+    <Content Include="Icons\Light\Messages\appbar.camera.png" />
+    <Content Include="Icons\Light\Messages\appbar.chat.png" />
+    <Content Include="Icons\Light\Messages\appbar.check.png" />
+    <Content Include="Icons\Light\Messages\appbar.close.png" />
+    <Content Include="Icons\Light\Messages\appbar.link.png" />
+    <Content Include="Icons\Light\Messages\appbar.location.round.png" />
+    <Content Include="Icons\Light\Messages\appbar.message.send.png" />
+    <Content Include="Icons\Light\Messages\appbar.paperclip.png" />
+    <Content Include="Icons\Light\Messages\appbar.read.png" />
+    <Content Include="Icons\Light\Messages\appbar.smiley.happy.png" />
+    <Content Include="Icons\Light\Messages\big-smile-256x256.png" />
+    <Content Include="Icons\Light\OnlineApp\appbar.iphone.png" />
+    <Content Include="Icons\Light\OnlineApp\appbar.moon.full.png" />
+    <Content Include="Icons\Light\OnlineApp\appbar.os.android.png" />
+    <Content Include="Icons\Light\OnlineApp\appbar.os.windows.8.png" />
+    <Content Include="Icons\Light\OnlineApp\appbar.social.apple.png" />
+    <Content Include="Icons\Light\OnlineApp\appbar.tablet.windows.png" />
+    <Content Include="Icons\Stickers\Stickers.txt" />
     <Content Include="Icons\vk.jpg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
@@ -340,12 +451,32 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Styles\Attachment\AttachmentStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Styles\Audio\AudioStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Styles\Buttons\ButtonsStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="Styles\Colors\ColorsStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Styles\Group\GroupStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Styles\Messages\ConversationStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -364,7 +495,51 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\Attachment\AttachmentAudioControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Attachment\AttachmentDocControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Attachment\AttachmentLinkControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Attachment\AttachmentRootControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Attachment\AttachmentStickerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Attachment\AttachmentVideoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Attachment\AttachmentWallReplyControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\Images\ImagesFilpViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MessagesControl\ConversationControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MessagesControl\DialogControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MessagesControl\Emoji\EmojiControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MessagesControl\FwdMessagesControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -416,11 +591,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\PopupControl\Profile\AddFriendControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\WallControl\WallPostControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Auth\AuthPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Conversation\User\ChatConversationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Conversation\User\DialogConversationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Conversation\User\UserDialogsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -469,6 +660,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Counters\User\ProfileFollowersPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Admin\AdminMainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -560,9 +755,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Styles\User\" />
-    <Folder Include="UserControls\MessagesControl\" />
     <Folder Include="Views\Conversation\Group\" />
-    <Folder Include="Views\Conversation\User\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BackgroundAudio\BackgroundAudio.csproj">

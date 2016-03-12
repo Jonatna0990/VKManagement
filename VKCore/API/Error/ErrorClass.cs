@@ -54,6 +54,9 @@ namespace VKCore.API.Error
                     case 125: return ErrorType.InvalidGroupId;
                     case 129: return ErrorType.InvalidPhotoFormatError;
                     case 150: return ErrorType.InvalidTimestampError;
+                    case 174: return ErrorType.AddHimselfToFriendError;
+                    case 175: return ErrorType.AddBlacklistInFriendError;
+                    case 176: return ErrorType.AddFriendInBlacklistError;
 
                     case 200: return ErrorType.AccessDeniedAlbumError;
                     case 201: return ErrorType.AccessDeniedAudioError;
@@ -190,6 +193,12 @@ namespace VKCore.API.Error
        InvalidPhotoFormatError,
        //150 - Неверный timestamp. 
        InvalidTimestampError,
+       //174 - Невозможно добавить в друзья самого себя. 
+       AddHimselfToFriendError,
+       //175 - Невозможно добавить в друзья пользователя, который занес Вас в свой черный список. 
+       AddBlacklistInFriendError,
+       //176 - Невозможно добавить в друзья пользователя, который занесен в Ваш черный список. 
+       AddFriendInBlacklistError,
        //200 - Доступ к альбому запрещён. 
        AccessDeniedAlbumError,
        //201 - Доступ к аудио запрещён. 

@@ -1,0 +1,44 @@
+﻿<UserControl
+    x:Class="VKShop_Lite.UserControls.Attachment.AttachmentLinkControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VKShop_Lite.UserControls.Attachment"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="LightGray" Margin="1" Height="70" >
+
+        <Grid Margin="0,6" Background="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="55"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="55"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding title}"
+                         Grid.Column="1"
+                         Foreground="Gray"
+                         FontSize="26"
+                         FontFamily="{StaticResource PhoneFontFamilySemiLight}"
+                         
+                         VerticalAlignment="Top"/>
+            <TextBlock Grid.Row="0" 
+                         Grid.Column="1"
+                         FontSize="18"
+                         Foreground="Gray"
+                         Text="ссылка"
+                         VerticalAlignment="Bottom">
+
+            </TextBlock>
+
+            <Image Stretch="Fill" Opacity="0.3" Grid.Row="0" Width="40"
+                                 Height="48" Grid.Column="0" Source="ms-appx:///Icons/Dark/News/tool.png"></Image>
+
+
+        </Grid>
+    </Grid>
+</UserControl>
+

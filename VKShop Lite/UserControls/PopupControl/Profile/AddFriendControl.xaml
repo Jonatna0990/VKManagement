@@ -1,0 +1,27 @@
+﻿<ContentDialog
+    x:Class="VKShop_Lite.UserControls.PopupControl.Profile.AddFriendControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VKShop_Lite.UserControls.PopupControl.Profile"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Добавить в друзья"
+    PrimaryButtonText="отмена"
+    SecondaryButtonText="добавить"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+    <Grid>
+        <StackPanel>
+            <TextBox x:Name="SendTextBox">
+                <TextBox.Header>
+                    <TextBlock TextWrapping="Wrap">
+                        <Run x:Name="UserName"></Run>
+                        <Run Text=" получит уведомление о предложении дружбы"></Run>
+                    </TextBlock>
+                </TextBox.Header>
+            </TextBox>
+        </StackPanel>
+    </Grid>
+</ContentDialog>
