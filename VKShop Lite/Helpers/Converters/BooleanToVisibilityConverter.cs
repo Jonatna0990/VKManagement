@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
@@ -12,7 +8,7 @@ namespace VKShop_Lite.Helpers.Converters
     {
         object IValueConverter.Convert(object value, Type targetType, object parameter, string language)
         {
-            if ((bool)value)
+            if (Convert.ToBoolean(value))
             {
                 return Visibility.Visible;
 
@@ -22,11 +18,11 @@ namespace VKShop_Lite.Helpers.Converters
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            if ((bool)value)
+            if ((Visibility)value == Visibility.Visible)
             {
-                return Visibility.Visible;
+                return true;
             }
-            return Visibility.Collapsed; 
+            return false;
         }
     }
 }

@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.ServiceModel.Channels;
-using System.Text;
-using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using VKCore.Annotations;

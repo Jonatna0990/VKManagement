@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.ServiceModel.Channels;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls.Primitives;
 using GalaSoft.MvvmLight.Command;
 using VKCore.API.Core;
+using VKCore.API.VKModels.Attachment;
+using VKCore.API.VKModels.Audio;
 using VKCore.API.VKModels.Group;
 using VKCore.API.VKModels.LongPollServer;
 using VKCore.API.VKModels.Messages;
 using VKCore.API.VKModels.User;
 using VKCore.Helpers;
+using VKShop_Lite.Common;
 using VKShop_Lite.ViewModels.Base;
 using VKShop_Lite.Views.Conversation.User;
 using ВКонтакте.Models.List;
@@ -23,6 +23,7 @@ namespace VKShop_Lite.ViewModels.Conversation.User
     public class DialogsCollection : BaseViewModel
     {
 
+        
         private Visibility _isLoaded;
 
         public Visibility IsLoaded
@@ -41,16 +42,15 @@ namespace VKShop_Lite.ViewModels.Conversation.User
             get { return _messages; }
             set { _messages = value; RaisePropertyChanged("Messages"); }
         }
-  
 
-        public DialogsCollection()
+       
+        public DialogsCollection(AttachmentsClass attachment=null)
         {
+            RegisterTasks("dialogs");
+            this.attachment = attachment;
             if (this.Messages == null)
             {
-                NavigateCommand = new RelayCommand<object>(t =>
-                {
-                  //  NavigateToPage(typeof(DialogConversationPage), t);
-                });
+                TaskStarted("dialogs");
                 LoadItems();
 
             }
@@ -145,6 +145,7 @@ namespace VKShop_Lite.ViewModels.Conversation.User
                    {
                        Messages = SetSources(res.Data);
                        IsLoaded = Visibility.Collapsed;
+                       TaskFinished("dialogs");
                    }
 
                    else
@@ -158,11 +159,8 @@ namespace VKShop_Lite.ViewModels.Conversation.User
                    _offset++; // = Convert.ToUInt16(res.Data.dialogs.items.Count);
 
                }
-               else
-               {
-
-                  
-               }
+               else TaskError("dialogs", res.Error.error_msg);
+                   
 
            });
         }

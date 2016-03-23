@@ -1,11 +1,8 @@
-﻿using System.CodeDom.Compiler;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using VKCore.Localization.en.Counters;
+﻿using VKCore.Localization.en.Counters;
 
 namespace VKCore.Localization
 {
-    
+
 
     public class VKLocalizedStrings
     {

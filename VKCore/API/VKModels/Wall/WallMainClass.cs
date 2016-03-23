@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using Newtonsoft.Json;
 using VKCore.API.VKModels.Attachment;
@@ -15,8 +11,17 @@ using VKCore.Converters.DateTimeConverter;
 
 namespace VKCore.API.VKModels.Wall
 {
+    public class WallWithGroup
+    {
+        public List<GroupsClass> group { get; set; }
+        public WallRoot wall { get; set; }
+         public WallRoot suggests { get; set; }
+        public WallRoot postponed { get; set; }
+    }
     public class WallRoot
     {
+        [JsonProperty("count")]
+        public int count { get; set; }
         [JsonProperty("items")]
         public ObservableCollection<WallMainClass> items { get; set; }
         [JsonProperty("profiles")]
@@ -64,6 +69,10 @@ namespace VKCore.API.VKModels.Wall
 
         [JsonProperty("friends_only")]
         public int friends_only { get; set; }
+
+        [JsonProperty("created_by")]
+        public int created_by { get; set; }
+
 
         [JsonProperty("type")]
         public string type { get; set; }

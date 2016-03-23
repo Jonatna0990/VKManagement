@@ -8,6 +8,7 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:user="using:VKCore.API.VKModels.User"
+    xmlns:loader="using:VKShop_Lite.UserControls.Loader"
     x:Name="Page"
     mc:Ignorable="d">
 
@@ -68,30 +69,35 @@
 
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Pivot >
-            <PivotItem Header="участники">
+        <loader:LoadingIndicator Margin="0,10,0,0" Padding="13,0,13,0"
+                        IsBusy="{Binding Tasks[members].IsWorking}"
+                        Error="{Binding Tasks[members].Error}">
+            <Pivot >
+                <PivotItem Header="участники">
 
-                <ListView ShowsScrollingPlaceholders="True" ItemTemplate="{StaticResource UserTemplate}" ItemsSource="{Binding MembersRoot.members.items}">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ListViewItem">
-                                        <ListViewItemPresenter SelectionCheckMarkVisualEnabled="False" SelectedBackground="Orange"/>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                </ListView>
-            </PivotItem>
-            <PivotItem Header="друзья">
-                <ListView ItemTemplate="{StaticResource UserTemplate}" ItemsSource="{Binding MembersRoot.friends.items}">
+                    <ListView ShowsScrollingPlaceholders="True" ItemTemplate="{StaticResource UserTemplate}" ItemsSource="{Binding MembersRoot.members.items}">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListViewItem">
+                                            <ListViewItemPresenter SelectionCheckMarkVisualEnabled="False" SelectedBackground="Orange"/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+                </PivotItem>
+                <PivotItem Header="друзья">
+                    <ListView ItemTemplate="{StaticResource UserTemplate}" ItemsSource="{Binding MembersRoot.friends.items}">
 
-                </ListView>
-            </PivotItem>
-           
-        </Pivot>
+                    </ListView>
+                </PivotItem>
+
+            </Pivot>
+
+        </loader:LoadingIndicator>
        
     </Grid>
 </Page>

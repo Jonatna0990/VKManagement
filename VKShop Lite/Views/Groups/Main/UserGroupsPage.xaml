@@ -1,4 +1,4 @@
-﻿<Page xmlns:Primitives="using:Telerik.UI.Xaml.Controls.Primitives" 
+﻿<Page 
     x:Class="VKShop_Lite.Views.Groups.Main.UserGroupsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,11 +8,12 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:main="using:VKShop_Lite.Views.Main"
     xmlns:group="using:VKCore.API.VKModels.Group"
-    xmlns:helpers="using:VKShop_Lite.Helpers"
-    xmlns:expander="using:VKShop_Lite.UserControls.Expander"
+    xmlns:popupControl="using:VKShop_Lite.UserControls.PopupControl"
+    xmlns:loader="using:VKShop_Lite.UserControls.Loader"
     x:Name="Page"
     mc:Ignorable="d">
     <Page.Resources>
+        <popupControl:BoolToVisibillityConverter x:Key="BoolToVisibillityConverter"/>
         <main:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <DataTemplate x:Key="GroupsFooterTemplate">
             <TextBlock TextWrapping="Wrap"  FontSize="16"  HorizontalAlignment="Center" Foreground="#FF424242">
@@ -103,8 +104,8 @@
             <Pivot DataContext="{Binding ElementName=Page,Path=DataContext}">
                 <PivotItem x:Name="PivotItem1"  Header="группы" Margin="0">
 
-                    <ListView  Margin="2" ShowsScrollingPlaceholders="True" x:Name="View" SelectedItem="{Binding SelectedGroup,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ItemTemplate="{StaticResource GroupTemplate}" HeaderTemplate="{StaticResource GroupsFooterTemplate}"  ItemsSource="{Binding MainList}">
-                        <ListView.ItemContainerStyle>
+                    <ListView  Margin="2" ShowsScrollingPlaceholders="True" SelectionMode="None" x:Name="View" SelectedItem="{Binding SelectedGroup,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ItemTemplate="{StaticResource GroupTemplate}"   ItemsSource="{Binding MainList}">
+                     <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Template">
                                     <Setter.Value>
@@ -131,18 +132,16 @@
     <Page.BottomAppBar >
         <AppBar >
             <StackPanel Orientation="Horizontal">
-                <AppBarButton Icon="Add" Label="создать"  Command="{Binding OpenCreatePopupCommand}" />
-                <AppBarButton Icon="Find" Label="поиск"  Click="ButtonBase_OnClick" >
-                    </AppBarButton>
+                <AppBarButton Icon="Add" Label="создать" Command="{Binding OpenCreatePopupCommand}" />
+                <AppBarButton Icon="Find" Label="поиск" Click="ButtonBase_OnClick" />
                 </StackPanel>
             </AppBar>
     </Page.BottomAppBar>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
        
-        <Grid Canvas.ZIndex="1" Height="40" HorizontalAlignment="Left" Margin="40,-40,0,0" VerticalAlignment="Top">
-           
-           
-            <AutoSuggestBox UpdateTextOnSelect="False" ItemTemplate="{StaticResource GroupTemplate}" ItemsSource="{Binding LocalSearchList }" Visibility="Collapsed"  Text="{Binding SearchQuery,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" x:Name="SearchBox"
+        <Grid Canvas.ZIndex="1" Height="40" HorizontalAlignment="Left" VerticalAlignment="Top">
+         
+                <AutoSuggestBox UpdateTextOnSelect="False" ItemTemplate="{StaticResource GroupTemplate}" ItemsSource="{Binding LocalSearchList }" Visibility="Collapsed"  Text="{Binding SearchQuery,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" x:Name="SearchBox"
                             Margin="5,5,5,0" Width="250"  Background="White"  BorderBrush="Transparent" Height="30" PlaceholderText="поиск...">
               <AutoSuggestBox.QueryIcon>
                     <FontIcon FontSize="18" Glyph="&#xE71C;">
@@ -161,7 +160,12 @@
             </AutoSuggestBox>
            
         </Grid>
-   
-        <ContentControl Content="{Binding  Path=Mode, Mode=OneWay}" ContentTemplateSelector="{StaticResource SeacrhTemplateSelector}"></ContentControl>
+        <loader:LoadingIndicator Margin="0,10,0,0" Padding="13,0,13,0"
+                        IsBusy="{Binding Tasks[load].IsWorking}"
+                        Error="{Binding Tasks[load].Error}">
+            <ContentControl Content="{Binding  Path=Mode, Mode=OneWay}" ContentTemplateSelector="{StaticResource SeacrhTemplateSelector}"></ContentControl>
+
+        </loader:LoadingIndicator>
+    
     </Grid>
 </Page>

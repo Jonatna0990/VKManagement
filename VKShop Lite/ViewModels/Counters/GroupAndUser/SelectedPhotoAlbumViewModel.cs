@@ -1,24 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using VKCore.API.Core;
 using VKCore.API.SDK;
 using VKCore.API.VKModels.Photo;
-using VKCore.API.VKModels.Video;
 using VKCore.API.VKModels.VKList;
 using VKCore.Helpers;
 using VKShop_Lite.Common;
 using VKShop_Lite.UserControls.Images;
-using VKShop_Lite.UserControls.PopupControl;
 using VKShop_Lite.ViewModels.Base;
-using ВКонтакте.Models.List;
 using CreatePhotoControl = VKShop_Lite.UserControls.PopupControl.Counters.CreatePhotoControl;
 
 namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
@@ -44,8 +37,11 @@ namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
             set
             {
                 _selectedImage = value;
-                NavigateToCurrentPage(new PhotoSendParamClass {photos = PhotosCollection ,selected_photo = value},new Scenario() { ClassType = typeof(ImagesFilpViewControl) });
-                 
+                var k = new Popup();
+                k.Child = new ImagesFilpViewControl(new PhotoSendParamClass { photos = PhotosCollection, selected_photo = value });
+                k.IsLightDismissEnabled = true;
+                k.IsOpen = true;
+                
 
             }
         }

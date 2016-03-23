@@ -1,23 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.UI.Popups;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using VKCore.API.Core;
 using VKCore.API.SDK;
 using VKCore.API.VKModels.Doc;
 using VKCore.API.VKModels.Group;
 using VKCore.API.VKModels.User;
-using VKCore.API.VKModels.VKList;
 using VKCore.Helpers;
 using VKCore.Helpers.Files;
 using VKShop_Lite.Helpers;
-using VKShop_Lite.UserControls.PopupControl;
 using VKShop_Lite.ViewModels.Base;
 using ВКонтакте.Models.List;
 using CreateDocControl = VKShop_Lite.UserControls.PopupControl.Counters.CreateDocControl;
@@ -121,6 +113,12 @@ namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
                     Load();
                 
             }
+            RegisterTasks("docs");
+            TaskStarted("docs");
+            ReloadCommand = new DelegateCommand(t =>
+            {
+                Load();
+            });
            
         }
 
@@ -172,16 +170,12 @@ namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
                   if (res.ResultCode == VKResultCode.Succeeded)
                   {
                       DocsCollection = res.Data.items.ToObservableCollection();
+                      TaskFinished("docs");
                   }
+                  else
+                      TaskError("docs", "ошибка загрузки");
               });
-            if (group != null)
-            {
-
-            }
-            else
-            {
-
-            }
+          
 
         }
     }

@@ -1,7 +1,6 @@
 ﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using VKCore.API.VKModels.Group;
-using VKShop_Lite.ViewModels.Counters;
 using VKShop_Lite.ViewModels.Counters.Group;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238

@@ -8,6 +8,8 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:selector="using:VKShop_Lite.Views.Counters.Group.Selector"
+    xmlns:commentsControl="using:VKShop_Lite.UserControls.CommentsControl"
+    xmlns:listControl="using:VKShop_Lite.UserControls.ListControl"
     mc:Ignorable="d" x:Name="Page">
 <Page.Resources>
         <DataTemplate x:Key="BoardUserTemplate">
@@ -81,8 +83,13 @@
         <selector:GroupOrUserTemplateSelector x:Key="GroupOrUserTemplateSelector" GroupTemplate="{StaticResource BoardGroupTemplate }" UserTemplate="{StaticResource BoardUserTemplate}"/>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView  ItemTemplateSelector="{StaticResource GroupOrUserTemplateSelector}" DataContext="{Binding ElementName=Page,Path=DataContext}" ItemsSource="{Binding messages}">
-    
-        </ListView>
+        <listControl:ExtendedListView  ScrollControlType="Comments" Margin="0,0,0,50"  ItemTemplateSelector="{StaticResource GroupOrUserTemplateSelector}"  ItemsSource="{Binding comments}">
+            <ListView.ItemContainerTransitions>
+                <TransitionCollection>
+                    <AddDeleteThemeTransition/>
+                </TransitionCollection>
+            </ListView.ItemContainerTransitions>
+        </listControl:ExtendedListView>
+        <commentsControl:CommentsAddControl DataContext="{Binding }" VerticalAlignment="Bottom"/>
     </Grid>
 </Page>

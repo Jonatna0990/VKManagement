@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VKCore.API.Core;
 using VKCore.API.VKModels.User;
 using VKCore.API.VKModels.VKList;

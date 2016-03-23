@@ -1,18 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using VKCore.API.Core;
 using VKCore.API.VKModels.Group;
 using VKCore.API.VKModels.Wall;
@@ -57,7 +47,7 @@ namespace VKShop_Lite.UserControls.PopupControl
                    
                      else
                      {
-                         var t = new MessageDialog(res.Error.error_msg);
+                         var t = new MessageDialog(res.Error.error_msg, "Ошибка");
                          t.ShowAsync();
 
                      }

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using VKCore.API.VKModels.Board;
 using VKCore.API.VKModels.Topics;
 
 namespace VKShop_Lite.Views.Counters.Group.Selector

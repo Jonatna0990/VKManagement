@@ -15,7 +15,9 @@
             <Pivot.HeaderTemplate>
                 <DataTemplate>
                     <Border Margin="0,10,0,0"  Height="40" Width="40" Background="WhiteSmoke">
-                        <Image Height="40" Source="{Binding   photo_70}"></Image>
+                        <Image Height="40" Source="{Binding   photo_70}">
+
+                    </Image>
                     </Border>
                 </DataTemplate>
             </Pivot.HeaderTemplate>
@@ -31,16 +33,14 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel>
-                                    <TextBlock TextWrapping="Wrap" Text="{Binding ElementName=UserControl,Path=DataContext.Messages.aaaa}"></TextBlock>
-                                        <Image  Height="50" Width="50" Source="{Binding photo_64}">
-                                       
+                                    <Image  Height="50" Width="50" Source="{Binding photo_64}">
 
                                         <interactivity:Interaction.Behaviors>
                                             <core:EventTriggerBehavior EventName="Tapped">
-                                                <core:InvokeCommandAction Command="{Binding ElementName=UserControl,Path=DataContext.Messages.SelectedStickerCommand}" CommandParameter="{Binding }" />
+                                                <core:InvokeCommandAction Command="{Binding ElementName=UserControl,Path=DataContext.SelectedStickerCommand}" CommandParameter="{Binding }" />
                                             </core:EventTriggerBehavior>
                                         </interactivity:Interaction.Behaviors>
-                                        </Image>
+                                    </Image>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>

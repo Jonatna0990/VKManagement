@@ -3,28 +3,79 @@ using Windows.Media.Playback;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Messaging;
 using Newtonsoft.Json;
 using VKCore.Converters.DurationConverter;
 
 namespace VKCore.API.VKModels.Audio
 {
-  
+
     public class AudioClass : ViewModelBase
     {
         public AudioClass()
         {
-            
+            dispatcher = Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher;
+            BackgroundMediaPlayer.Current.CurrentStateChanged += Current_CurrentStateChanged;
+          
+            MessengerInstance.Register<AudioClass>(this, OnTracked);
         }
-        public bool TextEnabled { get {
-            if (_lyricsId != null)
+
+        public void CheckAudio()
+        {
+            if (PlayerBase.Instance.CurrentTrack != null)
+            {
+                if (this.owner_id == PlayerBase.Instance.CurrentTrack.owner_id && this.id == PlayerBase.Instance.CurrentTrack.id)
+                {
+                    State = BackgroundMediaPlayer.Current.CurrentState;
+
+                }
+                else
+                {
+                    State = MediaPlayerState.Closed;
+                }
+            }
+
+        }
+        private void Current_CurrentStateChanged(MediaPlayer sender, object args)
+        {
+            if (this.owner_id == PlayerBase.Instance.CurrentTrack.owner_id && this.id == PlayerBase.Instance.CurrentTrack.id)
+            {
+                ExecuteUIThread(() =>
+                {
+                    State = BackgroundMediaPlayer.Current.CurrentState;
+                });
+            }
+            else
+            {
+                ExecuteUIThread(() =>
+                {
+                    State = MediaPlayerState.Closed;
+                });
+
+               
+            }
+        }
+
+        private void OnTracked(AudioClass obj)
+        {
+            if (this.id == obj.id && this.owner_id == obj.owner_id)
+            {
+                IsPlaying = true;
+            }
+            else
+            {
+                IsPlaying = false;
+            }
+        }
+        public bool TextEnabled
+        {
+            get
             {
                 if (lyrics_id > 0) return true;
+                return false;
             }
-            return false;
-        } }
-    
-
+        }
+        private CoreDispatcher dispatcher;
+        private MediaPlayerState _state;
         private bool _isPlaying;
         private int? _noSearch;
         private int _albumId;
@@ -36,7 +87,15 @@ namespace VKCore.API.VKModels.Audio
         private int _ownerId;
         private long _id;
         private  Visibility _playVisibility;
-
+        public MediaPlayerState State
+        {
+            get { return _state; }
+            set
+            {
+                 _state = value;
+                 RaisePropertyChanged("State");
+            }
+        }
         [JsonProperty("id")]
         public long id
         {
@@ -117,7 +176,15 @@ namespace VKCore.API.VKModels.Audio
         }
         public string string_duration { get;set;  }
 
-        
+        void ExecuteUIThread(Action tAction)
+        {
+            dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+              () =>
+              {
+                  tAction.Invoke();
+              });
+
+        }
 
     }
   

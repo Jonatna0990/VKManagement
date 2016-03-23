@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using VKCore.API.VKModels.Photo;
 
@@ -22,7 +11,7 @@ namespace VKShop_Lite.UserControls.Images
     public sealed partial class ImagesFilpViewControl : Page
     {
         private ObservableCollection<PhotoClass> _photos;
-
+        private PhotoSendParamClass param = null;
         public ObservableCollection<PhotoClass> photos
         {
             get { return _photos; }
@@ -31,23 +20,23 @@ namespace VKShop_Lite.UserControls.Images
         }
 
         private PhotoClass selected_photo = null;
-        public ImagesFilpViewControl()
+        public ImagesFilpViewControl(PhotoSendParamClass param)
         {
-            
+            this.param = param;
             this.InitializeComponent();
-          
-
-        }
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            PhotoSendParamClass param = e.Parameter as PhotoSendParamClass;
             if (param != null)
             {
                 this.photos = param.photos;
                 this.selected_photo = param.selected_photo;
                 SetSources();
             }
+
+
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+         
           
 
         }

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-using GalaSoft.MvvmLight.Messaging;
-using VKCore.API.VKModels.Group;
 using VKShop_Lite.ViewModels.Groups.Main;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
@@ -21,13 +15,15 @@ namespace VKShop_Lite.Views.Groups.Main
         public UserGroupsPage()
         {
             this.InitializeComponent();
+            NavigationCacheMode = NavigationCacheMode.Required;
 
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            this.DataContext = new UserGroupsViewModel();
+            if (e.NavigationMode == NavigationMode.New)
+            DataContext = new UserGroupsViewModel();
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)

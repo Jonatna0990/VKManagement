@@ -6,11 +6,9 @@ using VKCore.API.VKModels.Board;
 using VKCore.API.VKModels.Group;
 using VKCore.API.VKModels.Topics;
 using VKCore.API.VKModels.Wall;
-using VKCore.Helpers;
 using VKShop_Lite.Common;
 using VKShop_Lite.ViewModels.Base;
 using VKShop_Lite.Views.Counters.Group;
-using VKShop_Lite.Views.Profile;
 
 namespace VKShop_Lite.ViewModels.Counters.Group
 {

@@ -1,33 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.Core;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Media.Capture;
-using Windows.Storage;
-using Windows.Storage.Pickers;
+using Windows.Networking.PushNotifications;
+using Windows.Security.ExchangeActiveSyncProvisioning;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.QueryStringDotNET;
 using NotificationsExtensions.Toasts;
-using VKCore.API.Core;
-using VKCore.API.VKModels.User;
-using VKCore.Util;
-using VKShop_Lite.UserControls.Attachment;
 using VKShop_Lite.UserControls.MessagesControl.Emoji;
-using VKShop_Lite.ViewModels.Profile;
 using VKShop_Lite.ViewModels.Settings;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
@@ -51,11 +33,19 @@ namespace VKShop_Lite.Views.Settings
             this.DataContext = new SettingsViewModel();
         }
 
-        private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        private async void GetID()
         {
-            Popup a= new Popup();
-            a.Child = new EmojiControl();
-            a.IsOpen = true;
+            var deviceInformation = new EasClientDeviceInformation();
+            string Id = deviceInformation.Id.ToString();
+            Debug.WriteLine(Id);
+
+            PushNotificationChannel channel = null;
+
+            channel = await PushNotificationChannelManager.CreatePushNotificationChannelForApplicationAsync();
+        }
+        private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        { GetID();
+            /*
 
 
             string title = "Andrew sent you a picture";
@@ -165,7 +155,7 @@ namespace VKShop_Lite.Views.Settings
 
 
             // And then send the toast
-            ToastNotificationManager.CreateToastNotifier().Show(notification);
+            ToastNotificationManager.CreateToastNotifier().Show(notification);*/
         }
     }
 }

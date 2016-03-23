@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VKCore.Helpers
 {
@@ -64,6 +60,76 @@ namespace VKCore.Helpers
             if (he.Date == DateTime.Today.Date) return he.ToString("сегодня в H:mm", CultureInfo.CurrentCulture);
             if (he.Year - DateTime.Now.Year < 0) return he.ToString("d MMM yyyy в H:mm", CultureInfo.CurrentCulture);
             else return he.ToString("d MMM в H:mm", CultureInfo.CurrentCulture);
+
+        }
+
+        public static string GetTimeAgoForBlackList(long str)
+        {
+            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(str).ToLocalTime();
+            DateTime he = dtDateTime;
+            if (he.Date == DateTime.Now.Date.AddDays(-1)) return he.ToString("вчера в H:mm", CultureInfo.CurrentCulture);
+            if (he.Date == DateTime.Now.Date.AddDays(1)) return he.ToString("завтра в H:mm", CultureInfo.CurrentCulture);
+            if (he.Date == DateTime.Today.Date) return he.ToString("сегодня в H:mm", CultureInfo.CurrentCulture);
+            if (he.Year - DateTime.Now.Year < 0 || he.Year - DateTime.Now.Year > 0) return he.ToString("d MMM yyyy в H:mm", CultureInfo.CurrentCulture);
+            else return he.ToString("d MMM в H:mm", CultureInfo.CurrentCulture);
+
+        }
+        /// <summary>
+        /// возвращает значение 0 - навсегда, 1 - на год, 2 - на месяц, 3 -на неделю,4 - на день, 5 - на час
+        /// </summary>
+        /// <param name="str1">дата начала блокировки</param>
+        /// <param name="str2">дата конца блокировки</param>
+        /// <returns></returns>
+        public static int GetTimeDifferenceForBlackList(long str1, long str2)
+        {
+            if (str2 == 0) return 0;
+            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(str1).ToLocalTime();
+            DateTime he1 = dtDateTime;
+
+
+            DateTime dtDateTime1 = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            dtDateTime1 = dtDateTime1.AddSeconds(str2).ToLocalTime();
+            DateTime he2 = dtDateTime1;
+
+
+            if ( he2.Date.Year - he1.Date.Year == 1) return 1;
+            else if (he2.Date.Month - he1.Date.Month == 1) return 2;
+            else if (he2.Date.Day - he1.Date.Day == 7) return 3;
+            else if (he2.Date.Day - he1.Date.Day == 1) return 4;
+            else if (he2.Date.Hour - he1.Date.Hour == 1) return 5;
+            return 0;
+
+
+        }
+        /// <summary>
+        /// возвращает значение блокировки в Unix-time 
+        /// </summary>
+        /// <param name="str1">дата начала блокировки</param>
+        /// <param name="str2">дата конца блокировки</param>
+        /// <returns></returns>
+        public static long SetDifferenceForBlackList(int str1)
+        {
+            Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(unixTimestamp).ToLocalTime();
+            switch (str1)
+            {
+                case 0:
+                    return 0;
+                case 1: dtDateTime = dtDateTime.AddYears(1);break;
+                case 2: dtDateTime = dtDateTime.AddMonths(1); break;
+                case 3: dtDateTime = dtDateTime.AddDays(7); break;
+                case 4: dtDateTime = dtDateTime.AddDays(1); break;
+                case 5: dtDateTime = dtDateTime.AddHours(1); break;
+                default:
+                     return dtDateTime.Ticks;
+            }
+            DateTime Time = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            var t = (Int32)(Time.Subtract(dtDateTime)).TotalSeconds;
+            return Math.Abs(t);
+
 
         }
         public static string LastSeen(int sex, long date)

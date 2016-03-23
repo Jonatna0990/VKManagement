@@ -2,14 +2,18 @@
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using GalaSoft.MvvmLight;
 using Newtonsoft.Json;
 
 namespace VKCore.API.VKModels.Photo
 {
-    
-   public class PhotoClass
+
+    public class PhotoClass : ViewModelBase
    {
-           [JsonProperty("id")]
+
+       private bool _isLoaded = true;
+        private BitmapImage _image;
+        [JsonProperty("id")]
          public int id { get; set; }
 
            [JsonProperty("album_id")]
@@ -53,8 +57,22 @@ namespace VKCore.API.VKModels.Photo
 
            [JsonProperty("access_key")]
          public string access_key { get; set; }
+      
+        public BitmapImage Image
+        {
+            get { return _image; }
+            set
+            {
+                _image = value; RaisePropertyChanged("Image");
+            }
+        }
+        public bool is_loaded
+       {
+           get { return _isLoaded; }
+           set { _isLoaded = value;RaisePropertyChanged("is_loaded"); }
+       }
 
-           public PhotoSize photo_size 
+       public PhotoSize photo_size 
            {
                get 
                {
@@ -81,8 +99,7 @@ namespace VKCore.API.VKModels.Photo
                
                }
            }
-            
-           public Image photo()
+        public Image photo()
            {
 
                Image main = new Image { Stretch = Stretch.UniformToFill};

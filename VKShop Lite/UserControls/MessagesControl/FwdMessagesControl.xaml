@@ -66,8 +66,8 @@
                                     </DataTemplate>
                                 </ContentControl.ContentTemplate>
                             </ContentControl>
-                            <attachment:AttachmentRootControl  Visibility="{Binding Count, Converter={StaticResource AttachmentVisibillityConverter},FallbackValue=Collapsed}" DataContext="{Binding attachments}"/>
-
+                            <ContentControl Visibility="{Binding Count, Converter={StaticResource AttachmentVisibillityConverter},FallbackValue=Collapsed}" ContentTemplate="{StaticResource AttachRootTemplate}"  DataContext="{Binding attachments}"/>
+                  
                         </StackPanel>
                     </Grid>
                 </StackPanel>

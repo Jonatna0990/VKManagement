@@ -5,9 +5,72 @@
     xmlns:local="using:VKShop_Lite.Views.Groups.Admin"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:user="using:VKCore.API.VKModels.User"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:ban="using:VKCore.API.VKModels.Ban"
+    xmlns:converters="using:VKShop_Lite.Views.Groups.Admin.Converters"
+    xmlns:helpers="using:VKShop_Lite.Helpers"
+    xmlns:converters1="using:VKShop_Lite.Helpers.Converters"
+    mc:Ignorable="d" x:Name="Page">
+<Page.Resources>
+        <converters:BlockedUserReasonConverter x:Key="BlockedUserReasonConverter"/>
+        <converters1:IntToVisibillityConverter x:Key="IntToVisibillityConverter"/>
 
+        <DataTemplate x:Key="BlacklistUserTemplate" x:DataType="ban:BanUserClass">
+              <StackPanel Orientation="Horizontal"  Height="90">
+                    <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior   EventName="Holding">
+                        <helpers:OpenMenuFlyoutAction   />
+                    </core:EventTriggerBehavior>
+                    <core:EventTriggerBehavior EventName="Tapped">
+                        <core:InvokeCommandAction CommandParameter="{Binding }" Command="{Binding  ElementName=Page,Path=DataContext.OpenBlackListUserCommand}" />
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+                <FlyoutBase.AttachedFlyout>
+                        <MenuFlyout>
+                        <MenuFlyoutItem Text="удалить из списка" CommandParameter="{Binding }" Command="{Binding  ElementName=Page,Path=DataContext.DeleteFromBlacklistCommand}" />
+                        </MenuFlyout>
+                    </FlyoutBase.AttachedFlyout>
+              
+                    <Border Background="LightGray" CornerRadius="33" Height="50" Width="50">
+                        <Ellipse  Width="50" x:Phase="2" DataContext="{x:Bind }"  Height="50">
+                        <Ellipse.Fill>
+                            <ImageBrush>
+                                    <ImageBrush.ImageSource>
+                                        <BitmapImage UriSource="{Binding  photo_100}" />
+                                    </ImageBrush.ImageSource>
+                                </ImageBrush>
+                            </Ellipse.Fill>
+                        </Ellipse >
+                    </Border>
+
+                    <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+                    <TextBlock x:Phase="0"  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{x:Bind full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                    <TextBlock  Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Top" TextWrapping="NoWrap">
+                       <Run  Text="Добавлен"/>
+                       <Run x:Phase="0" Text="{x:Bind ban_info.BanDate}"/>
+                    </TextBlock>
+                    <TextBlock Visibility="{Binding ban_info.end_date, Converter={StaticResource IntToVisibillityConverter}}"  Style="{StaticResource CaptionTextBlockStyle}"   VerticalAlignment="Top" TextWrapping="NoWrap">
+                      <Run Text="Блокировка до"/>
+                      <Run x:Phase="0" Text="{x:Bind ban_info.EndBanDate}"/>    
+                    </TextBlock>
+                    <TextBlock  Style="{StaticResource CaptionTextBlockStyle}"   VerticalAlignment="Top" TextWrapping="NoWrap">
+                        <Run Text="Комментарий"/>
+                        <Run x:Phase="0" Text="{x:Bind ban_info.comment}"/></TextBlock>
+                    <TextBlock   Style="{StaticResource CaptionTextBlockStyle}"   VerticalAlignment="Top" TextWrapping="NoWrap">
+                        <Run Text="Причина:"/>
+                        <Run x:Phase="0" Text="{x:Bind ban_info.reason,Converter={StaticResource BlockedUserReasonConverter}}"/>
+                    </TextBlock>
+                </StackPanel>
+
+                </StackPanel>
+         
+        </DataTemplate>
+</Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+        <ListView ItemTemplate="{StaticResource BlacklistUserTemplate}" ItemsSource="{Binding blacklist}">
+            
+        </ListView>
     </Grid>
 </Page>

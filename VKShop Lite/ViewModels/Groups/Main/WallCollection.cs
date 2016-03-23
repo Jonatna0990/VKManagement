@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using Windows.UI.Xaml;
 using VKCore.API.Core;
 using VKCore.API.VKModels.Group;
@@ -11,6 +13,10 @@ namespace VKShop_Lite.ViewModels.Groups.Main
 {
     public class WallCollection : BaseViewModel
     {
+
+        public ICommand LoadMorePostsCommand { get; set; }
+        public ICommand LoadMorePostponedCommand { get; set; }
+        public ICommand LoadMoreSuggestsCommand { get; set; }
         private GroupsClass _main;
         public GroupsClass MainGroup
         {
@@ -28,66 +34,156 @@ namespace VKShop_Lite.ViewModels.Groups.Main
         private Visibility _isAdmin = Visibility.Collapsed;
         private WallRoot _groupWall;
 
+        public ObservableCollection<WallMainClass> wall
+        {
+            get { return _wall; }
+            set { _wall = value; RaisePropertyChanged("wall"); }
+        }
+
+        public ObservableCollection<WallMainClass> postponed { get; set; }
+        public ObservableCollection<WallMainClass> suggests { get; set; }
         public virtual Visibility IsLoaded
         {
             get { return _isLoaded; }
             set { _isLoaded = value; RaisePropertyChanged("IsLoaded"); }
         }
         private GroupsClass param;
+        private int posts_offset = 0;
+        private int postponed_posts_offset = 0;
+        private int suggests_posts_offset = 0;
+        private ObservableCollection<WallMainClass> _wall;
+
         public WallCollection(GroupsClass group)
         {
-            if(group == null) return;
+            RegisterTasks("group");
             param = group;
-             Load();
+            LoadMorePostsCommand = new  DelegateCommand(t =>
+            {
+               LoadMorePosts();
+            });
+            LoadMorePostponedCommand = new DelegateCommand(t =>
+            {
+                LoadMorePostponedNews();
+            });
+            LoadMoreSuggestsCommand = new DelegateCommand(t =>
+            {
+                LoadMoreSuggestsNews();
+            });
+            Load();
         }
         /// <summary>
         /// Загружает информацию о группе. Id<0
         /// </summary>
         public void Load()
         {
-            VKRequest.Dispatch<List<GroupsClass>>(
-                        new VKRequestParameters(
-                                    SGroups.groups_getById, "group_id",  param.id.ToString(), "fields", "members_count,description,site,links,finish_date,fixed_post,verified,can_post,can_see_all_posts,city,place,start_date,links,status,contacts,counters,market,is_closed"),
-                        (res) =>
-                        {
-                            var q = res.ResultCode;
-                            if (res.ResultCode == VKResultCode.Succeeded)
-                            {
-                               MainGroup = res.Data.FirstOrDefault();
-                            }
-                        });
-            VKRequest.Dispatch<WallRoot>(
-                       new VKRequestParameters(
-                                   SWall.wall_get, "owner_id", string.Format("-{0}", param.id),"extended","1"),
-                       (res) =>
-                       {
-                           var q = res.ResultCode;
-                           if (res.ResultCode == VKResultCode.Succeeded)
-                           {
-                               IsLoaded = Visibility.Collapsed;
-                               GroupWall = SetNewsSorces(res.Data);
-                           }
-                       });
+            TaskStarted("group");
+            if (param != null)
+            {
+                int is_admin = 0;
+                if (param.admin_level > 1) is_admin = 1;
+                VKRequest.Dispatch<WallWithGroup>(
+                          new VKRequestParameters(
+                                      SExecute.load_group_full, "group_id", param.id.ToString(), "is_admin", is_admin.ToString()),
+                          (res) =>
+                          {
+                              var q = res.ResultCode;
+                              if (res.ResultCode == VKResultCode.Succeeded)
+                              {
+                                  wall = SetNewsSorces(res.Data.wall);
+                                  MainGroup = res.Data.group.FirstOrDefault();
+                                  posts_offset = res.Data.wall.items.Count;
+                                  TaskFinished("group");
+                              }
+                              else
+                                  TaskError("members", "ошибка загрузки");
+                          });
+            }
+         
+        
         }
-        private WallRoot SetNewsSorces(WallRoot news)
+        private void LoadMorePosts()
         {
-            WallRoot main = news;
-            foreach (var t in main.items)
+            VKRequest.Dispatch<WallRoot>(
+                     new VKRequestParameters(
+                                 SWall.wall_get, "owner_id", string.Format("-{0}", param.id),"offset",posts_offset.ToString(), "extended", "1"),
+                     (res) =>
+                     {
+                         var q = res.ResultCode;
+                         if (res.ResultCode == VKResultCode.Succeeded)
+                         {
+                             var temp = SetNewsSorces(res.Data);
+                             if (wall != null)
+                             {
+                                 foreach (var t in temp)
+                                 {
+                                     wall.Add(t);
+                                 }
+                             }
+                             posts_offset += 20;
+                             IsLoaded = Visibility.Collapsed;
+                         }
+                     });
+        }
+
+        private void LoadMoreSuggestsNews()
+        {
+            VKRequest.Dispatch<WallRoot>(
+                     new VKRequestParameters(
+                                 SWall.wall_get, "owner_id", string.Format("-{0}", param.id), "extended", "1","offset",suggests_posts_offset.ToString(), "filter", "suggests"),
+                     (res) =>
+                     {
+                         var q = res.ResultCode;
+                         if (res.ResultCode == VKResultCode.Succeeded)
+                         {
+                             var temp = SetNewsSorces(res.Data);
+                             if (wall != null)
+                             {
+                                 foreach (var t in temp)
+                                 {
+                                     suggests.Add(t);
+                                 }
+                             }
+                             suggests_posts_offset += 20;
+                             IsLoaded = Visibility.Collapsed;
+                         }
+                     });
+        }
+
+        private void LoadMorePostponedNews()
+        {
+            VKRequest.Dispatch<WallRoot>(
+                     new VKRequestParameters(
+                                 SWall.wall_get, "owner_id", string.Format("-{0}", param.id), "extended", "1", "offset", postponed_posts_offset.ToString(),"filter", "postponed"),
+                     (res) =>
+                     {
+                         var q = res.ResultCode;
+                         if (res.ResultCode == VKResultCode.Succeeded)
+                         {
+                             IsLoaded = Visibility.Collapsed;
+                            // GroupWall = SetNewsSorces(res.Data);
+                         }
+                     });
+        }
+        private ObservableCollection<WallMainClass> SetNewsSorces(WallRoot news)
+        {
+            ObservableCollection<WallMainClass> wall = new ObservableCollection<WallMainClass>();
+            wall = news.items;
+            foreach (var t in wall)
             {
                 if (t.IsSigner)
                 {
-                    foreach (var tt in main.profiles)
+                    foreach (var tt in news.profiles)
                     {
                         if (t.signer_id == tt.id)
                             t.SignerUser = tt;
                     }
 
                 }
-                if (t.owner_id < 0)
+                if (t.from_id < 0)
                 {
-                    foreach (var tt in main.groups)
+                    foreach (var tt in news.groups)
                     {
-                        if (Math.Abs(t.owner_id) == tt.id)
+                        if (Math.Abs(t.from_id) == tt.id)
                         {
                             t.Postedby = new PostedBy() { PostedByGroup = tt };
                         }
@@ -95,10 +191,10 @@ namespace VKShop_Lite.ViewModels.Groups.Main
                 }
                 else
                 {
-                    foreach (var tt in main.profiles)
+                    foreach (var tt in news.profiles)
                     {
 
-                        if (t.owner_id == tt.id)
+                        if (t.from_id == tt.id)
                         {
                             t.Postedby = new PostedBy() { PostedByUser = tt };
                         }
@@ -108,22 +204,22 @@ namespace VKShop_Lite.ViewModels.Groups.Main
                 if (t.IsRepost)
                 {
                     var rep = t.copy_history.FirstOrDefault();
-                    if (rep.owner_id > 0)
+                    if (rep.from_id > 0)
                     {
-                        foreach (var tt in main.profiles)
+                        foreach (var tt in news.profiles)
                         {
 
-                            if (rep.owner_id == tt.id)
+                            if (rep.from_id == tt.id)
                             {
                                 t.Repostedby = new PostedBy() { PostedByUser = tt };
                             }
                         }
                     }
-                    if (rep.owner_id < 0)
+                    if (rep.from_id < 0)
                     {
-                        foreach (var tt in main.groups)
+                        foreach (var tt in news.groups)
                         {
-                            if (Math.Abs(rep.owner_id) == tt.id)
+                            if (Math.Abs(rep.from_id) == tt.id)
                             {
                                 t.Repostedby = new PostedBy() { PostedByGroup = tt };
                             }
@@ -133,7 +229,7 @@ namespace VKShop_Lite.ViewModels.Groups.Main
                 }
             }
 
-            return main;
+            return wall;
         }
 
     }

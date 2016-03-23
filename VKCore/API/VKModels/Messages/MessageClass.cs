@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ServiceModel.Channels;
 using Windows.UI.Xaml;
 using GalaSoft.MvvmLight;
 using Newtonsoft.Json;
@@ -47,6 +46,12 @@ namespace VKCore.API.VKModels.Messages
             set
             {
                 _message = value;
+                if (string.IsNullOrEmpty(_message.body))
+                {
+                    if (_message.attachments != null) _message.body = "Вложение";
+                    else if (_message.geo != null) _message.body = "Карта";
+                    else if (_message.fwd_messages != null) _message.body = "Пересланные сообщения";
+                }
                 locker = new LockerClass(2, this.message.user_id);
                 temp_msg = this.message.body;
                 locker.Locked += Locker_Locked; RaisePropertyChanged("message");

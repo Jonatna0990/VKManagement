@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Input;
 using VKCore.API.Core;
 using VKCore.API.VKModels.Group;
 using VKCore.API.VKModels.User;
 using VKCore.API.VKModels.Video;
 using VKCore.API.VKModels.VKList;
-using VKCore.Helpers;
 using VKShop_Lite.Common;
 using VKShop_Lite.ViewModels.Base;
-using VKShop_Lite.Views.Counters;
-using VKShop_Lite.Views.Profile;
 using SelectedVideoMainPage = VKShop_Lite.Views.Counters.GroupAndUser.SelectedVideoMainPage;
 
 namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
@@ -62,7 +58,9 @@ namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
                     if (res.ResultCode == VKResultCode.Succeeded)
                     {
                         VideoCollection = res.Data;
+                        TaskFinished("video");
                     }
+                    else TaskError("video", "ошибка загрузки");
                 });
 
         }
@@ -70,6 +68,8 @@ namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
         public VideosViewModel(GroupsClass group, UserClass user)
         {
             Load(group,user);
+            RegisterTasks("video");
+            TaskStarted("video");
         }
     }
 }

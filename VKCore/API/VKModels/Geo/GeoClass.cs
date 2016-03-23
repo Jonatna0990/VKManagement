@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace VKCore.API.VKModels.Geo
 {
@@ -15,6 +10,8 @@ namespace VKCore.API.VKModels.Geo
         public string coordinates { get; set; }
         [JsonProperty("place")]
         public PlaceClass place { get; set; }
+        public double lat { get; set; }
+        public double @long { get; set; }
 
     }
 }

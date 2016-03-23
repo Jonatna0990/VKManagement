@@ -1,21 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using VKCore.API.VKModels.Group;
-using VKCore.API.VKModels.Messages;
-using VKCore.API.VKModels.User;
 using VKShop_Lite.ViewModels.Conversation.User;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
@@ -30,16 +16,21 @@ namespace VKShop_Lite.Views.Conversation.User
         public DialogConversationPage()
         {
             this.InitializeComponent();
+            NavigationCacheMode = NavigationCacheMode.Required;
         }
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+
+     
+
+        protected  override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             var param = e.Parameter;
-            if (param != null)
+            if (param != null && e.NavigationMode == NavigationMode.New)
             {
                 this.DataContext = new DialogConversationViewModel(e.Parameter);
             }
-
+            
+            
         }
 
 

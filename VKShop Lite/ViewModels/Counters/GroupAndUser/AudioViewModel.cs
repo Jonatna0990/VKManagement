@@ -24,6 +24,7 @@ namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
                 BasePlayerInstance.Base.Playlist = AudioCollection;
                 BasePlayerInstance.Base.PlayTrack(value);
                
+               
             }
         }
 
@@ -33,7 +34,12 @@ namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
         public ObservableCollection<AudioClass> AudioCollection
         {
             get { return _audioCollection; }
-            set { _audioCollection = value;RaisePropertyChanged("AudioCollection"); }
+            set { _audioCollection = value;RaisePropertyChanged("AudioCollection");
+                foreach (var t in value)
+                {
+                    t.CheckAudio();
+                }
+            }
         }
 
         private void Load(GroupsClass group,UserClass user)
@@ -51,7 +57,10 @@ namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
                  if (res.ResultCode == VKResultCode.Succeeded)
                  {
                      AudioCollection = res.Data.items.ToObservableCollection();
+                     TaskFinished("audio");
                  }
+                 else
+                     TaskError("audio", "ошибка загрузки");
              });
           
          
@@ -61,6 +70,12 @@ namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
         public AudioViewModel(GroupsClass group, UserClass user)
         {
             Load(group,user);
+            ReloadCommand = new DelegateCommand(t =>
+            {
+                Load(group,user);
+            });
+            RegisterTasks("audio");
+            TaskStarted("audio");
         }
     }
 }

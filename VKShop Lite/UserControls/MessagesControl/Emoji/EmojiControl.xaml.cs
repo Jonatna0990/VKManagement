@@ -2,9 +2,7 @@
 using System.ComponentModel;
 using System.IO;
 using Windows.Storage;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Newtonsoft.Json;
 using VKCore.API.VKModels.Sticker;
 

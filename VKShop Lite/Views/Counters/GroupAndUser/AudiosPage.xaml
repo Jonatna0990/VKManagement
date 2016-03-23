@@ -6,8 +6,27 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:counters="using:VKShop_Lite.ViewModels.Counters"
+    xmlns:loader="using:VKShop_Lite.UserControls.Loader"
     mc:Ignorable="d">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView SelectedItem="{Binding SelectedAudio,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" HeaderTemplate="{StaticResource AudioPageFooterTemplate}" ItemTemplate="{StaticResource AudioTemplate}" ItemsSource="{Binding AudioCollection}"/>
-    </Grid>
+        <loader:LoadingIndicator Margin="0,10,0,0" Padding="13,0,13,0"
+                        IsBusy="{Binding Tasks[audio].IsWorking}"
+                        Error="{Binding Tasks[audio].Error}">
+            <ListView SelectedItem="{Binding SelectedAudio,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" HeaderTemplate="{StaticResource AudioPageFooterTemplate}" ItemTemplate="{StaticResource AudioTemplate}" ItemsSource="{Binding AudioCollection}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="IsSelected" Value="False"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <ContentPresenter/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+
+        </loader:LoadingIndicator>
+   </Grid>
 </Page>

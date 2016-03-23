@@ -10,6 +10,7 @@
     xmlns:localization="using:VKCore.Localization"
     xmlns:main="using:VKShop_Lite.Views.Main"
     xmlns:converters="using:VKShop_Lite.Views.Profile.Converters"
+    xmlns:loader="using:VKShop_Lite.UserControls.Loader"
     x:Name="Page"
     mc:Ignorable="d">
 <Page.Resources>
@@ -192,7 +193,12 @@
         <converters:FriendStatusTemplateSelector x:Key="FriendStatusTemplateSelector"/>
         <converters:ProfileContentTemplateSelector  x:Key="ProfileContentTemplateSelector" BlacklistTemplate="{StaticResource BlacklistTemplate}" DeactivatedOrDeletedTemplate="{StaticResource DeactivatedOrDeletedTemplate}" ProfileTemplate="{StaticResource ProfileTemplate}" UserTemplate="{StaticResource UserTemplate}"/>
      </Page.Resources>
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ContentControl Content="{Binding User}" ContentTemplateSelector="{StaticResource ProfileContentTemplateSelector}"></ContentControl>
-    </Grid>
+    <loader:LoadingIndicator Margin="0,10,0,0" Padding="13,0,13,0"
+                        IsBusy="{Binding Tasks[profile].IsWorking}"
+                        Error="{Binding Tasks[profile].Error}">
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <ContentControl Content="{Binding User}" ContentTemplateSelector="{StaticResource ProfileContentTemplateSelector}"></ContentControl>
+        </Grid>
+    </loader:LoadingIndicator>
+   
 </Page>

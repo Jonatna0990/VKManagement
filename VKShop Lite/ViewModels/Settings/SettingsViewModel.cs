@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Popups;
 using VKCore.API.SDK;
-using VKCore.Helpers;
 using VKShop_Lite.ViewModels.Base;
 using VKShop_Lite.Views.Auth;
 using VKShop_Lite.Views.Main;

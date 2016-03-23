@@ -1,19 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Messaging;
+using VKCore.API.Core;
 using VKCore.API.SDK;
+using VKCore.API.VKModels.Attachment;
 using VKCore.API.VKModels.LongPollServer;
-using VKCore.Helpers;
 using VKShop_Lite.Common;
 using VKShop_Lite.Helpers;
 using VKShop_Lite.Views.Auth;
@@ -29,8 +31,48 @@ namespace VKShop_Lite.ViewModels.Base
 {
     public class BaseViewModel : ViewModelBase, IDisposable
     {
+        private readonly Dictionary<string, LongRunningTask> _tasks = new Dictionary<string, LongRunningTask>();
+
+        public Dictionary<string, LongRunningTask> Tasks
+        {
+            get { return _tasks; }
+        }
+        #region Long Running Tasks helpers
+
+        protected void RegisterTasks(params string[] ids)
+        {
+            foreach (var id in ids)
+            {
+                _tasks.Add(id, new LongRunningTask());
+            }
+        }
+
+        protected  void TaskStarted(string id)
+        {
+            
+            _tasks[id].Error = null;
+            _tasks[id].IsWorking = true;
+         }
+
+        protected void TaskFinished(string id)
+        {
+            _tasks[id].IsWorking = false;
+        }
+
+        protected void TaskError(string id, string error)
+        {
+            _tasks[id].Error = error;
+            _tasks[id].IsWorking = false;
+        }
+
+
+        #endregion
+
         public static bool is_enabled = true;
         private bool _isOpenAppBar;
+        private bool _isLoaded = true;
+        private VKResultCode _resultCode;
+        protected AttachmentsClass attachment = null;
         public ICommand AudioOpenCommand { get; set; }
         public ICommand VideoOpenCommand { get; set; }
         public ICommand PhotoOpenCommand { get; set; }
@@ -38,17 +80,33 @@ namespace VKShop_Lite.ViewModels.Base
         public ICommand DocsOpenCommand { get; set; }
         public ICommand NavigateToGroupCommand { get; set; }
         public ICommand OpenDialogCommand { get; set; }
-      
+        public ICommand OpenPlayerCommand { get; set; }
+        public virtual ICommand ReloadCommand { get; set; }
+        public bool IsLoaded
+        {
+            get { return _isLoaded; }
+            set { _isLoaded = value; RaisePropertyChanged("IsLoaded"); }
+        }
+
+        public VKResultCode ResultCode
+        {
+            get { return _resultCode; }
+            set { _resultCode = value; RaisePropertyChanged("ResultCode"); }
+        }
+
         public bool IsOpenAppBar
         {
             get { return _isOpenAppBar; }
             set { _isOpenAppBar = value; RaisePropertyChanged("IsOpenAppBar"); }
         }
+       
         public BaseViewModel()
         {
-            OpenDialogCommand = new DelegateCommand(t =>
-            {
-                NavigateToCurrentPage(t, new Scenario()
+            UserMainPage.OnBackKeyPressed += UserMainPage_OnBackKeyPressed;
+               OpenDialogCommand = new DelegateCommand(t =>
+               {
+                  
+                   NavigateToCurrentPage(t, new Scenario()
                 {
                     ClassType = typeof (DialogConversationPage)
 
@@ -79,6 +137,11 @@ namespace VKShop_Lite.ViewModels.Base
             {
                 NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(DocsPage) });
             });
+            OpenPlayerCommand = new DelegateCommand(t =>
+            {
+                this.NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(AudioPlayerMainPage) });
+
+            });
             VKSDK.AccessDenied += VKSDK_AccessDenied;
             if (VKSDK.IsLoggedIn)
             {
@@ -96,6 +159,11 @@ namespace VKShop_Lite.ViewModels.Base
             }
         }
 
+        public virtual void UserMainPage_OnBackKeyPressed(object sender, EventArgs e)
+        {
+           
+        }
+
         private void VKSDK_AccessDenied(object sender, VKAccessDeniedEventArgs e)
         {
             var frame = Window.Current.Content as Frame;
@@ -109,6 +177,12 @@ namespace VKShop_Lite.ViewModels.Base
             Frame scenarioFrame = UserMainPage.Current.FindName("RootFrame") as Frame;
             if (scenarioFrame != null)
             {
+                var vm = scenarioFrame.DataContext as BaseViewModel;
+                if (scenarioFrame.CanGoBack)
+                {
+                   
+                }
+                vm.Dispose();
                 scenarioFrame.Navigate(page.ClassType, param);
             }
             
@@ -189,6 +263,8 @@ namespace VKShop_Lite.ViewModels.Base
         #region Fields
         private bool isDisposed;
         private Subject<Unit> whenDisposedSubject;
+     
+
         #endregion
         #region Desctructors
         /// <summary>

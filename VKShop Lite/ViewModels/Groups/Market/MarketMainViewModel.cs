@@ -2,27 +2,17 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using GalaSoft.MvvmLight.Messaging;
 using VKCore.API.Core;
-using VKCore.API.VKModels.Doc;
 using VKCore.API.VKModels.Group;
 using VKCore.API.VKModels.Market;
-using VKCore.API.VKModels.Messages;
 using VKCore.API.VKModels.VKList;
-using VKCore.Helpers;
 using VKShop_Lite.Common;
 using VKShop_Lite.Helpers;
 using VKShop_Lite.UserControls.PopupControl.Market;
 using VKShop_Lite.ViewModels.Base;
-using VKShop_Lite.Views.Counters.Group;
 using VKShop_Lite.Views.Groups.Market;
-using VKShop_Lite.Views.Groups.Market.Edit;
 using ВКонтакте.Models.List;
 
 namespace VKShop_Lite.ViewModels.Groups.Market

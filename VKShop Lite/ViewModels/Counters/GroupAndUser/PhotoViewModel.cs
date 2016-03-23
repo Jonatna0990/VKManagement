@@ -8,9 +8,7 @@ using VKCore.API.VKModels.Photo;
 using VKCore.API.VKModels.User;
 using VKShop_Lite.Common;
 using VKShop_Lite.ViewModels.Base;
-using VKShop_Lite.Views.Counters;
 using VKShop_Lite.Views.Counters.GroupAndUser;
-using SelectedVideoMainPage = VKShop_Lite.Views.Counters.GroupAndUser.SelectedVideoMainPage;
 
 namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
 {
@@ -70,7 +68,9 @@ namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
                         if (res.ResultCode == VKResultCode.Succeeded)
                         {
                             AlbumCollection = res.Data;
+                            TaskFinished("palbum");
                         }
+                        else TaskError("members", "ошибка загрузки");
                     });
             }
           
@@ -81,8 +81,10 @@ namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
         {
             this.group = group;
             this.user = user;
-
+            RegisterTasks("palbum");
+            TaskStarted("palbum");
             Load();
+            ReloadCommand = new DelegateCommand(t => {Load(); });
         }
     }
 }

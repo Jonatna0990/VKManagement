@@ -1,0 +1,883 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{850DB4A2-8B35-486C-B6F9-B0ACE103FDA5}</ProjectGuid>
+    <OutputType>AppContainerExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VKShop_Lite</RootNamespace>
+    <AssemblyName>VKShop Lite</AssemblyName>
+    <DefaultLanguage>ru-RU</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PackageCertificateKeyFile>VKGroup Lite_StoreKey.pfx</PackageCertificateKeyFile>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <PackageCertificateThumbprint>8AEEA8BCB045C326E6414B062A9DDC034D532C85</PackageCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\NavigationHelper.cs" />
+    <Compile Include="Common\Scenario.cs" />
+    <Compile Include="Common\SuspensionManager.cs" />
+    <Compile Include="Helpers\BasePlayerInstance.cs" />
+    <Compile Include="Helpers\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Helpers\Converters\IntToCheckedConverter.cs" />
+    <Compile Include="Helpers\Converters\IntToVisibillityConverter.cs" />
+    <Compile Include="Helpers\DialogOpenCommand.cs" />
+    <Compile Include="Helpers\ErrorChecker.cs" />
+    <Compile Include="Helpers\LongRunningTask.cs" />
+    <Compile Include="Helpers\OpenMenuFlyoutAction.cs" />
+    <Compile Include="Helpers\MessagesHelper.cs" />
+    <Compile Include="Helpers\ResolutionScaleHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Styles\Audio\AudioBackgroundBorderConverter.cs" />
+    <Compile Include="Styles\Audio\AudioProgBarVisibillityConverter.cs" />
+    <Compile Include="UserControls\Attachment\APhotoUploadControl.xaml.cs">
+      <DependentUpon>APhotoUploadControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Attachment\AttachMapLocationControl.xaml.cs">
+      <DependentUpon>AttachMapLocationControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Attachment\AttachAudioControl.xaml.cs">
+      <DependentUpon>AttachAudioControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Attachment\AttachDocControl.xaml.cs">
+      <DependentUpon>AttachDocControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Attachment\AttachFwdMessagesControl.xaml.cs">
+      <DependentUpon>AttachFwdMessagesControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Attachment\AttachPhotoControl.xaml.cs">
+      <DependentUpon>AttachPhotoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Attachment\AttachVideoControl.xaml.cs">
+      <DependentUpon>AttachVideoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Attachment\AttachWallControl.xaml.cs">
+      <DependentUpon>AttachWallControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Attachment\Converters\AttachmentListConverter.cs" />
+    <Compile Include="UserControls\Attachment\Converters\AttachmentListVisibillityConverter.cs" />
+    <Compile Include="UserControls\Attachment\Converters\AttachmentVisibillityConverter.cs" />
+    <Compile Include="UserControls\Audio\AddAudioControl.xaml.cs">
+      <DependentUpon>AddAudioControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Audio\AudioPlaylistControl.xaml.cs">
+      <DependentUpon>AudioPlaylistControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CommentsControl\CommentsAddControl.xaml.cs">
+      <DependentUpon>CommentsAddControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Images\ImageCrop\CropBitmap.cs" />
+    <Compile Include="UserControls\Images\ImageCrop\ImageCropper.cs" />
+    <Compile Include="UserControls\Images\ImageCrop\SelectedRegion.cs" />
+    <Compile Include="UserControls\Images\ImagesFilpViewControl.xaml.cs">
+      <DependentUpon>ImagesFilpViewControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ListControl\ScrollItemControl.cs" />
+    <Compile Include="UserControls\Loader\LoadingIndicator.cs" />
+    <Compile Include="UserControls\Map\AddMapLocationControl.xaml.cs">
+      <DependentUpon>AddMapLocationControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MessagesControl\ConversationControl.xaml.cs">
+      <DependentUpon>ConversationControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Attachment\Converters\AttachmentControlSelector.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\AttachmentTextConverter.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\BorderVisibillityConverter.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\DataTemplateConverstaion.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\DataTemplateSelectorDialog.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\DialogImageConverter.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\DialogNameConverter.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\FwdMesssagesTemplateSelector.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\MessageBodyVisibilityConverter.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\MessageOutTextBlock.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\MessageReadColorConverter.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\OnlineVisibillityConverter.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\ReadStateVisibillityConverter.cs" />
+    <Compile Include="UserControls\MessagesControl\Converters\TopConversationTemplateSelector.cs" />
+    <Compile Include="UserControls\MessagesControl\DialogControl.xaml.cs">
+      <DependentUpon>DialogControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MessagesControl\Emoji\EmojiControl.xaml.cs">
+      <DependentUpon>EmojiControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MessagesControl\FwdMessagesControl.xaml.cs">
+      <DependentUpon>FwdMessagesControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MessagesControl\IConversatible.cs" />
+    <Compile Include="UserControls\PopupControl\BoolToVisibillityConverter.cs" />
+    <Compile Include="UserControls\PopupControl\Counters\CreateDocControl.xaml.cs">
+      <DependentUpon>CreateDocControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PopupControl\Group\CreateGroupPopup.xaml.cs">
+      <DependentUpon>CreateGroupPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PopupControl\Counters\CreatePhotoAlbumControl.xaml.cs">
+      <DependentUpon>CreatePhotoAlbumControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PopupControl\Counters\CreatePhotoControl.xaml.cs">
+      <DependentUpon>CreatePhotoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PopupControl\CreatePostControl.xaml.cs">
+      <DependentUpon>CreatePostControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PopupControl\Counters\EditDocControl.xaml.cs">
+      <DependentUpon>EditDocControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PopupControl\Group\SearchGroupFilterControl.xaml.cs">
+      <DependentUpon>SearchGroupFilterControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PopupControl\Market\MarketAlbumCreateControl.xaml.cs">
+      <DependentUpon>MarketAlbumCreateControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PopupControl\Market\MarketAlbumEditControl.xaml.cs">
+      <DependentUpon>MarketAlbumEditControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PopupControl\Market\MarketProductCreateControl.xaml.cs">
+      <DependentUpon>MarketProductCreateControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PopupControl\Market\MarketProductEditControl.xaml.cs">
+      <DependentUpon>MarketProductEditControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PopupControl\PopupEx.xaml.cs">
+      <DependentUpon>PopupEx.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PopupControl\Profile\AddFriendControl.xaml.cs">
+      <DependentUpon>AddFriendControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Video\AddVideoControl.xaml.cs">
+      <DependentUpon>AddVideoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\WallControl\NewsApiSourceConverter.cs" />
+    <Compile Include="UserControls\WallControl\SourceImageConverter.cs" />
+    <Compile Include="UserControls\WallControl\SourceTitleConverter.cs" />
+    <Compile Include="UserControls\WallControl\WallPostControl.xaml.cs">
+      <DependentUpon>WallPostControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Base\DelegateCommand.cs" />
+    <Compile Include="ViewModels\Conversation\User\DialogConversationViewModel.cs" />
+    <Compile Include="ViewModels\Conversation\User\DialogsCollection.cs" />
+    <Compile Include="ViewModels\Conversation\User\DialogsPageViewModel.cs" />
+    <Compile Include="ViewModels\Conversation\User\MessagesCollection.cs" />
+    <Compile Include="ViewModels\Counters\GroupAndUser\AudioPlayerViewModel.cs" />
+    <Compile Include="ViewModels\Counters\GroupAndUser\DocViewModel.cs" />
+    <Compile Include="ViewModels\Counters\GroupAndUser\SelectedPhotoAlbumViewModel.cs" />
+    <Compile Include="ViewModels\Counters\GroupAndUser\SelectedVideoViewModel.cs" />
+    <Compile Include="ViewModels\Counters\Group\SelectedTopicViewModel.cs" />
+    <Compile Include="ViewModels\Counters\User\ProfileFiendsViewModel.cs" />
+    <Compile Include="ViewModels\Counters\User\ProfileFollowersViewModel.cs" />
+    <Compile Include="ViewModels\Counters\User\ProfileGroupsViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Admin\GroupControl\AddUserToBlackListViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Admin\GroupControl\AdminMainViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Admin\GroupControl\GroupBlackListViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Admin\GroupControl\GroupInfoEditViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Admin\GroupControl\GroupLinksViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Admin\GroupControl\GroupMarketEditViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Admin\GroupControl\GroupServiceViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Admin\GroupControl\GroupsMembersEditViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Admin\Messages\GroupDialogsViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Admin\Messages\GroupConversationViewModel.cs" />
+    <Compile Include="ViewModels\Auth\AuthViewModel.cs" />
+    <Compile Include="ViewModels\Base\BaseViewModel.cs" />
+    <Compile Include="ViewModels\Base\NavigateCommand.cs" />
+    <Compile Include="ViewModels\Counters\GroupAndUser\AudioViewModel.cs" />
+    <Compile Include="ViewModels\Counters\Group\GroupTopicsViewModel.cs" />
+    <Compile Include="ViewModels\Counters\Group\GroupMembersViewModel.cs" />
+    <Compile Include="ViewModels\Counters\GroupAndUser\PhotoViewModel.cs" />
+    <Compile Include="ViewModels\Counters\GroupAndUser\VideoViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Main\GroupMainViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Main\UserGroupsViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Main\WallCollection.cs" />
+    <Compile Include="ViewModels\Groups\Market\MarketMainViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Market\SelectedMarketAlbumViewModel.cs" />
+    <Compile Include="ViewModels\Groups\Market\SelectedProductViewModel.cs" />
+    <Compile Include="ViewModels\Profile\ProfileViewModel.cs" />
+    <Compile Include="ViewModels\Settings\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\UserMain\UserMainViewModel.cs" />
+    <Compile Include="ViewModels\Wall\SelectedPostViewModel.cs" />
+    <Compile Include="Views\Auth\AuthPage.xaml.cs">
+      <DependentUpon>AuthPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Conversation\User\ChatConversationPage.xaml.cs">
+      <DependentUpon>ChatConversationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Conversation\User\DialogConversationPage.xaml.cs">
+      <DependentUpon>DialogConversationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Conversation\User\UserDialogsPage.xaml.cs">
+      <DependentUpon>UserDialogsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\GroupAndUser\AudioPlayerMainPage.xaml.cs">
+      <DependentUpon>AudioPlayerMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\GroupAndUser\AudiosPage.xaml.cs">
+      <DependentUpon>AudiosPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\GroupAndUser\DocsPage.xaml.cs">
+      <DependentUpon>DocsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\GroupAndUser\SelectedPhotoAlbumPage.xaml.cs">
+      <DependentUpon>SelectedPhotoAlbumPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\Group\GroupMembersPage.xaml.cs">
+      <DependentUpon>GroupMembersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\Group\GroupTopicsPage.xaml.cs">
+      <DependentUpon>GroupTopicsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\GroupAndUser\PhotoAlbumsPage.xaml.cs">
+      <DependentUpon>PhotoAlbumsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\Group\SelectedTopicMainPage.xaml.cs">
+      <DependentUpon>SelectedTopicMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\GroupAndUser\VideosPage.xaml.cs">
+      <DependentUpon>VideosPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\GroupAndUser\SelectedVideoMainPage.xaml.cs">
+      <DependentUpon>SelectedVideoMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\Group\Selector\GroupOrUserTemplateSelector.cs" />
+    <Compile Include="Views\Counters\Group\Selector\PostedByTemplateSelector.cs" />
+    <Compile Include="Views\Counters\User\ProfileFriendsPage.xaml.cs">
+      <DependentUpon>ProfileFriendsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\User\ProfileGroupsPage.xaml.cs">
+      <DependentUpon>ProfileGroupsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Counters\User\ProfileFollowersPage.xaml.cs">
+      <DependentUpon>ProfileFollowersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Admin\AddGroupAdmin.xaml.cs">
+      <DependentUpon>AddGroupAdmin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Admin\AddUserToBlackLst.xaml.cs">
+      <DependentUpon>AddUserToBlackLst.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Admin\AdminMainPage.xaml.cs">
+      <DependentUpon>AdminMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Admin\Converters\AdminPageContentSelector.cs" />
+    <Compile Include="Views\Groups\Admin\Converters\AdminVisibillityConverter.cs" />
+    <Compile Include="Views\Groups\Admin\Converters\BlockedUserReasonConverter.cs" />
+    <Compile Include="Views\Groups\Admin\Converters\GroupCategoryTemplateSelector.cs" />
+    <Compile Include="Views\Groups\Admin\Converters\RadioButtonToIntConverter.cs" />
+    <Compile Include="Views\Groups\Main\AdminLevelTemplateSelector.cs" />
+    <Compile Include="Views\Groups\Market\Converters\AdminCanEditDeleteConverter.cs" />
+    <Compile Include="Views\Groups\Main\AdminTemplateSelector.cs" />
+    <Compile Include="Views\Groups\Admin\GroupBackListPage.xaml.cs">
+      <DependentUpon>GroupBackListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Admin\GroupInfoEditPage.xaml.cs">
+      <DependentUpon>GroupInfoEditPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Admin\GroupLinksPage.xaml.cs">
+      <DependentUpon>GroupLinksPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Market\Converters\AdminEditVisibillityConverter.cs" />
+    <Compile Include="Views\Groups\Market\Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Views\Groups\Market\Edit\SelectedMarketAlbumEditPage.xaml.cs">
+      <DependentUpon>SelectedMarketAlbumEditPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Market\Edit\SelectedProductEditPage.xaml.cs">
+      <DependentUpon>SelectedProductEditPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Market\MarketMainPage.xaml.cs">
+      <DependentUpon>MarketMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Market\MarketSelectedProductCommentPage.xaml.cs">
+      <DependentUpon>MarketSelectedProductCommentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Market\SelectedMarketAlbumPage.xaml.cs">
+      <DependentUpon>SelectedMarketAlbumPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Market\SelectedProductPage.xaml.cs">
+      <DependentUpon>SelectedProductPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Admin\Messages\GroupConversationPage.xaml.cs">
+      <DependentUpon>GroupConversationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Admin\Messages\GroupDialogsPage.xaml.cs">
+      <DependentUpon>GroupDialogsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Admin\GroupServicesPage.xaml.cs">
+      <DependentUpon>GroupServicesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Admin\GroupMembersEditPage.xaml.cs">
+      <DependentUpon>GroupMembersEditPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Main\GroupMainPage.xaml.cs">
+      <DependentUpon>GroupMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Groups\Main\UserGroupsPage.xaml.cs">
+      <DependentUpon>UserGroupsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Main\NullToVisibilityConverter.cs" />
+    <Compile Include="Views\Main\PlayerVisibillityConverter.cs" />
+    <Compile Include="Views\Main\SeacrhTemplateSelector.cs" />
+    <Compile Include="Views\Main\UserMainPage.xaml.cs">
+      <DependentUpon>UserMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Profile\Converters\FriendStatusTemplateSelector.cs" />
+    <Compile Include="Views\Profile\Converters\ProfileContentTemplateSelector.cs" />
+    <Compile Include="Views\Profile\ProfileMainPage.xaml.cs">
+      <DependentUpon>ProfileMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Wall\SelectedPostPage.xaml.cs">
+      <DependentUpon>SelectedPostPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <None Include="VKGroup Lite_StoreKey.pfx" />
+    <None Include="VKShop Lite_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icons\Dark\Counters\appbar.sound.0.png" />
+    <Content Include="Icons\Dark\Counters\appbar.undo.curve.png" />
+    <Content Include="Icons\Dark\Counters\appbar.user.png" />
+    <Content Include="Icons\Dark\Counters\appbar_message.png" />
+    <Content Include="Icons\Dark\Counters\like.png" />
+    <Content Include="Icons\Dark\Map\check.png" />
+    <Content Include="Icons\Dark\Map\gps.png" />
+    <Content Include="Icons\Dark\Map\location.png" />
+    <Content Include="Icons\Dark\MarketPlace\appilance.png" />
+    <Content Include="Icons\Dark\MarketPlace\baby_cloth.png" />
+    <Content Include="Icons\Dark\MarketPlace\camera.png" />
+    <Content Include="Icons\Dark\MarketPlace\computer.png" />
+    <Content Include="Icons\Dark\MarketPlace\cosmetic.png" />
+    <Content Include="Icons\Dark\MarketPlace\dog_food.png" />
+    <Content Include="Icons\Dark\MarketPlace\eating.png" />
+    <Content Include="Icons\Dark\MarketPlace\house_repair.png" />
+    <Content Include="Icons\Dark\MarketPlace\machine_repair.png" />
+    <Content Include="Icons\Dark\MarketPlace\medical.png" />
+    <Content Include="Icons\Dark\MarketPlace\office.png" />
+    <Content Include="Icons\Dark\MarketPlace\pcparts.png" />
+    <Content Include="Icons\Dark\MarketPlace\smartphone.png" />
+    <Content Include="Icons\Dark\MarketPlace\sport.png" />
+    <Content Include="Icons\Dark\MarketPlace\tablet.png" />
+    <Content Include="Icons\Dark\MarketPlace\tv.png" />
+    <Content Include="Icons\Dark\Menu\android-send.png" />
+    <Content Include="Icons\Dark\Menu\appbar.email.png" />
+    <Content Include="Icons\Dark\Menu\appbar.group.png" />
+    <Content Include="Icons\Dark\Menu\appbar.settings.png" />
+    <Content Include="Icons\Dark\Menu\camera3.png" />
+    <Content Include="Icons\Dark\Menu\clock97 %281%29.png" />
+    <Content Include="Icons\Dark\Menu\clock97.png" />
+    <Content Include="Icons\Dark\Menu\document139.png" />
+    <Content Include="Icons\Dark\Menu\location74.png" />
+    <Content Include="Icons\Dark\Menu\photo camera30.png" />
+    <Content Include="Icons\Dark\Menu\picture76.png" />
+    <Content Include="Icons\Dark\Menu\pin67.png" />
+    <Content Include="Icons\Dark\Menu\quaver36.png" />
+    <Content Include="Icons\Dark\Menu\smiley3.png" />
+    <Content Include="Icons\Dark\Menu\video166.png" />
+    <Content Include="Icons\Dark\News\speech bubble73.png" />
+    <Content Include="Icons\Dark\News\tool.png" />
+    <Content Include="Icons\Dark\OnlineApp\appbar.iphone.png" />
+    <Content Include="Icons\Dark\OnlineApp\appbar.moon.full.png" />
+    <Content Include="Icons\Dark\OnlineApp\appbar.os.android.png" />
+    <Content Include="Icons\Dark\OnlineApp\appbar.os.windows.8.png" />
+    <Content Include="Icons\Dark\OnlineApp\appbar.social.apple.png" />
+    <Content Include="Icons\Dark\OnlineApp\appbar.tablet.windows.png" />
+    <Content Include="Icons\Dark\Player\play107.png" />
+    <Content Include="Icons\LeftMenu\speech95.png" />
+    <Content Include="Icons\Light\Messages\android-send.png" />
+    <Content Include="Icons\Light\Messages\appbar.camera.png" />
+    <Content Include="Icons\Light\Messages\appbar.chat.png" />
+    <Content Include="Icons\Light\Messages\appbar.check.png" />
+    <Content Include="Icons\Light\Messages\appbar.close.png" />
+    <Content Include="Icons\Light\Messages\appbar.link.png" />
+    <Content Include="Icons\Light\Messages\appbar.location.round.png" />
+    <Content Include="Icons\Light\Messages\appbar.message.send.png" />
+    <Content Include="Icons\Light\Messages\appbar.paperclip.png" />
+    <Content Include="Icons\Light\Messages\appbar.read.png" />
+    <Content Include="Icons\Light\Messages\appbar.smiley.happy.png" />
+    <Content Include="Icons\Light\Messages\big-smile-256x256.png" />
+    <Content Include="Icons\Light\OnlineApp\appbar.iphone.png" />
+    <Content Include="Icons\Light\OnlineApp\appbar.moon.full.png" />
+    <Content Include="Icons\Light\OnlineApp\appbar.os.android.png" />
+    <Content Include="Icons\Light\OnlineApp\appbar.os.windows.8.png" />
+    <Content Include="Icons\Light\OnlineApp\appbar.social.apple.png" />
+    <Content Include="Icons\Light\OnlineApp\appbar.tablet.windows.png" />
+    <Content Include="Icons\Stickers\Stickers.txt" />
+    <Content Include="Icons\vk.jpg" />
+    <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Properties\Default.rd.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="Styles\Attachment\AttachmentStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Styles\Audio\AudioStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Styles\Buttons\ButtonsStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Styles\Colors\ColorsStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Styles\Group\GroupStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Styles\List\ListStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Styles\Messages\ConversationStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Styles\Player\PlayerControlStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Styles\Video\VideoStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="UserControls\Attachment\APhotoUploadControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Attachment\AttachMapLocationControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Attachment\AttachAudioControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Attachment\AttachDocControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Attachment\AttachFwdMessagesControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Attachment\AttachPhotoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Attachment\AttachVideoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Attachment\AttachWallControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Audio\AddAudioControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Audio\AudioPlaylistControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\CommentsControl\CommentsAddControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Images\ImagesFilpViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Loader\LoadingIndicator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="UserControls\Map\AddMapLocationControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MessagesControl\ConversationControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MessagesControl\DialogControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MessagesControl\Emoji\EmojiControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MessagesControl\FwdMessagesControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PopupControl\Counters\CreateDocControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PopupControl\Group\CreateGroupPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PopupControl\Counters\CreatePhotoAlbumControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PopupControl\Counters\CreatePhotoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PopupControl\CreatePostControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PopupControl\Counters\EditDocControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PopupControl\Group\SearchGroupFilterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PopupControl\Market\MarketAlbumCreateControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PopupControl\Market\MarketAlbumEditControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PopupControl\Market\MarketProductCreateControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PopupControl\Market\MarketProductEditControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PopupControl\PopupEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PopupControl\Profile\AddFriendControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Video\AddVideoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\WallControl\WallPostControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Auth\AuthPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Conversation\User\ChatConversationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Conversation\User\DialogConversationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Conversation\User\UserDialogsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\GroupAndUser\AudioPlayerMainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\GroupAndUser\AudiosPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\GroupAndUser\DocsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\GroupAndUser\SelectedPhotoAlbumPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\Group\GroupMembersPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\Group\GroupTopicsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\GroupAndUser\PhotoAlbumsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\Group\SelectedTopicMainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\GroupAndUser\VideosPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\GroupAndUser\SelectedVideoMainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\User\ProfileFriendsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\User\ProfileGroupsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Counters\User\ProfileFollowersPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Admin\AddGroupAdmin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Admin\AddUserToBlackLst.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Admin\AdminMainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Admin\GroupBackListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Admin\GroupInfoEditPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Admin\GroupLinksPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Market\Edit\SelectedMarketAlbumEditPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Market\Edit\SelectedProductEditPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Market\MarketMainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Market\MarketSelectedProductCommentPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Market\SelectedMarketAlbumPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Market\SelectedProductPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Admin\Messages\GroupConversationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Admin\Messages\GroupDialogsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Admin\GroupServicesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Admin\GroupMembersEditPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Main\GroupMainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Groups\Main\UserGroupsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Main\UserMainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Profile\ProfileMainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Settings\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Wall\SelectedPostPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">
+      <Name>Behaviors SDK %28XAML%29</Name>
+    </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Styles\User\" />
+    <Folder Include="Views\Conversation\Group\" />
+    <Folder Include="Views\Counters\Likes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BackgroundAudio\BackgroundAudio.csproj">
+      <Project>{2396c3a7-a673-4387-b61c-96a12ddda812}</Project>
+      <Name>BackgroundAudio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VKCore\VKCore.csproj">
+      <Project>{b2195978-3356-4045-aa61-b2805fa0fa03}</Project>
+      <Name>VKCore</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

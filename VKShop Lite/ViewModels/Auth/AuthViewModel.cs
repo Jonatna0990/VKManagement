@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using VKCore.API.Core;
 using VKCore.API.SDK;
-using VKCore.Helpers;
 using VKCore.UserControls.CaptchaControl;
-using VKCore.Util;
 using VKShop_Lite.Common;
 using VKShop_Lite.ViewModels.Base;
 using VKShop_Lite.Views.Main;

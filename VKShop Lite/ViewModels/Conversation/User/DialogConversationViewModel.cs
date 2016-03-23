@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using VKCore.API.Core;
+using VKCore.API.VKModels.Attachment;
 using VKCore.API.VKModels.Group;
 using VKCore.API.VKModels.Market;
 using VKCore.API.VKModels.Messages;
@@ -55,11 +54,19 @@ namespace VKShop_Lite.ViewModels.Conversation.User
                            if (res.ResultCode == VKResultCode.Succeeded)
                            {
                                var a = res.Data.FirstOrDefault();
+                               if(a.market.contact_id != 0)
                                Messages = new MessagesCollection(new MessageClass() { user_id = a.market.contact_id }, product);
                            }
                        });
                  
                    
+                }
+                else if (param is SendAttachmentClass)
+                {
+                    SendAttachmentClass message = (SendAttachmentClass)param;
+                    Messages = new MessagesCollection(message.user.message);
+                    Messages.AttachCollection = new ObservableCollection<AttachmentsClass>();
+                    Messages.AttachCollection.Add(message.attachment);
                 }
             }
         }

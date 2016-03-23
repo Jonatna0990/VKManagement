@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using VKCore.API.VKModels.Attachment;
 using VKCore.API.VKModels.Group;
-using VKCore.API.VKModels.Messages;
 using VKCore.API.VKModels.User;
 using VKCore.API.VKModels.Wall;
 using VKCore.Converters.DateTimeConverter;

@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.UI.Xaml;
 using VKCore.API.Core;
-using VKCore.API.VKModels.Market;
 using VKCore.API.VKModels.User;
-using VKCore.Helpers;
 using VKShop_Lite.Common;
 using VKShop_Lite.Helpers;
 using VKShop_Lite.UserControls.PopupControl.Profile;
 using VKShop_Lite.ViewModels.Base;
 using VKShop_Lite.Views.Counters.User;
-using VKShop_Lite.Views.Profile;
 
 namespace VKShop_Lite.ViewModels.Profile
 {
@@ -34,6 +28,7 @@ namespace VKShop_Lite.ViewModels.Profile
         public ICommand AddFriendCommand { get; set; }
         public ProfileViewModel(UserClass user)
         {
+            RegisterTasks("profile");
             DeleteFriendCommand = new DelegateCommand(
                 t =>
                 {
@@ -110,6 +105,7 @@ namespace VKShop_Lite.ViewModels.Profile
 
         private void Load(UserClass user)
         {
+            TaskStarted("profile");
             if (user != null)
             {
                 VKRequest.Dispatch<List<UserClass>>(
@@ -121,8 +117,9 @@ namespace VKShop_Lite.ViewModels.Profile
                      if (res.ResultCode == VKResultCode.Succeeded)
                      {
                          User = res.Data.FirstOrDefault();
-
+                         TaskFinished("profile");
                      }
+                     else TaskError("members", "ошибка загрузки");
                  });
             }
   

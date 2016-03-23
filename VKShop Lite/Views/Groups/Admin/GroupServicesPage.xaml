@@ -5,9 +5,282 @@
     xmlns:local="using:VKShop_Lite.Views.Groups.Admin"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:converters="using:VKShop_Lite.Views.Groups.Admin.Converters"
+    mc:Ignorable="d" x:Name="Page">
+    <Page.BottomAppBar>
+        <AppBar>
+            <StackPanel Orientation="Vertical">
+                <AppBarButton Command="{Binding SaveSettingsCommand}" Icon="Save" Content="сохранить"></AppBarButton>
+            </StackPanel>
+        </AppBar>
+    </Page.BottomAppBar>
+    <Page.Resources>
+        <converters:RadioButtonToIntConverter x:Key="RadioButtonToIntConverter"/>
+        <DataTemplate x:Key="GroupTemplate">
+            <Grid>
+                <StackPanel Margin="10,5,0,5">
+                 <!--   <TextBlock FontSize="23" Margin="0,5,0,5" Text="сообщения сообщества"></TextBlock>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.MessagesSettings,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=0, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="messages" Content="Выключены" Margin="0,5,0,5"/>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.MessagesSettings,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=1, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="messages" Margin="0,5,0,5">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Включены"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="Подключив сервис Сообщений , администраторы и редакторы смогут получать личные сообщения от пользователей и отвечать на них от имени сообщества." Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>-->
 
+                    <TextBlock FontSize="23" Margin="0,5,0,5" Text="стена"></TextBlock>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.wall,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=0, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="wall" Content="Выключена"  Margin="0,5,0,5"/>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.wall,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=1, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="wall" Margin="0,5,0,5">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Открытая"/><LineBreak></LineBreak>
+                            <Run FontSize="12"  Text="На открытой стене могут писать сообщения и оставлять комментарии все участники сообщества." Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.wall,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=2, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="wall"  Margin="0,5,0,5">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Ограниченная"/><LineBreak></LineBreak>
+                            <Run FontSize="12"  Text="На ограниченной стене можно писать только от имени группы, комментировать записи могут все участники." Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.wall,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=3, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="wall"  Margin="0,5,0,5">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Закрытая"/><LineBreak></LineBreak>
+                            <Run FontSize="12"  Text="На закрытой стене можно писать только от имени группы, комментарии отключены." Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+
+                    <TextBlock FontSize="23" Margin="0,5,0,5" Text="фотографии"></TextBlock>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.photos,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=0, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="photo" Content="Выключена"  Margin="0,5,0,5"/>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.photos,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=1, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="photo" Margin="0,5,0,5">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Открытая"/><LineBreak></LineBreak>
+                            <Run FontSize="12" Text="При открытом доступе создавать новые альбомы могут все участники сообщества." Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.photos,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=2, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="photo" Margin="0,5,0,5">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Ограниченная"/><LineBreak></LineBreak>
+                            <Run FontSize="12" Text="При ограниченном доступе создавать новые альбомы могут только редакторы и администраторы сообщества." Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+
+
+                    <TextBlock FontSize="23" Margin="0,5,0,5" Text="видеозаписи"></TextBlock>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.video,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=0, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="video" Content="Выключена"  Margin="0,5,0,5"/>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.video,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=1, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="video" Margin="0,5,0,5">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Открытая"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="При открытом доступе добавлять новые видеозаписи могут все участники сообщества." Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.video,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=2, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="video" Margin="0,5,0,5">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Ограниченная"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="При ограниченном доступе добавлять новые видеозаписи могут только  редакторы и администраторы сообщества." Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+
+
+
+                    <TextBlock  FontSize="23" Margin="0,5,0,5" Text="аудиозаписи"></TextBlock>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.audio,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=0, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="audio" Content="Выключена"  Margin="0,5,0,5"/>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.audio,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=1, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="audio" Margin="0,5,0,5">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Открытая"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="При открытом доступе добавлять новые аудиозаписи могут все участники сообщества." Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.audio,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=2, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="audio" Margin="0,5,0,5">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Ограниченная"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="При ограниченном доступе добавлять новые аудиозаписи могут только редакторы и администраторы сообщества." Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+
+
+                    <TextBlock FontSize="23" Margin="0,5,0,5" Text="докуметы"></TextBlock>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.docs,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=0, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="docs" Content="Выключена"  Margin="0,5,0,5"/>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.docs,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=1, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="docs" Margin="0,5,0,5">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Открытая"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="При открытом доступе добавлять новые документы могут все участники сообщества." Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.docs,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=2, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="docs" Margin="0,5,0,5">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Ограниченная"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="При ограниченном доступе добавлять новые документы могут только редакторы и администраторы сообщества." Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+
+
+                    <TextBlock FontSize="23" Margin="0,5,0,5" Text="обсуждения"></TextBlock>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.topics,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=0, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="topics" Content="Выключена"  Margin="0,5,0,5"/>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.topics,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=1, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="topics" Margin="0,5,0,5">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Открытая"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="При открытом доступе создавать новые темы могут все участники сообщества." Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.topics,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=2, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="topics" Margin="0,5,0,5">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Ограниченная"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="При ограниченном доступе создавать новые темы могут только редакторы и администраторы сообщества." Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+
+
+
+                    <TextBlock FontSize="23" Margin="0,5,0,5" Text="материалы"></TextBlock>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.wiki,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=0, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="mateials" Content="Выключена" Margin="0,5,0,5"/>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.wiki,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=1, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="mateials" Margin="0,5,0,5">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Открытая"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="При открытых материалах все участники сообщества могут создавать новые страницы." Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.wiki,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=2, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="mateials" Margin="0,5,0,5">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Ограниченная"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="При открытых новые страницы могут создавать только редакторы и администраторы." Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+
+
+
+                    <!--<TextBlock FontSize="23" Margin="0,5,0,5" Text="товары"></TextBlock>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.market,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=0, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="market" Content="Выключены"  Margin="0,5,0,5"/>
+                    <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.Settings.market,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=1, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="market" Margin="0,5,0,5">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Включены"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="Подключив раздел Товары, Вы сможете создавать карточки товаров и объединять их в подборки. На главной странице сообщества будет отображаться блок с товарами." Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>-->
+                  
+
+
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="EventTemplate">
+            <Grid>
+                <StackPanel   Orientation="Vertical">
+                    <TextBlock Margin="0,5,0,5" Text="сообщения сообщества"></TextBlock>
+                    <RadioButton Content="Выключены" Tag="0" Margin="0,5,0,5"/>
+                    <RadioButton Content="Включены" Tag="1" Margin="0,5,0,5"/>
+
+
+                    <TextBlock Margin="0,5,0,5" Text="стена"></TextBlock>
+                    <RadioButton Content="Выключена" Tag="0" Margin="0,5,0,5"/>
+                    <RadioButton Content="Открытая" Tag="1" Margin="0,5,0,5"/>
+                    <RadioButton Content="Ограниченная" Tag="2" Margin="0,5,0,5"/>
+                    <RadioButton Content="Закрытая" Tag="3" Margin="0,5,0,5"/>
+
+                    <TextBlock Margin="0,5,0,5" Text="фотографии"></TextBlock>
+                    <RadioButton Content="Выключена" Tag="0" Margin="0,5,0,5"/>
+                    <RadioButton Content="Открытая" Tag="1" Margin="0,5,0,5"/>
+                    <RadioButton Content="Ограниченная" Tag="2" Margin="0,5,0,5"/>
+
+
+                    <TextBlock Margin="0,5,0,5" Text="видеозаписи"></TextBlock>
+                    <RadioButton Content="Выключена" Tag="0" Margin="0,5,0,5"/>
+                    <RadioButton Content="Открытая" Tag="1" Margin="0,5,0,5"/>
+                    <RadioButton Content="Ограниченная" Tag="2" Margin="0,5,0,5"/>
+
+
+
+                    <TextBlock Margin="0,5,0,5" Text="аудиозаписи"></TextBlock>
+                    <RadioButton Content="Выключена" Tag="0" Margin="0,5,0,5"/>
+                    <RadioButton Content="Открытая" Tag="1" Margin="0,5,0,5"/>
+                    <RadioButton Content="Ограниченная" Tag="2" Margin="0,5,0,5"/>
+
+
+                    <TextBlock Margin="0,5,0,5" Text="докуметы"></TextBlock>
+                    <RadioButton Content="Выключена" Tag="0" Margin="0,5,0,5"/>
+                    <RadioButton Content="Открытая" Tag="1" Margin="0,5,0,5"/>
+                    <RadioButton Content="Ограниченная" Tag="2" Margin="0,5,0,5"/>
+
+
+                    <TextBlock Margin="0,5,0,5" Text="обсуждения"></TextBlock>
+                    <RadioButton Content="Выключена" Tag="0" Margin="0,5,0,5"/>
+                    <RadioButton Content="Открытая" Tag="1" Margin="0,5,0,5"/>
+                    <RadioButton Content="Ограниченная" Tag="2" Margin="0,5,0,5"/>
+
+
+                    <TextBlock Margin="0,5,0,5" Text="материалы"></TextBlock>
+                    <RadioButton Content="Выключена" Tag="0" Margin="0,5,0,5"/>
+                    <RadioButton Content="Открытая" Tag="1" Margin="0,5,0,5"/>
+                    <RadioButton Content="Ограниченная" Tag="2" Margin="0,5,0,5"/>
+
+
+
+                    <TextBlock Margin="0,5,0,5" Text="тип встречи"></TextBlock>
+                    <RadioButton Content="Открытая" Tag="0" Margin="0,5,0,5"/>
+                    <RadioButton Content="закрытая" Tag="1" Margin="0,5,0,5"/>
+
+
+
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="PageTemplate">
+            <StackPanel>
+                <TextBlock Margin="0,5,0,5" Text="сообщения сообщества"></TextBlock>
+                <RadioButton Content="Выключены" Tag="0" Margin="0,5,0,5"/>
+                <RadioButton Content="Включены" Tag="1" Margin="0,5,0,5"/>
+
+                <CheckBox Content="ссылки"></CheckBox>
+                <CheckBox Content="фотоальбомы"></CheckBox>
+                <CheckBox Content="видеозаписи"></CheckBox>
+                <CheckBox Content="аудиозаписи"></CheckBox>
+                <CheckBox Content="обсуждения"></CheckBox>
+                <CheckBox Content="мероприятия"></CheckBox>
+                <CheckBox Content="места"></CheckBox>
+                <CheckBox Content="контакты"></CheckBox>
+                <CheckBox Content="товары"></CheckBox>
+            </StackPanel>
+        </DataTemplate>
+        <converters:GroupCategoryTemplateSelector x:Key="CategoryTemplateSelector" EventTemplate="{StaticResource EventTemplate}" GroupTemplate="{StaticResource GroupTemplate}" PageTemplate="{StaticResource PageTemplate}"/>
+    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer>
+            <ContentPresenter   HorizontalAlignment="Stretch" Content="{Binding Group}" ContentTemplateSelector="{StaticResource CategoryTemplateSelector}" ></ContentPresenter>
 
+        </ScrollViewer>
+      
     </Grid>
 </Page>

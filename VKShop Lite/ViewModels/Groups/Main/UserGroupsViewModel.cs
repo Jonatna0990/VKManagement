@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using VKCore.API.Core;
@@ -8,10 +9,8 @@ using VKCore.API.VKModels.Group;
 using VKCore.API.VKModels.VKList;
 using VKCore.Helpers;
 using VKShop_Lite.Common;
-using VKShop_Lite.UserControls.PopupControl;
 using VKShop_Lite.UserControls.PopupControl.Group;
 using VKShop_Lite.ViewModels.Base;
-using VKShop_Lite.Views.Groups;
 using ВКонтакте.Models.List;
 using CreateGroupPopup = VKShop_Lite.UserControls.PopupControl.Group.CreateGroupPopup;
 using GroupMainPage = VKShop_Lite.Views.Groups.Main.GroupMainPage;
@@ -36,12 +35,14 @@ namespace VKShop_Lite.ViewModels.Groups.Main
         private bool is_filter_open = false;
         public UserGroupsViewModel()
         {
+            RegisterTasks("load");
+            ReloadCommand = new DelegateCommand(t => { LoadGroups();});
             paramsDictionary = new Dictionary<string, string>();
-            OpenFilterCommand = new DelegateCommand(t =>
+            OpenFilterCommand = new DelegateCommand(async t =>
             {
                 if (filterControl != null)
                 {
-                    filterControl.ShowAsync();
+                   await filterControl.ShowAsync();
                 }
                 else
                 {
@@ -51,7 +52,7 @@ namespace VKShop_Lite.ViewModels.Groups.Main
 
                     });
                     filterControl = p;
-                    filterControl.ShowAsync();
+                    await filterControl.ShowAsync();
                 }
                
                
@@ -70,14 +71,7 @@ namespace VKShop_Lite.ViewModels.Groups.Main
             });
               
         }
-        private Visibility _isLoaded;
-
-        public Visibility IsLoaded
-        {
-            get { return _isLoaded; }
-            set { _isLoaded = value; RaisePropertyChanged("IsLoaded"); }
-        }
-    
+        
         public ICommand OpenCreatePopupCommand { get; set; }
         private ObservableCollection<GroupsClass> _editorList;
         private ObservableCollection<GroupsClass> _mainList;
@@ -135,9 +129,10 @@ namespace VKShop_Lite.ViewModels.Groups.Main
             }
         }
 
-        public void LoadGroups()
+        public  void LoadGroups()
         {
-            VKRequest.Dispatch<VKList<GroupsClass>>(
+            TaskStarted("load");
+           VKRequest.Dispatch<VKList<GroupsClass>>(
                new VKRequestParameters(
                  SGroups.groups_get, "extended", "1","fields", "members_count,start_date"),
                (res) =>
@@ -145,7 +140,8 @@ namespace VKShop_Lite.ViewModels.Groups.Main
                    var q = res.ResultCode;
                    if (res.ResultCode == VKResultCode.Succeeded)
                    {
-                       IsLoaded = Visibility.Collapsed;
+                       TaskFinished("load");
+                       IsLoaded =false;
                        MainList = new ObservableCollection<GroupsClass>();
                        MainList = res.Data.items.ToObservableCollection();
                        EditorList = new ObservableCollection<GroupsClass>();
@@ -160,6 +156,8 @@ namespace VKShop_Lite.ViewModels.Groups.Main
                        }
 
                    }
+                   else
+                       TaskError("load", "ошибка загрузки");
                });
         }
 
@@ -175,7 +173,7 @@ namespace VKShop_Lite.ViewModels.Groups.Main
                  var q = res.ResultCode;
                  if (res.ResultCode == VKResultCode.Succeeded)
                  {
-                     IsLoaded = Visibility.Collapsed;
+                     IsLoaded = false;
                      GlobalSearchList = new VKCollection<GroupsClass>();
                      GlobalSearchList.items = res.Data.items.ToObservableCollection();
                      GlobalSearchList.count = res.Data.count;
@@ -202,7 +200,7 @@ namespace VKShop_Lite.ViewModels.Groups.Main
                    var q = res.ResultCode;
                    if (res.ResultCode == VKResultCode.Succeeded)
                    {
-                       IsLoaded = Visibility.Collapsed;
+                       IsLoaded = false;
                        MainList = new ObservableCollection<GroupsClass>();
                        MainList = res.Data.items.ToObservableCollection();
                        EditorList = new ObservableCollection<GroupsClass>();

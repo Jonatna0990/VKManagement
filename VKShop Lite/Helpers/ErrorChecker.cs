@@ -1,6 +1,4 @@
-﻿using System;
-using VKCore.API.Error;
-using VKShop_Lite.UserControls.PopupControl;
+﻿using VKCore.API.Error;
 
 namespace VKShop_Lite.Helpers
 {

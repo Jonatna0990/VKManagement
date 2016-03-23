@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:counters="using:VKShop_Lite.ViewModels.Counters"
+    xmlns:loader="using:VKShop_Lite.UserControls.Loader"
     mc:Ignorable="d">
 <Page.Resources>
     <DataTemplate x:Name="PhotoAlbumTemplate">
@@ -36,7 +37,11 @@
         </AppBar>
     </Page.BottomAppBar>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <GridView SelectedItem="{Binding SelectedAlbumsItem,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ItemTemplate="{StaticResource PhotoAlbumTemplate}" ItemsSource="{Binding AlbumCollection.albums.items}">
-         </GridView>
+        <loader:LoadingIndicator Margin="0,10,0,0" Padding="13,0,13,0"
+                        IsBusy="{Binding Tasks[palbum].IsWorking}"
+                        Error="{Binding Tasks[palbum].Error}">
+
+            <GridView SelectedItem="{Binding SelectedAlbumsItem,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ItemTemplate="{StaticResource PhotoAlbumTemplate}" ItemsSource="{Binding AlbumCollection.albums.items}"/>
+        </loader:LoadingIndicator>
     </Grid>
 </Page>

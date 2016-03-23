@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace VKCore.Helpers
 {
@@ -56,5 +57,12 @@ namespace VKCore.Helpers
             }
             return null;
         }
+
+
+            public static IEnumerable<T> GetValues<T>()
+            {
+                return Enum.GetValues(typeof(T)).Cast<T>();
+            }
+        
     }
 }

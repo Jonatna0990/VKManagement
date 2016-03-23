@@ -5,9 +5,158 @@
     xmlns:local="using:VKShop_Lite.Views.Groups.Admin"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:listControl="using:VKShop_Lite.UserControls.ListControl"
+    xmlns:user="using:VKCore.API.VKModels.User"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:helpers="using:VKShop_Lite.Helpers"
+    mc:Ignorable="d" x:Name="Page">
+<Page.Resources>
+        <DataTemplate x:DataType="user:UserClass" x:Key="UserRequestsTemplate">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Height="60">
+                    <interactivity:Interaction.Behaviors>
+                        
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.UserPageOpenCommand}" CommandParameter="{Binding }"/>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                 
+                    <Border Background="LightGray" CornerRadius="33" Height="50" Width="50">
+                        <Ellipse  Width="50" x:Phase="2" DataContext="{x:Bind }"  Height="50">
+                            <Ellipse.Fill>
 
+                                <ImageBrush>
+                                    <ImageBrush.ImageSource>
+                                        <BitmapImage UriSource="{Binding photo_100}" />
+                                    </ImageBrush.ImageSource>
+                                </ImageBrush>
+                            </Ellipse.Fill>
+                        </Ellipse >
+                    </Border>
+
+                    <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+                        <TextBlock x:Phase="0"  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{x:Bind full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+
+                    </StackPanel>
+                   
+                </StackPanel>
+                <Grid Margin="0,10,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button  x:Name="CreateButton" Command="{Binding ElementName=Page,Path=DataContext.AcceptUserAddRequestCommand}" CommandParameter="{Binding }" Margin="1"  HorizontalAlignment="Stretch"  Content="принять заявку" >
+                       
+                    </Button>
+                    <Button Grid.Column="1" Margin="1" x:Name="CancelButton" Command="{Binding ElementName=Page,Path=DataContext.RefuseUserAddRequestCommand}" CommandParameter="{Binding }"  Content="отменить заявку" HorizontalAlignment="Stretch" ></Button>
+                </Grid>
+            </StackPanel>
+         </DataTemplate>
+        <DataTemplate x:Key="UserMemberTemplate">
+
+        </DataTemplate>
+
+        <DataTemplate x:Key="UserModeratorOrEditorTemplate">
+
+        </DataTemplate>
+        <DataTemplate x:Key="UserAdminTemplate">
+
+        </DataTemplate>
+        <DataTemplate x:Key="AdminTemplate">
+            <StackPanel Orientation="Horizontal" Height="60">
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Tapped">
+                        <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.NavigateToGroupCommand}" CommandParameter="{Binding }">
+                        </core:InvokeCommandAction>
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+                <Ellipse  Width="50"  Height="50">
+                    <Ellipse.Fill>
+                        <ImageBrush>
+                            <ImageBrush.ImageSource>
+                                <BitmapImage UriSource="{Binding Path=photo_100}" />
+                            </ImageBrush.ImageSource>
+                        </ImageBrush>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+                    <TextBlock  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                    <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  Text="{Binding role}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+
+                </StackPanel>
+
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="UserTemplate" x:DataType="user:UserClass">
+            <StackPanel Orientation="Horizontal" Height="60">
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior   EventName="Holding">
+                        <helpers:OpenMenuFlyoutAction   />
+                    </core:EventTriggerBehavior>
+                    <core:EventTriggerBehavior EventName="Tapped">
+                        <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.NavigateToGroupCommand}" CommandParameter="{Binding }">
+                        </core:InvokeCommandAction>
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+                <FlyoutBase.AttachedFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="добавить в чёрный список" CommandParameter="{Binding }" Command="{Binding  ElementName=Page,Path=DataContext.AddUserToBlackList}" />
+                    </MenuFlyout>
+                </FlyoutBase.AttachedFlyout>
+                <Border Background="LightGray" CornerRadius="33" Height="50" Width="50">
+                    <Ellipse  Width="50" x:Phase="2" DataContext="{x:Bind }"  Height="50">
+                        <Ellipse.Fill>
+
+                            <ImageBrush>
+                                <ImageBrush.ImageSource>
+                                    <BitmapImage UriSource="{Binding photo_100}" />
+                                </ImageBrush.ImageSource>
+                            </ImageBrush>
+                        </Ellipse.Fill>
+                    </Ellipse >
+                </Border>
+
+                <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+                    <TextBlock x:Phase="0"  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{x:Bind full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+
+                </StackPanel>
+
+            </StackPanel>
+        </DataTemplate>
+
+    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+        <Pivot>
+            <PivotItem Margin="0" Header="все участники">
+               <Grid>
+                    <listControl:ExtendedListView ItemTemplate="{StaticResource UserTemplate}" ItemsSource="{Binding users}">
+                        
+                    </listControl:ExtendedListView>
+               </Grid>
+            </PivotItem>
+            <PivotItem Margin="0" Header="руководители">
+                <listControl:ExtendedListView ItemTemplate="{StaticResource AdminTemplate}" ItemsSource="{Binding admins}">
+
+                </listControl:ExtendedListView>
+            </PivotItem>
+            <PivotItem Margin="0" Header="заявки">
+                <Grid>
+                    <listControl:ExtendedListView ItemTemplate="{StaticResource UserRequestsTemplate}" ItemsSource="{Binding requests}">
+
+                    </listControl:ExtendedListView>
+                    <AppBar  VerticalAlignment="Bottom">
+                        <StackPanel Orientation="Vertical">
+                            <AppBarButton Icon="Accept" Label="одобрить все заявки" Command="{Binding AdminOpenCommand}"/>
+
+                        </StackPanel>
+
+                    </AppBar>
+                </Grid>
+                
+            </PivotItem>
+        </Pivot>
     </Grid>
 </Page>

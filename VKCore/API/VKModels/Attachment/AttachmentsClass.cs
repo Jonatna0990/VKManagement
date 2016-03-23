@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GalaSoft.MvvmLight;
 using Newtonsoft.Json;
 using VKCore.API.VKModels.Audio;
 using VKCore.API.VKModels.Doc;
+using VKCore.API.VKModels.Geo;
 using VKCore.API.VKModels.Gift;
 using VKCore.API.VKModels.Link;
 using VKCore.API.VKModels.Note;
@@ -18,18 +15,32 @@ using VKCore.Converters.ProfileConverter;
 
 namespace VKCore.API.VKModels.Attachment
 {
-    public class AttachmentsClass
+    public class AttachmentsClass : ViewModelBase
     {
+        private DocClass _doc;
+        private AudioClass _audio;
+
         [JsonProperty("type")]
         public string type { get; set; }
         [JsonProperty("photo")]
         public PhotoClass photo { get; set; }
         [JsonProperty("link")]
         public LinkClass link { get; set; }
+
         [JsonProperty("doc")]
-        public DocClass doc { get; set; }
+        public DocClass doc
+        {
+            get { return _doc; }
+            set { _doc = value;RaisePropertyChanged("doc"); }
+        }
+
         [JsonProperty("audio")]
-        public AudioClass audio { get; set; }
+        public AudioClass audio
+        {
+            get { return _audio; }
+            set { _audio = value; RaisePropertyChanged("audio"); }
+        }
+
         [JsonProperty("video")]
         public VideoClass video { get; set; }
         [JsonProperty("poll")]
@@ -46,6 +57,8 @@ namespace VKCore.API.VKModels.Attachment
         public NoteClass note { get; set; }
         //[JsonProperty("page")]
         // public GiftClass group { get; set; }
+        
+        public GeoClass location { get; set; }
 
         public AttachType attach_type
         {

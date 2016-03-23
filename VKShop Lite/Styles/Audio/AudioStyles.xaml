@@ -1,13 +1,17 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <DataTemplate x:Key="AudioTemplate">
-        <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:audio="using:VKShop_Lite.Styles.Audio">
+    <audio:AudioBackgroundBorderConverter x:Key="AudioBackgroundBorderConverter"/>
+    <audio:AudioProgBarVisibillityConverter x:Key="AudioProgBarVisibillityConverter"/>
+    <DataTemplate  x:Key="AudioTemplate">
+        <StackPanel Background="{Binding  State,Mode=TwoWay, Converter={StaticResource AudioBackgroundBorderConverter}}" Margin="5,0,0,0" VerticalAlignment="Center">
             <TextBlock  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding artist}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
             <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}" Height="17" Text="{Binding title}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
             <TextBlock   Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  VerticalAlignment="Top" TextWrapping="NoWrap">
                          <Run Text="{Binding string_duration}"/>
             </TextBlock>
+            <ProgressBar Visibility="{Binding State,Mode=TwoWay, Converter={StaticResource AudioProgBarVisibillityConverter}}" Value="{Binding Source={StaticResource   BasePlayerInstance},Path=Base.Instance.CurrentPosition, Mode=TwoWay, FallbackValue=0}" Maximum="{Binding Source={StaticResource BasePlayerInstance},Path=Base.CurrentTrack.duration}"></ProgressBar>
         </StackPanel>
     </DataTemplate>
     <DataTemplate x:Key="AudioPageFooterTemplate">

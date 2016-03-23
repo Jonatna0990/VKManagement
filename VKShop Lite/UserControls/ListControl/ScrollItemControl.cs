@@ -1,42 +1,54 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
-using VKShop_Lite.Helpers;
-using WinRTXamlToolkit.Controls.Extensions;
+using GalaSoft.MvvmLight.Messaging;
+using VKCore.API.VKModels.Board;
+using VKCore.API.VKModels.Messages;
+using VKShop_Lite.ViewModels.Base;
+using VKShop_Lite.ViewModels.Conversation.User;
+using VKShop_Lite.ViewModels.Counters.Group;
 
 namespace VKShop_Lite.UserControls.ListControl
 {
-    public class ScrollItemControl : ListView
+    public enum ScrollControlType
     {
+        News,
+        Dialogs,
+        Messages,
+        Comments,
+        None
+
+    }
+    public class ExtendedListView : ListView
+    {
+       
         private ScrollViewer _scrollViewer;
-        public readonly static DependencyProperty AutoScrollProperty = DependencyProperty.Register("IsChecked", typeof(object), typeof(ScrollItemControl),
-            new PropertyMetadata(null, PropertyChangedCallback));
+        public static readonly DependencyProperty ScrollControlTypeProperty = DependencyProperty.Register("ScrollControlType", typeof(ScrollControlType), typeof(ExtendedListView),
+            new PropertyMetadata(ScrollControlType.None, PropertyChangedCallback));
 
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             var t = dependencyPropertyChangedEventArgs;
         }
 
-        public object IsAutoScroll
+
+
+
+        public ScrollControlType ScrollControlType
         {
             get
             {
-                return (object)base.GetValue(AutoScrollProperty);
+                return (ScrollControlType)base.GetValue(ScrollControlTypeProperty);
             }
             set
             {
-                //  if(value != null)SetScroll(value);
-                base.SetValue(AutoScrollProperty, value);
+                base.SetValue(ScrollControlTypeProperty, value);
             }
         }
 
@@ -45,14 +57,14 @@ namespace VKShop_Lite.UserControls.ListControl
         public static readonly DependencyProperty CommandPropertyBottom = DependencyProperty.RegisterAttached(
            CommandPropertyNameBottom,
            typeof(ICommand),
-           typeof(ScrollItemControl),
+           typeof(ExtendedListView),
            new PropertyMetadata(
                null));
         public const string CommandPropertyNameTop = "LoadMoreCommandTop";
         public static readonly DependencyProperty CommandPropertyTop = DependencyProperty.RegisterAttached(
            CommandPropertyNameTop,
            typeof(ICommand),
-           typeof(ScrollItemControl),
+           typeof(ExtendedListView),
            new PropertyMetadata(
                null));
         public ICommand LoadMoreCommandTop
@@ -67,11 +79,24 @@ namespace VKShop_Lite.UserControls.ListControl
         }
 
 
-        public ScrollItemControl()
+        public ExtendedListView()
         {
+           
            this.Loaded += ScrollItemControl_Loaded;
-          
+            Messenger.Default.Register<MessageClass>(this, (person) =>
+            {
+                ScrollToBottom();
+            });
+            Messenger.Default.Register<BoarsClass>(this,  (person) =>
+            {
+               
+                ScrollToBottom();
+            });
+
         }
+
+        
+
         private static ScrollViewer GetScrollViewer(DependencyObject depObj)
         {
             if (depObj is ScrollViewer) return depObj as ScrollViewer;
@@ -89,51 +114,84 @@ namespace VKShop_Lite.UserControls.ListControl
         {
 
             ScrollViewer view = (ScrollViewer)sender;
-            if (view.VerticalOffset == 0)
+            if (view.VerticalOffset <= 2 && e.IsIntermediate)
             {
                 if (LoadMoreCommandTop != null)
-                    LoadMoreCommandTop.Execute("top");
+                    LoadMoreCommandTop.Execute(sender);
 
             }
 
-            if ((view.VerticalOffset > 0.8 * view.ScrollableHeight))
+            if (view.VerticalOffset == view.ScrollableHeight && e.IsIntermediate)
             {
                 if (LoadMoreCommandBottom != null)
-                    LoadMoreCommandBottom.Execute("bottom");
+                    LoadMoreCommandBottom.Execute(sender);
 
             }
 
-
-
-
         }
-        public void SetScroll(object items)
+
+       
+
+        private async void ScrollToBottom()
         {
-            ObservableCollection<object> temp = items as ObservableCollection<object>;
-            ScrollIntoView(Items.Last());
-            if (temp != null) temp.CollectionChanged += Temp_CollectionChanged;
+            await Task.Delay(500);
+            if (_scrollViewer != null) _scrollViewer.ChangeView(null, _scrollViewer.ScrollableHeight + 5000, null);
         }
 
-        protected override void OnItemsChanged(object e)
-        {
-            base.OnItemsChanged(e);
-            if (Items != null && Items.LastOrDefault() != null) ScrollIntoView(Items.LastOrDefault());
-        }
-
-        private void Temp_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (Items != null && Items.LastOrDefault() != null) ScrollIntoView(Items.LastOrDefault());
-        }
         private void ScrollItemControl_Loaded(object sender, RoutedEventArgs e)
         {
-            _scrollViewer = GetScrollViewer(this);
-            if (_scrollViewer != null)
+            if (ScrollControlType != ScrollControlType.None)
             {
-                _scrollViewer.ViewChanged += OnViewChanged;
+                switch (ScrollControlType)
+                {
+                    case ScrollControlType.Messages:
+                        {
+                            ScrollToBottom();
+                            _scrollViewer = GetScrollViewer(this);
+                            if (_scrollViewer != null)
+                            {
+                                _scrollViewer.ViewChanged += OnViewChanged;
+                                _scrollViewer.SizeChanged += _scrollViewer_SizeChanged;
+                                
+                            }
+                          
+                        }; break;
+                    case ScrollControlType.Dialogs:
+                    case ScrollControlType.News:
+                    case ScrollControlType.None:
+                        {
+                            _scrollViewer = GetScrollViewer(this);
+                            if (_scrollViewer != null)
+                            {
+                                _scrollViewer.ViewChanged += OnViewChanged;
+                            }
+                        }
+                        ; break;
+                    case ScrollControlType.Comments:
+                    {
+                            ScrollToBottom();
+                            _scrollViewer = GetScrollViewer(this);
+                            if (_scrollViewer != null)
+                            {
+                                _scrollViewer.ViewChanged += OnViewChanged;
+                            }
+                            
+                        
+                    };break;
+                 
+                     
+                }
             }
+         
 
         }
-   
+
+        private void _scrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var obj = sender as ScrollViewer;
+            obj.ChangeView(0.0f, double.MaxValue, 1.0f);
+            UpdateLayout();
+        }
     }
    
 }

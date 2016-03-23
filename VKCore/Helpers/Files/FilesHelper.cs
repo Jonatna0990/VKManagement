@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Pickers;
@@ -13,7 +11,7 @@ using VKCore.API.VKModels.Attachment;
 
 namespace VKCore.Helpers.Files
 {
-    
+
     public class FilesHelper
     {
   
@@ -62,8 +60,10 @@ namespace VKCore.Helpers.Files
         public static async Task<BitmapImage> LoadImage(StorageFile file)
         {
             BitmapImage bitmapImage = new BitmapImage();
-            FileRandomAccessStream stream = (FileRandomAccessStream)await file.OpenAsync(FileAccessMode.Read);
-            bitmapImage.SetSource(stream);
+         //   FileRandomAccessStream stream = (FileRandomAccessStream)await file.OpenAsync(FileAccessMode.Read);
+            var thumb = await file.GetScaledImageAsThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
+            bitmapImage.SetSource(thumb);
+
             return bitmapImage;
 
         }

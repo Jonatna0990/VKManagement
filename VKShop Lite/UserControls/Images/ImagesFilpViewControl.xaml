@@ -6,9 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:userControls="using:VKCore.UserControls" 
-    mc:Ignorable="d">
+    mc:Ignorable="d" Margin="0,-3,0,0" Height="{Binding Source={StaticResource ResolutionScaleHelper},Path=AbsHeight}">
 
-    <Grid  Background="White"  >
+    <Grid Height="{Binding Source={StaticResource ResolutionScaleHelper},Path=Height}"  Background="White"  >
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="12*"/>

@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VKCore.API.Core;
-using VKCore.API.SDK;
 using VKCore.API.VKModels.Video;
-using VKCore.API.VKModels.VKList;
 using VKShop_Lite.ViewModels.Base;
 using ВКонтакте.Models.List;
 
@@ -27,6 +23,12 @@ namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
         {
             this.param = param;
             Load();
+            ReloadCommand = new DelegateCommand(t =>
+            {
+                Load();
+            });
+            RegisterTasks("vplayer");
+            TaskStarted("vplayer");
 
         }
 
@@ -47,7 +49,10 @@ namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
                  if (res.ResultCode == VKResultCode.Succeeded)
                  {
                      Video = res.Data.items.FirstOrDefault();
+                     TaskFinished("vplayer");
                  }
+                 else
+                     TaskError("vplayer", "ошибка загрузки");
              });
             }
           

@@ -9,6 +9,7 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:helpers="using:VKShop_Lite.Helpers"
     xmlns:converters="using:VKShop_Lite.Views.Groups.Market.Converters"
+    xmlns:loader="using:VKShop_Lite.UserControls.Loader"
     mc:Ignorable="d" x:Name="Page">
     <Page.Resources>
         <converters:AdminCanEditDeleteConverter x:Name="AdminCanEditDeleteConverter"/>
@@ -21,41 +22,44 @@
 </Page.BottomAppBar>
  
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView ItemsSource="{Binding DocsCollection}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid  Margin="1" Height="70" >
-                        <interactivity:Interaction.Behaviors>
-                            <core:EventTriggerBehavior   EventName="Holding">
-                                <helpers:OpenMenuFlyoutAction   />
-                            </core:EventTriggerBehavior>
-                        </interactivity:Interaction.Behaviors>
+        <loader:LoadingIndicator Margin="0,10,0,0" Padding="13,0,13,0"
+                        IsBusy="{Binding Tasks[docs].IsWorking}"
+                        Error="{Binding Tasks[docs].Error}">
+            <ListView ItemsSource="{Binding DocsCollection}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid  Margin="1" Height="70" >
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior   EventName="Holding">
+                                    <helpers:OpenMenuFlyoutAction   />
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
 
-                        <FlyoutBase.AttachedFlyout>
-                            <MenuFlyout >
-                                <MenuFlyoutItem  IsEnabled="{Binding ElementName=Page,Path=DataContext.IsCanEdit}" Text="загрузить" CommandParameter="{Binding  }" Command="{Binding ElementName=Page,Path=DataContext.DownloadDocCommand}" />
+                            <FlyoutBase.AttachedFlyout>
+                                <MenuFlyout >
+                                    <MenuFlyoutItem  IsEnabled="{Binding ElementName=Page,Path=DataContext.IsCanEdit}" Text="загрузить" CommandParameter="{Binding  }" Command="{Binding ElementName=Page,Path=DataContext.DownloadDocCommand}" />
 
-                                <MenuFlyoutItem  IsEnabled="{Binding ElementName=Page,Path=DataContext.IsCanEdit}" Text="редактровать" CommandParameter="{Binding }" Command="{Binding ElementName=Page,Path=DataContext.EditDocCommand}" />
-                                <MenuFlyoutItem  IsEnabled="{Binding ElementName=Page,Path=DataContext.IsCanEdit}" Text="удалить" CommandParameter="{Binding }" Command="{Binding ElementName=Page,Path=DataContext.DeleteDocCommand}" />
-                            </MenuFlyout>
-                        </FlyoutBase.AttachedFlyout>
-                        <Grid Margin="0,6" Background="Transparent">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="55"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="55"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Text="{Binding title}"
+                                    <MenuFlyoutItem  IsEnabled="{Binding ElementName=Page,Path=DataContext.IsCanEdit}" Text="редактровать" CommandParameter="{Binding }" Command="{Binding ElementName=Page,Path=DataContext.EditDocCommand}" />
+                                    <MenuFlyoutItem  IsEnabled="{Binding ElementName=Page,Path=DataContext.IsCanEdit}" Text="удалить" CommandParameter="{Binding }" Command="{Binding ElementName=Page,Path=DataContext.DeleteDocCommand}" />
+                                </MenuFlyout>
+                            </FlyoutBase.AttachedFlyout>
+                            <Grid Margin="0,6" Background="Transparent">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="55"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="55"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="{Binding title}"
                          Grid.Column="1"
                          Foreground="Gray"
                          FontSize="26"
                          FontFamily="{StaticResource PhoneFontFamilySemiLight}"
                          
                          VerticalAlignment="Top"/>
-                            <TextBlock Grid.Row="0" 
+                                <TextBlock Grid.Row="0" 
                          Grid.Column="1"
                          FontSize="18"
                          Foreground="Gray"
@@ -63,15 +67,17 @@
                     <Run Text="Документ "/>
                    
                     <Run Text="{Binding StringSize}"></Run>
-                            </TextBlock>
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe MDL2 Assets" Opacity="0.3" Grid.Row="0" FontSize="40" Grid.Column="0" Text="&#xE8A5;"></TextBlock>
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.3" Text="{Binding ext}" Grid.Row="0" FontSize="20" Grid.Column="0"></TextBlock>
+                                </TextBlock>
+                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe MDL2 Assets" Opacity="0.3" Grid.Row="0" FontSize="40" Grid.Column="0" Text="&#xE8A5;"></TextBlock>
+                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0.3" Text="{Binding ext}" Grid.Row="0" FontSize="20" Grid.Column="0"></TextBlock>
 
+                            </Grid>
                         </Grid>
-                    </Grid>
 
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </loader:LoadingIndicator>
     </Grid>
 </Page>

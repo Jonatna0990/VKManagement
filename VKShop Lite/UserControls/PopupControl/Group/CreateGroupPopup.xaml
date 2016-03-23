@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:captchaControl="using:VKCore.UserControls.CaptchaControl"
-    mc:Ignorable="d" Style="{StaticResource ContentDialogTemplate}"
+    mc:Ignorable="d" Style="{StaticResource ContentStyle}"
     Title="Создание нового сообщества"
   Background="White">
     <ContentControl.Resources>

@@ -14,7 +14,7 @@
         <Grid x:Name="ContentPanel" Visibility="{Binding ContentVisibility}" VerticalAlignment="Top">
             <StackPanel x:Name="naimstack" Margin="0,0,0,0" >
                 <Image x:Name="logo" Height="100" Width="100" Source="ms-appx:///Icons/vk.jpg" Margin="0,0" />
-                <TextBlock x:Name="vk_txt" FontSize="20" TextAlignment="Center" Text="VK Shop Lite – уникальное приложение, позволяющее работать с сервисом Товаров ВКонтакте" TextWrapping="Wrap">
+                <TextBlock x:Name="vk_txt" FontSize="20" TextAlignment="Center" Text="VKGroup Lite – это уникальное мобильное приложение, с помощью которого Вы можете управлять администрируемыми сообществами ВК." TextWrapping="Wrap">
                     <TextBlock.Foreground>
                         <SolidColorBrush Color="#FF686868"/>
                     </TextBlock.Foreground>
@@ -26,8 +26,8 @@
 
                 </Grid>
                 <Grid Margin="10,10,10,0">
-                    <TextBlock x:Name="registration" FontSize="15" Text="Зарегистрироваться" Foreground="Black"  />
-                    <TextBlock x:Name="forgotpass" FontSize="15" Text="Забыли пароль?" HorizontalAlignment="Right" Foreground="Black"/>
+                    <HyperlinkButton x:Name="registration" FontSize="15"   Content="Зарегистрироваться" NavigateUri="https://vk.com/" Foreground="Black"  />
+                    <HyperlinkButton x:Name="forgotpass" FontSize="15" Content="Забыли пароль?" NavigateUri="https://vk.com/restore" HorizontalAlignment="Right" Foreground="Black"/>
 
 
 

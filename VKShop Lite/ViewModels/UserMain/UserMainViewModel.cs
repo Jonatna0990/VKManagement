@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.UI.Xaml;
 using VKCore.API.Core;
-using VKCore.API.VKModels.Group;
 using VKCore.API.VKModels.User;
-using VKCore.Helpers;
 using VKShop_Lite.Common;
 using VKShop_Lite.ViewModels.Base;
 using VKShop_Lite.Views.Conversation.User;
-using VKShop_Lite.Views.Groups;
-using VKShop_Lite.Views.Groups.Admin;
+using VKShop_Lite.Views.Counters.GroupAndUser;
 using VKShop_Lite.Views.Settings;
 using GroupMainPage = VKShop_Lite.Views.Groups.Main.GroupMainPage;
-using GroupMessagesPage = VKShop_Lite.Views.Groups.Messages.GroupMessagesPage;
 using UserGroupsPage = VKShop_Lite.Views.Groups.Main.UserGroupsPage;
 
 namespace VKShop_Lite.ViewModels.UserMain
@@ -31,6 +22,7 @@ namespace VKShop_Lite.ViewModels.UserMain
         public ICommand NavigeteToMessagesPage { get; set; }
         public ICommand NavigeteToSettingsPage { get; set; }
         public ICommand ToggleSplitViewPaneCommand { get; private set; }
+       
 
         public bool IsPaneOpen
         {
@@ -67,6 +59,7 @@ namespace VKShop_Lite.ViewModels.UserMain
                 this.NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(SettingsPage) }); ClearBackStack(true);
 
             });
+         
             Load();
         }
 

@@ -8,7 +8,9 @@
     xmlns:messagesControl="using:VKShop_Lite.UserControls.MessagesControl"
     xmlns:messages="using:VKCore.API.VKModels.Messages"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:core="using:Microsoft.Xaml.Interactions.Core" x:Name="Page"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:loader="using:VKShop_Lite.UserControls.Loader"
+    x:Name="Page"
     mc:Ignorable="d">
 <Page.Resources>
         <DataTemplate   x:Key="DialogTemplate" x:DataType="messages:MessageClass">
@@ -88,23 +90,28 @@
         </DataTemplate>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView SelectedItem="{Binding SelectedDialog,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Background="Transparent"  x:Name="ListView1"   ItemsSource="{Binding Path=Dialogs.Messages.dialogs.items}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <messagesControl:DialogControl  />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <VirtualizingStackPanel>
-                        <VirtualizingStackPanel.ChildrenTransitions>
-                            <TransitionCollection>
-                                <ReorderThemeTransition/>
-                            </TransitionCollection>
-                        </VirtualizingStackPanel.ChildrenTransitions>
-                    </VirtualizingStackPanel>
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-        </ListView>
+        <loader:LoadingIndicator Margin="0,10,0,0" Padding="13,0,13,0"
+                        IsBusy="{Binding Dialogs.Tasks[dialogs].IsWorking}"
+                        Error="{Binding Dialogs.Tasks[dialogs].Error}">
+            <ListView  SelectedItem="{Binding SelectedDialog,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Background="Transparent"  x:Name="ListView1"   ItemsSource="{Binding Path=Dialogs.Messages.dialogs.items}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <messagesControl:DialogControl  />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel>
+                            <VirtualizingStackPanel.ChildrenTransitions>
+                                <TransitionCollection>
+                                    <ReorderThemeTransition/>
+                                </TransitionCollection>
+                            </VirtualizingStackPanel.ChildrenTransitions>
+                        </VirtualizingStackPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+
+        </loader:LoadingIndicator>
     </Grid>
 </Page>

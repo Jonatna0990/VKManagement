@@ -16,6 +16,8 @@
                 <ResourceDictionary Source="Styles/Audio/AudioStyles.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="Styles/Messages/ConversationStyle.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="Styles/Attachment/AttachmentStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Styles/Video/VideoStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="UserControls/Loader/LoadingIndicator.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
             <localization:VKLocalizedStrings x:Key="LocalizedStrings"/>
 

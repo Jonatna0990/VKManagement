@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
 using System.Net.NetworkInformation;
-using System.Text;
 using System.Threading.Tasks;
+using Windows.Networking.Connectivity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using VKCore.API.Core;
@@ -83,7 +81,9 @@ namespace VKCore.API.VKModels.LongPollServer
 
 
         private static LongPollService instance;
+        private static LongPollService group_instance;
         private static object _lock = new object();
+        private static object group_lock = new object();
         public static LongPollService Instatce
         {
             get
@@ -98,20 +98,45 @@ namespace VKCore.API.VKModels.LongPollServer
                 return instance;
             }
         }
-
-        private LongPollService()
+        public static LongPollService GroupInstatce(long group_id)
+        {
+               
+                if (group_instance == null)
+                {
+                    lock (group_lock)
+                    {
+                        if (group_instance == null) group_instance = new LongPollService(group_id) ;
+                    }
+                }
+                return group_instance;
+            
+        }
+        private LongPollService(long group_id=0)
         {
 
              if(!IsStopPooling)
-            LongPollServerConnect();
+            LongPollServerConnect(group_id);
         }
 
 
-
+        public static bool IsInternet()
+        {
+            bool internet = false;
+            ConnectionProfile connections = NetworkInformation.GetInternetConnectionProfile();
+            if (connections != null)
+            {
+                if(connections.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess) internet = true;
+                else if (connections.IsWlanConnectionProfile) internet = true;
+                else if (connections.IsWwanConnectionProfile) internet = true;
+            }
+            else internet = false;
+          
+            return internet;
+        }
         public async Task<JObject> Execute(string uri)
         {
-            if (!NetworkInterface.GetIsNetworkAvailable())
-                throw new Exception("Network is not available.");
+            if (!IsInternet())
+                return null;
             Debug.WriteLine("Invoking " + uri);
             JObject response = null;
             var httpClient = new HttpClient();
@@ -122,9 +147,15 @@ namespace VKCore.API.VKModels.LongPollServer
             return response;
         }
 
-        private async void LongPollServerConnect()
+        private async void LongPollServerConnect(long group_id = 0)
         {
-            JObject o = await Execute(string.Format("{0}{1}?access_token={2}", APISettings.APIURL, SMessages.messages_getLongPollServer, VKSDK.GetAccessToken().AccessToken));
+            string token = "";
+            if (group_id != 0) token = VKSDK.GetAccessTokenForMessages(group_id.ToString()).AccessToken;
+            else token = VKSDK.GetAccessToken().AccessToken;
+
+
+            JObject o = await Execute(string.Format("{0}{1}?access_token={2}", APISettings.APIURL, SMessages.messages_getLongPollServer, token));
+            
             if (o == null) return;
             JObject main_item = o["response"] as JObject;
             if (main_item != null)

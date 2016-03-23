@@ -5,63 +5,186 @@
     xmlns:local="using:VKShop_Lite.Views.Groups.Admin"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:converters="using:VKShop_Lite.Views.Groups.Admin.Converters"
     mc:Ignorable="d">
+<Page.BottomAppBar>
+    <AppBar>
+        <StackPanel Orientation="Vertical">
+                <AppBarButton Command="{Binding SaveSettingsCommand}" Icon="Save" Content="сохранить"></AppBarButton>
+        </StackPanel>
+    </AppBar>
+</Page.BottomAppBar>
+    <Page.Resources>
+        <DataTemplate x:Key="GroupTemplate">
+            <Grid>
+                <StackPanel x:Name="RadioContainer"  Orientation="Vertical">
+                    <TextBlock Margin="0,5,0,5" Text="тип группы"></TextBlock>
+                    <RadioButton Tag="1" Margin="0,5,0,5">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Откытая"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="В отрытую группу могут вступить все желающие пользователи" Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton Tag="2" Margin="0,10,0,5" >
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Закрытая"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="В закрытую группу можно вступить по приглашению или подав заявку" Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton Tag="3">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Частная"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="В частную группу можно попвть только по приглашению руководителей" Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <ComboBox HorizontalAlignment="Stretch"  Header="тематика сообщества:">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding name}"></TextBlock>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                        <ComboBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ComboBox.ItemsPanel>
+                    </ComboBox>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+                </StackPanel>
+
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="EventTemplate">
+            <Grid>
+                <StackPanel x:Name="RadioContainer"  Orientation="Vertical">
+                    <TextBlock Margin="0,5,0,5" Text="тип группы"></TextBlock>
+                    <RadioButton Tag="1" Margin="0,5,0,5">
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Откытая"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="В отрытом мероприятии могут участвовать все желающие пользователи" Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <RadioButton Tag="2" Margin="0,10,0,5" >
+                        <RadioButton.Content>
+                            <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Закрытая"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="На закрытое мероприятие может пригласить только администратор" Foreground="#FF535353"/>
+                            </TextBlock>
+                        </RadioButton.Content>
+                    </RadioButton>
+                    <ComboBox HorizontalAlignment="Stretch"  Header="тематика сообщества:">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding name}"></TextBlock>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                        <ComboBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ComboBox.ItemsPanel>
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="PageTemplate">
+        <StackPanel>
+                <ComboBox   HorizontalAlignment="Stretch" Header="категория">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding name}"></TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                </ComboBox>
+                <ComboBox   HorizontalAlignment="Stretch" Header="подкатегория">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding name}"></TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                </ComboBox>
+            </StackPanel>
+        </DataTemplate>
+        <converters:GroupCategoryTemplateSelector x:Key="CategoryTemplateSelector" EventTemplate="{StaticResource EventTemplate}" GroupTemplate="{StaticResource GroupTemplate}" PageTemplate="{StaticResource PageTemplate}"/>
+    </Page.Resources>
+    <Grid x:Name="Grid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer>
             <StackPanel Margin="5">
                 <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="основная информация"></TextBlock>
-                <TextBox Margin="0,10,0,0" PlaceholderText="введите название сообщества" Text="{Binding Settings.title}">
+                <TextBox Margin="0,10,0,0" PlaceholderText="введите название сообщества" Text="{Binding title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.Header>
                         <TextBlock Text="название сообщества"></TextBlock>
                     </TextBox.Header>
                 </TextBox>
-                <TextBox Margin="0,10,0,0" PlaceholderText="введите описание сообщества" Text="{Binding Settings.description}">
+                <TextBox Margin="0,10,0,0" PlaceholderText="введите описание сообщества" Text="{Binding description,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.Header>
                         <TextBlock Text="описание сообщества"></TextBlock>
                     </TextBox.Header>
                 </TextBox>
-                <TextBox Margin="0,10,0,0" >
-                    <TextBox.Header>
-                        <TextBlock Text="короткий адрес"></TextBlock>
-                    </TextBox.Header>
-                </TextBox>
-               
-                
-                <TextBox Margin="0,10,0,0" >
+                <Grid>
+                    <TextBlock Canvas.ZIndex="2" Width="95" HorizontalAlignment="Left" Text="http://vk.com/" VerticalAlignment="Bottom" Margin="8,0,0,5"></TextBlock>
+                    <TextBox Text="{Binding GroupAddress, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"   Background="Transparent"  Padding="100,3,10,3" Margin="0,10,0,0" >
+
+                        <TextBox.Header>
+                            <TextBlock Text="короткий адрес"></TextBlock>
+                        </TextBox.Header>
+                    </TextBox>
+
+                </Grid>
+                <TextBox Text="{Binding website,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="0,10,0,0" >
                     <TextBox.Header>
                         <TextBlock Text="веб сайт"></TextBlock>
                     </TextBox.Header>
                 </TextBox>
-              
-                <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="возрастные ограничения"/>
+
+                <ContentPresenter   HorizontalAlignment="Stretch" Content="{Binding Group}" ContentTemplateSelector="{StaticResource CategoryTemplateSelector}" ></ContentPresenter>
+
+                <!-- <TextBlock FontSize="15"  Text="возрастные ограничения"/>
                 <StackPanel x:Name="RadioContainer"  Orientation="Vertical">
-                    <RadioButton Tag="group" Margin="0,5,0,5" x:Name="GroupRadio" >
+                    <RadioButton Tag="1" Margin="0,10,0,0" IsChecked="{Binding age_limit_0_16}" >
                         <RadioButton.Content>
                             <TextBlock Text="до 16 лет"/>
                         </RadioButton.Content>
                     </RadioButton>
-                    <RadioButton Tag="event" Margin="0,10,0,5" x:Name="EventRadio">
+                    <RadioButton Tag="2" IsChecked="{Binding age_limit_16_18}">
                         <RadioButton.Content>
                             <TextBlock Text="до 16 и старше"/>
                         </RadioButton.Content>
                     </RadioButton>
-                    <RadioButton Tag="public" x:Name="PageRadio">
+                    <RadioButton Tag="3" IsChecked="{Binding age_limit_over_18}">
                         <RadioButton.Content>
                             <TextBlock Text="до 18 и старше"/>
                         </RadioButton.Content>
                     </RadioButton>
-                </StackPanel>
-                <TextBlock FontSize="18" Text="фильтр комментариев"/>
-
+                </StackPanel>-->
+                <TextBlock FontSize="15" Text="фильтр комментариев"/>
                 <ToggleSwitch Header="Включить фильтр нецензурных выражений"></ToggleSwitch>
-                <TextBox PlaceholderText="выбрать местоположение..." Margin="0,10,0,0" >
-                    <TextBox.Header>
-                        <TextBlock Text="местоположение"></TextBlock>
-                    </TextBox.Header>
-                </TextBox>
+                <TextBlock FontSize="15" Text="местоположение"/>
+                <Button Command="{Binding AddLocationCommand}" Content="выбрать местоположение"></Button>
             </StackPanel>
 
         </ScrollViewer>
+
     </Grid>
 </Page>

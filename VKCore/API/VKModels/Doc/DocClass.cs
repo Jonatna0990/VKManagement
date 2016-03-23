@@ -1,9 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using VKCore.Helpers.Files;
 
@@ -11,6 +6,7 @@ namespace VKCore.API.VKModels.Doc
 {
     public class DocClass : ViewModelBase
     {
+        private bool _isLoaded = true;
         private long _size;
         private string _title;
 
@@ -32,6 +28,11 @@ namespace VKCore.API.VKModels.Doc
         {
             get { return _size; }
             set { _size = value; StringSize = FilesHelper.SizeSuffix(value); }
+        }
+        public bool is_loaded
+        {
+            get { return _isLoaded; }
+            set { _isLoaded = value; RaisePropertyChanged("is_loaded"); }
         }
 
         [JsonProperty("ext")]

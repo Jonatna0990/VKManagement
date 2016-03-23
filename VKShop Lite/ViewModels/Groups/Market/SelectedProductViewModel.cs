@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using VKCore.API.Core;
 using VKCore.API.VKModels.Market;
-using VKCore.API.VKModels.VKList;
 using VKCore.API.VKModels.Wall;
 using VKShop_Lite.ViewModels.Base;
 using ВКонтакте.Models.List;
