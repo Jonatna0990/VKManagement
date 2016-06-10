@@ -1,0 +1,90 @@
+﻿<Page
+    x:Class="VKShop_Lite.Views.Counters.GroupAndUser.AudioPlayerMainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VKShop_Lite.Views.Counters.GroupAndUser"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.BottomAppBar>
+        <AppBar>
+            <StackPanel Orientation="Horizontal">
+                <AppBarButton Content="текст песни" IsEnabled="{Binding Source={StaticResource BasePlayerInstance},Path=Base.CurrentTrack.TextEnabled}" Command="{Binding Source={StaticResource BasePlayerInstance},Path=Base.ShowTexCommand}" HorizontalAlignment="Right" VerticalAlignment="Center" >
+                    <AppBarButton.Icon>
+                        <SymbolIcon Symbol="MusicInfo"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+               <!-- <AppBarButton Icon="Send" Content="отправить" CommandParameter="{Binding Source={StaticResource BasePlayerInstance},Path=Base.Instance.CurrentTrack}" Command="{Binding SendAudioToFriendCommand}"></AppBarButton>-->
+            </StackPanel>
+        </AppBar>
+    </Page.BottomAppBar>
+    <StackPanel Background="{ThemeResource ButtonDisabledBackgroundThemeBrush}">
+
+        <Grid Height="264"  Margin="10,30,10,0" VerticalAlignment="Top" Background="LightGray">
+            <Image Stretch="UniformToFill" HorizontalAlignment="Stretch" Source="{Binding Source={StaticResource BasePlayerInstance},Path=Base.Instance.TrackImage}" ></Image>
+
+        </Grid>
+         <Grid Height="120">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="19*"/>
+                <ColumnDefinition Width="19*"/>
+                <ColumnDefinition Width="19*"/>
+            </Grid.ColumnDefinitions>
+            <Slider  Value="{Binding Source={StaticResource   BasePlayerInstance},Path=Base.Instance.CurrentPosition, Mode=TwoWay, FallbackValue=0}" Maximum="{Binding Source={StaticResource BasePlayerInstance},Path=Base.CurrentTrack.duration}" VerticalAlignment="Center" Grid.ColumnSpan="3" Margin="5,10,5,0" Style="{StaticResource AudioSlider}" ValueChanged="Slider_ValueChanged" />
+            <TextBlock VerticalAlignment="Center" Grid.Column="0" Margin="5,0,0,25" Text="{Binding Source={StaticResource BasePlayerInstance},Path=Base.TrackPosition, Mode=TwoWay}" Foreground="#FF9E9E9E"></TextBlock>
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,5,25" Foreground="#FF9E9E9E" Grid.Column="2" Text="{Binding Source={StaticResource BasePlayerInstance},Path=Base.CurrentTrack.string_duration}"></TextBlock>
+            <StackPanel Grid.Column="0" HorizontalAlignment="Center" Grid.ColumnSpan="3" >
+                <TextBlock FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center"  Text="{Binding Source={StaticResource BasePlayerInstance},Path=Base.Instance.CurrentTrack.title, Mode=TwoWay}"></TextBlock>
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"  Text="{Binding Source={StaticResource BasePlayerInstance},Path=Base.Instance.CurrentTrack.artist, Mode=TwoWay}"></TextBlock>
+            </StackPanel>
+            <AppBarButton Command="{Binding Source={StaticResource BasePlayerInstance},Path=Base.PrevCommand}" VerticalAlignment="Bottom" Grid.Column="0" Width="60">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Previous"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <ToggleButton  HorizontalAlignment="Center" IsChecked="{Binding Source={StaticResource BasePlayerInstance},Path=Base.Instance.CurrentTrack.IsPlaying,Mode=TwoWay}" Command="{Binding Source={StaticResource BasePlayerInstance}, Path=Base.PlayPauseCommand}" VerticalAlignment="Bottom" Grid.Column="1" Height="70" Margin="0,0" Width="68" Style="{StaticResource PlayPauseButtonStyle}" Background="{x:Null}">
+
+            </ToggleButton>
+            <AppBarButton Command="{Binding Source={StaticResource BasePlayerInstance},Path=Base.NextCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="2">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Next"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </Grid>
+        <!-- <Grid Height="120">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="19*"/>
+                <ColumnDefinition Width="19*"/>
+                <ColumnDefinition Width="19*"/>
+            </Grid.ColumnDefinitions>
+            <ProgressBar Value="23" VerticalAlignment="Center" Grid.ColumnSpan="3" Margin="5,0,5,0"></ProgressBar>
+            <TextBlock VerticalAlignment="Center" Grid.Column="0" Margin="5,0,0,25" Text="00:00" Foreground="#FF9E9E9E"></TextBlock>
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,5,25" Foreground="#FF9E9E9E" Grid.Column="2" Text="00:00"></TextBlock>
+            <StackPanel HorizontalAlignment="Center"   Grid.ColumnSpan="3">
+                <TextBlock FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center"  Text="Titgggggggle"></TextBlock>
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"  Text="Artist"></TextBlock>
+            </StackPanel>
+          
+
+            
+           <AppBarButton VerticalAlignment="Bottom" Grid.Column="0">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Previous"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Column="1">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Play"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="2">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Next"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </Grid>
+        -->
+
+    </StackPanel>
+
+</Page>

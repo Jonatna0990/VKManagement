@@ -9,6 +9,7 @@ using Windows.Storage.FileProperties;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Messaging;
 using VKCore.API.Core;
 using VKCore.API.SDK;
@@ -23,7 +24,6 @@ using VKCore.API.VKModels.Photo;
 using VKCore.API.VKModels.Sticker;
 using VKCore.API.VKModels.User;
 using VKCore.API.VKModels.Video;
-using VKCore.API.VKModels.VKList;
 using VKCore.Helpers;
 using VKCore.Helpers.Files;
 using VKCore.Util;
@@ -38,7 +38,6 @@ using VKShop_Lite.UserControls.Video;
 using VKShop_Lite.ViewModels.Base;
 using VKShop_Lite.Views.Counters.GroupAndUser;
 using ВКонтакте.Models.List;
-using GroupDialogsPage = VKShop_Lite.Views.Groups.Admin.Messages.GroupDialogsPage;
 
 namespace VKShop_Lite.ViewModels.Groups.Admin.Messages
 {
@@ -67,6 +66,7 @@ namespace VKShop_Lite.ViewModels.Groups.Admin.Messages
         private List<long> users;
         private ObservableCollection<MessageClass> _messages;
         private MessageRoot _user;
+        private UserControlFlyout flyout;
         public string UserWriteText
         {
             get { return _userWriteText; }
@@ -157,6 +157,21 @@ namespace VKShop_Lite.ViewModels.Groups.Admin.Messages
 
             }
         }
+
+        protected override void UserMainPage_OnNavigated(object sender, NavigationEventArgs e)
+        {
+            base.UserMainPage_OnNavigated(sender, e);
+            if (group != null)
+            {
+                LongPollService.GroupInstatce(group.id).AddNewMessage -= AddNewMessage;
+                LongPollService.GroupInstatce(group.id).MessageFlagReset -= MessageFlagReset;
+                LongPollService.GroupInstatce(group.id).MakeOnline -= MakeOnline;
+                LongPollService.GroupInstatce(group.id).MakeOffline -= MakeOffline;
+                LongPollService.GroupInstatce(group.id).WriteMessage -= WriteMessage;
+            }
+           
+        }
+
         public GroupConversationViewModel(GroupMessagesParam group)
         {
             this.user = group.message;
@@ -176,6 +191,7 @@ namespace VKShop_Lite.ViewModels.Groups.Admin.Messages
                 LoadAll();
                 
             }
+            flyout = new UserControlFlyout();
             param = new Dictionary<string, string>();
             SendPhotos = new List<StorageFile>();
             Messages = new ObservableCollection<MessageClass>();
@@ -325,7 +341,8 @@ namespace VKShop_Lite.ViewModels.Groups.Admin.Messages
                         position = t;
                     }
                 });
-            await a.ShowAsync();
+            UserControlFlyout flyout = new UserControlFlyout();
+            flyout.ShowFlyout(a);
 
         }
         private async void LoadDoc()
@@ -364,15 +381,15 @@ namespace VKShop_Lite.ViewModels.Groups.Admin.Messages
             {
                 AttachCollection.Add(new AttachmentsClass() { video = t });
             });
-            await a.ShowAsync();
+            flyout.ShowFlyout(a);
         }
         private async void AddAudio()
         {
             var a = new AddAudioControl(new UserClass() { id = Convert.ToInt64(VKSDK.GetAccessToken().UserId) }, t =>
             {
-                AttachCollection.Add(new AttachmentsClass() { audio = t });
+                AttachCollection.Add(new AttachmentsClass() { audio = t.FirstOrDefault() });
             });
-            await a.ShowAsync();
+            flyout.ShowFlyout(a);
         }
         private async void UploadPhoto(List<StorageFile> pictureToUpload)
         {

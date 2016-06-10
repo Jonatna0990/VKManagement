@@ -67,6 +67,8 @@ namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
 
         public VideosViewModel(GroupsClass group, UserClass user)
         {
+          
+
             Load(group,user);
             RegisterTasks("video");
             TaskStarted("video");

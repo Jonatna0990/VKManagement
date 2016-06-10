@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Windows.Input;
 using VKCore.API.Core;
-using VKCore.API.VKModels.Attachment;
 using VKCore.API.VKModels.Geo;
 using VKCore.API.VKModels.Group;
 using VKShop_Lite.Helpers;
@@ -119,7 +118,8 @@ namespace VKShop_Lite.ViewModels.Groups.Admin.GroupControl
                         location = t;
                     }
                 });
-            await a.ShowAsync();
+            UserControlFlyout flyout = new UserControlFlyout();
+            flyout.ShowFlyout(a);
 
         }
 

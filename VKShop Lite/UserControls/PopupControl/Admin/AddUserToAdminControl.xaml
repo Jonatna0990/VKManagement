@@ -1,0 +1,77 @@
+﻿<ContentDialog
+    x:Class="VKShop_Lite.UserControls.PopupControl.Admin.AddUserToAdminControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VKShop_Lite.UserControls.PopupControl.Admin"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:converters="using:VKShop_Lite.Views.Groups.Admin.Converters"
+    xmlns:converters1="using:WinRTXamlToolkit.Converters"
+    mc:Ignorable="d" Style="{StaticResource ContentStyle}" 
+    Title="Назначить руководителем" x:Name="Dialog">
+    <ContentDialog.Resources>
+        <converters:RadioButtonToIntConverter x:Key="RadioButtonToIntConverter"/>
+        <converters1:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </ContentDialog.Resources>
+    <Grid>
+        <StackPanel>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Height="60">
+                    <Border Background="LightGray" CornerRadius="33" Height="50" Width="50">
+                        <Ellipse  Width="50" Height="50">
+                            <Ellipse.Fill>
+                                <ImageBrush>
+                                    <ImageBrush.ImageSource>
+                                        <BitmapImage UriSource="{Binding ElementName=Dialog,Path=User.photo_100}" />
+                                    </ImageBrush.ImageSource>
+                                </ImageBrush>
+                            </Ellipse.Fill>
+                        </Ellipse >
+                    </Border>
+                    <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+                        <TextBlock   Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding ElementName=Dialog,Path=User.full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+
+                    </StackPanel>
+                </StackPanel>
+            
+            </StackPanel>
+            <TextBlock FontSize="23" Margin="0,5,0,5" Text="уровень полномочий"></TextBlock>
+           <RadioButton IsChecked="{Binding ElementName=Dialog,Path=Role,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=0, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="mateials" Margin="0,5,0,5">
+                <RadioButton.Content>
+                    <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Модератор"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="Может удалять добавленные пользователями матреиалы, управлять чёрным списком сообщества" Foreground="#FF535353"/>
+                    </TextBlock>
+                </RadioButton.Content>
+            </RadioButton>
+            <RadioButton IsChecked="{Binding ElementName=Dialog,Path=Role,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=1, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="mateials" Margin="0,5,0,5">
+                <RadioButton.Content>
+                    <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Редактор"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="Может писать от имени сообщества, добавлять удалять и редактировать контент, обновлять главную фотографию" Foreground="#FF535353"/>
+                    </TextBlock>
+                </RadioButton.Content>
+            </RadioButton>
+            <RadioButton IsChecked="{Binding ElementName=Dialog,Path=Role,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=2, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="mateials" Margin="0,5,0,5">
+                <RadioButton.Content>
+                    <TextBlock TextWrapping="Wrap" Width="250">
+                            <Run Text="Администратор"/><LineBreak></LineBreak>
+                            <Run  FontSize="12"  Text="Может назначать и снимать администраторов, изменять название и адрес сообщества" Foreground="#FF535353"/>
+                    </TextBlock>
+                </RadioButton.Content>
+            </RadioButton>
+            <CheckBox x:Name="LinkBox" IsChecked="{Binding ElementName=Dialog,Path=ShowLink,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Content="отображать в блоке контактов"></CheckBox>
+            <TextBox Text="{Binding ElementName=Dialog,Path=LinkText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ElementName=LinkBox,Path=IsChecked,Converter={StaticResource BooleanToVisibilityConverter}, Mode=TwoWay}" x:Name="Position" Header="Должность"></TextBox>
+            <Grid Margin="0,10,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Button  x:Name="CreateButton" Margin="1" Click="CreateButton_OnClick"  HorizontalAlignment="Stretch"  Content="добавить" ></Button>
+                <Button Grid.Column="1" Margin="1" x:Name="CancelButton" Click="CancelButton_OnClick"  Content="отмена" HorizontalAlignment="Stretch" ></Button>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</ContentDialog>

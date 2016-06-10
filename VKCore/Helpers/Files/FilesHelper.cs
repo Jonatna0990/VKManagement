@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Pickers;
-using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 using VKCore.API.VKModels.Attachment;
 

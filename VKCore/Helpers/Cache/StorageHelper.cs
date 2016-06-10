@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Windows.Storage;
@@ -60,7 +57,7 @@ namespace VKCore.Helpers.Cache
         /// <param name="subFolder"></param>
         /// <param name="serializerType"></param>
         [Obsolete]
-        public StorageHelper(StorageType StorageType, string subFolder = null, StorageSerializer serializerType = StorageSerializer.JSON)
+        public StorageHelper(StorageType StorageType = StorageType.Local, string subFolder = null, StorageSerializer serializerType = StorageSerializer.JSON)
         {
             _storageType = StorageType;
             _subFolder = subFolder;

@@ -198,12 +198,14 @@
     <Compile Include="Helpers\Cache\StorageHelper.cs" />
     <Compile Include="Helpers\DataExHelper.cs" />
     <Compile Include="Helpers\DateTimeHelper.cs" />
+    <Compile Include="Helpers\DeviceInfoHelper.cs" />
     <Compile Include="Helpers\LockerClass.cs" />
     <Compile Include="Helpers\MessageFlagsHelper.cs" />
     <Compile Include="Helpers\PlayCommand.cs" />
     <Compile Include="Helpers\Files\FilesHelper.cs" />
     <Compile Include="Helpers\ListExtensions.cs" />
     <Compile Include="Localization\en\Counters\CountersResources.cs" />
+    <Compile Include="Localization\LocalizationClass.cs" />
     <Compile Include="Localization\Resources.cs" />
     <Compile Include="Localization\VKLocalizedStrings.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -259,6 +261,10 @@
     <ProjectReference Include="..\LastFmLib\LastFmLib.csproj">
       <Project>{d9305d05-1112-4806-bfeb-390794464626}</Project>
       <Name>LastFmLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StorageProvider\StorageProvider.csproj">
+      <Project>{f9d94df2-3409-4d19-b42f-f21af72bd2d3}</Project>
+      <Name>StorageProvider</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

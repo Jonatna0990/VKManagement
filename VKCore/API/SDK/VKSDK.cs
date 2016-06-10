@@ -13,7 +13,7 @@ namespace VKCore.API.SDK
     public class VKSDK
     {
         public const String SDK_VERSION = "1.0.0";
-        public const String API_VERSION = "5.45";
+        public const String API_VERSION = "5.52";
 
         private static readonly string PLATFORM_ID = "winphone";
 
@@ -104,7 +104,7 @@ namespace VKCore.API.SDK
 
         //    public static Action<ValidationUserRequest, Action<ValidationUserResponse>> ValidationRequest { private get; set; }
 
-
+        public static string Lang;
 
         /// <summary>
         /// Invokes when existing token has expired
@@ -356,6 +356,12 @@ namespace VKCore.API.SDK
             return temp;
 
         }
+
+        private static void RemoveGroupTokens()
+        {
+            ApplicationData.Current.LocalSettings.Values.Clear();
+
+        }
         public static bool IsHasToken(string group_id)
         {
             if (!ApplicationData.Current.LocalSettings.Values.ContainsKey(group_id))
@@ -426,7 +432,7 @@ namespace VKCore.API.SDK
             Instance.AccessToken = null;
 
             VKAccessToken.RemoveTokenInIsolatedStorage(VKSDK_ACCESS_TOKEN_ISOLATEDSTORAGE_KEY);
-
+            RemoveGroupTokens();
             VKUtil.ClearCookies();
         }
 

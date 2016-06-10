@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<ContentControl
     x:Class="VKShop_Lite.UserControls.MessagesControl.FwdMessagesControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -10,7 +10,7 @@
     xmlns:converters1="using:VKShop_Lite.UserControls.Attachment.Converters"
     mc:Ignorable="d"
     x:Name="Control">
-    <UserControl.Resources>
+    <ContentControl.Resources>
         <converters:MessageBodyVisibilityConverter x:Key="MessageBodyVisibilityConverter"/>
         <converters1:AttachmentVisibillityConverter x:Key="AttachmentVisibillityConverter"/>
         <DataTemplate x:Key="UserMessageTemplate">
@@ -49,7 +49,7 @@
             </StackPanel>
         </DataTemplate>
         <converters:FwdMesssagesTemplateSelector x:Key="FwdMesssagesTemplateSelector" GroupMessageTemplate="{StaticResource GroupMessageTemplate}" UserMessageTemplate="{StaticResource UserMessageTemplate}"/>
-    </UserControl.Resources>
+    </ContentControl.Resources>
     <ItemsControl ItemsSource="{Binding}">
         <ItemsControl.ItemTemplate>
             <DataTemplate>
@@ -74,5 +74,5 @@
             </DataTemplate>
         </ItemsControl.ItemTemplate>
     </ItemsControl>
-</UserControl>
+</ContentControl>
 

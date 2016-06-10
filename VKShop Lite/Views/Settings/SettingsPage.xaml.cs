@@ -1,15 +1,11 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Windows.Networking.PushNotifications;
-using Windows.Security.ExchangeActiveSyncProvisioning;
-using Windows.UI.Notifications;
+using Windows.Security.Cryptography;
+using Windows.System.Profile;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.QueryStringDotNET;
-using NotificationsExtensions.Toasts;
-using VKShop_Lite.UserControls.MessagesControl.Emoji;
+using VKCore.Helpers;
 using VKShop_Lite.ViewModels.Settings;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
@@ -33,129 +29,62 @@ namespace VKShop_Lite.Views.Settings
             this.DataContext = new SettingsViewModel();
         }
 
-        private async void GetID()
+        public static string GetDeviceId()
         {
-            var deviceInformation = new EasClientDeviceInformation();
-            string Id = deviceInformation.Id.ToString();
-            Debug.WriteLine(Id);
-
+           
+            return CryptographicBuffer.EncodeToBase64String(HardwareIdentification.GetPackageSpecificToken(null).Id);
+          
+        }
+       /* private async void ChannelCreate_OnClick(object sender, RoutedEventArgs e)
+        {
+            string path =
+                "Endpoint=sb://vkgm-ns.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=6ANU0bwZMtD0dqxc28NSIF27/3Amh01ZnaKu7HH7Gyg=";
+            string path1 =
+                "Endpoint=sb://vkgm-ns.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=c/S8B2Pjj+knkplIqRTL8dNSm2ChGGgpcg36a3RU4wE=";
             PushNotificationChannel channel = null;
+              channel = await PushNotificationChannelManager.CreatePushNotificationChannelForApplicationAsync();
+             channel.PushNotificationReceived += Channel_PushNotificationReceived;
 
-            channel = await PushNotificationChannelManager.CreatePushNotificationChannelForApplicationAsync();
-        }
-        private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        { GetID();
-            /*
-
-
-            string title = "Andrew sent you a picture";
-            string content = "Check this out, Happy Canyon in Utah!";
-            string image = "http://blogs.msdn.com/cfs-filesystemfile.ashx/__key/communityserver-blogs-components-weblogfiles/00-00-01-71-81-permanent/2727.happycanyon1_5B00_1_5D00_.jpg";
-            string logo = "ms-appdata:///local/Andrew.jpg";
-            int conversationId = 384928;
-
-            // Construct the visuals of the toast
-            ToastVisual visual = new ToastVisual()
+            try
             {
-                TitleText = new ToastText()
-                {
-                    Text = title
-                },
+                
+         
+                var hub = new NotificationHub("vkmanagenemtpush", path1);
 
-                BodyTextLine1 = new ToastText()
+                var result = await hub.RegisterNativeAsync(channel.Uri);
+                HardwareToken token = HardwareIdentification.GetPackageSpecificToken(null);
+                IBuffer hardwareId = token.Id;
+                HashAlgorithmProvider hasher = HashAlgorithmProvider.OpenAlgorithm("MD5");
+                IBuffer hashed = hasher.HashData(hardwareId);
+                string hashedString = CryptographicBuffer.EncodeToHexString(hashed);
+                // Displays the registration ID so you know it was successful
+                if (result.RegistrationId != null && !string.IsNullOrEmpty(hashedString))
                 {
-                    Text = content
-                },
+                    VKRequest.Dispatch<int>(
+                      new VKRequestParameters(
+                        SAccount.account_registerDevice, "token", result.ChannelUri, "device_id", DeviceInfo.Instance.Id),
+                      (res) =>
+                      {
+                          var q = res.ResultCode;
+                          if (res.ResultCode == VKResultCode.Succeeded)
+                          {
+                              var a = res;
+                          }
+                      });
 
-                InlineImages =
-                {
-                    new ToastImage()
-                    {
-                        Source = new ToastImageSource(image)
-                    },
-                    new ToastImage()
-                    {
-                        Source = new ToastImageSource(image)
-                    }
-                },
+               Debug.WriteLine(GetDeviceId());
 
-                AppLogoOverride = new ToastAppLogo()
-                {
-                    Source = new ToastImageSource(logo),
-                    Crop = ToastImageCrop.Circle
                 }
-            };
 
-            // Construct the actions for the toast (inputs and buttons)
-            ToastActionsCustom actions = new ToastActionsCustom()
+            }
+
+            catch (Exception ex)
             {
-                Inputs =
-                {
-                    new ToastTextBox("tbReply")
-                    {
-                        PlaceholderContent = "Type a response"
-                    }
-                },
+                 
+            }
 
-                Buttons =
-                {
-                    new ToastButton("Reply", new QueryString()
-                    {
-                        { "action", "reply" },
-                        { "conversationId", conversationId.ToString() }
-
-                    }.ToString())
-                    {
-                        ActivationType = ToastActivationType.Background,
-                        ImageUri = "Assets/Reply.png",
-
-                        // Reference the text box's ID in order to
-                        // place this button next to the text box
-                        TextBoxId = "tbReply"
-                    },
-
-                    new ToastButton("Like", new QueryString()
-                    {
-                        { "action", "like" },
-                        { "conversationId", conversationId.ToString() }
-
-                    }.ToString())
-                    {
-                        ActivationType = ToastActivationType.Background
-                    },
-
-                    new ToastButton("View", new QueryString()
-                    {
-                        { "action", "viewImage" },
-                        { "imageUrl", image }
-
-                    }.ToString())
-                }
-            };
-
-
-            // Now we can construct the final toast content
-            ToastContent toastContent = new ToastContent()
-            {
-                Visual = visual,
-                Actions = actions,
-
-                // Arguments when the user taps body of toast
-                Launch = new QueryString()
-                {
-                    { "action", "viewConversation" },
-                    { "conversationId", conversationId.ToString() }
-
-                }.ToString()
-            };
-
-
-            // And create the toast notification
-            ToastNotification notification = new ToastNotification(toastContent.GetXml());
-
-
-            // And then send the toast
-            ToastNotificationManager.CreateToastNotifier().Show(notification);*/
         }
+        */
+    
     }
-}
+ }

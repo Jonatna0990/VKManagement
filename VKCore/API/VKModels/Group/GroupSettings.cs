@@ -16,11 +16,45 @@ namespace VKCore.API.VKModels.Group
         private int _photos;
         private int _wall;
         private int _wiki;
-        public string title { get; set; }
-        public string description { get; set; }
-        public string address { get; set; }
-        public int country_id { get; set; }
-        public int city_id { get; set; }
+        private string _title;
+        private string _description;
+        private string _address;
+        private int _countryId;
+        private int _cityId;
+        private int _links;
+        private int _events;
+        private int _places;
+        private int _contacts;
+
+        public string title
+        {
+            get { return _title; }
+            set { _title = value; RaisePropertyChanged("title"); }
+        }
+
+        public string description
+        {
+            get { return _description; }
+            set { _description = value; RaisePropertyChanged("description"); }
+        }
+
+        public string address
+        {
+            get { return _address; }
+            set { _address = value; RaisePropertyChanged("address"); }
+        }
+
+        public int country_id
+        {
+            get { return _countryId; }
+            set { _countryId = value; RaisePropertyChanged("country_id"); }
+        }
+
+        public int city_id
+        {
+            get { return _cityId; }
+            set { _cityId = value; RaisePropertyChanged("city_id"); }
+        }
 
         public int wall
         {
@@ -64,11 +98,31 @@ namespace VKCore.API.VKModels.Group
             set { _wiki = value; RaisePropertyChanged("wiki"); }
         }
 
-        public int links { get; set; }
-        public int events { get; set; }
-        public int places { get; set; }
+        public int links
+        {
+            get { return _links; }
+            set { _links = value; RaisePropertyChanged("links"); }
+        }
+
+        public int events
+        {
+            get { return _events; }
+            set { _events = value; RaisePropertyChanged("events"); }
+        }
+
+        public int places
+        {
+            get { return _places; }
+            set { _places = value; RaisePropertyChanged("places"); }
+        }
+
         public PlaceClass place { get; set; }
-        public int contacts { get; set; }
+
+        public int contacts
+        {
+            get { return _contacts; }
+            set { _contacts = value; RaisePropertyChanged("contacts"); }
+        }
 
         public int messages
         {

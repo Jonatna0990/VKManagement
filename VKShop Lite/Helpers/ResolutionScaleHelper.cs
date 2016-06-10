@@ -37,13 +37,16 @@ namespace VKShop_Lite.Helpers
 
         public ResolutionScaleHelper()
         {
-            AbsHeight = Window.Current.Bounds.Height;
-            AbsWidth = Window.Current.Bounds.Width;
-            Height = Window.Current.Bounds.Height-25;
-            Width = Window.Current.Bounds.Width-25;
+            if (Window.Current != null)
+            {
+                AbsHeight = Window.Current.Bounds.Height;
+                AbsWidth = Window.Current.Bounds.Width;
+                Height = Window.Current.Bounds.Height-25;
+                Width = Window.Current.Bounds.Width-25;
 
-            Frame scenarioFrame = Window.Current.Content as Frame;
-            if (scenarioFrame != null) scenarioFrame.SizeChanged += ScenarioFrame_SizeChanged;
+                Frame scenarioFrame = Window.Current.Content as Frame;
+                if (scenarioFrame != null) scenarioFrame.SizeChanged += ScenarioFrame_SizeChanged;
+            }
         }
 
         private void ScenarioFrame_SizeChanged(object sender, SizeChangedEventArgs e)

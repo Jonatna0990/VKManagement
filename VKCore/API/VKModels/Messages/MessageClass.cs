@@ -13,6 +13,12 @@ using VKCore.Helpers;
 
 namespace VKCore.API.VKModels.Messages
 {
+    public enum MessageSendState
+    {
+        Sending,
+        Sent,
+        Error
+    }
     public class MainMessageClass
     {
         [JsonProperty("dialogs")]
@@ -51,6 +57,8 @@ namespace VKCore.API.VKModels.Messages
                     if (_message.attachments != null) _message.body = "Вложение";
                     else if (_message.geo != null) _message.body = "Карта";
                     else if (_message.fwd_messages != null) _message.body = "Пересланные сообщения";
+                    else if (_message.chat_id != null && !string.IsNullOrEmpty(_message.action))
+                        _message.body = _message.GetAction;
                 }
                 locker = new LockerClass(2, this.message.user_id);
                 temp_msg = this.message.body;
@@ -83,12 +91,19 @@ namespace VKCore.API.VKModels.Messages
     {
         private string _photo100;
         private string _body;
-        private int _readState;
+        private int _readState ;
         private int _id;
         private MessageFrom _msgFrom;
         private string _action;
         private ObservableCollection<MessageClass> _fwdMessages;
+        private MessageSendState _state = MessageSendState.Sent;
+        private ObservableCollection<AttachmentsClass> _attachments;
 
+        public MessageSendState state
+        {
+            get { return _state; }
+            set { _state = value; RaisePropertyChanged("state"); }
+        }
 
         [JsonProperty("id")]
         public int id
@@ -111,7 +126,6 @@ namespace VKCore.API.VKModels.Messages
             get { return _readState; }
             set { _readState = value; RaisePropertyChanged("read_state"); }
         }
-
         [JsonProperty("title")]
         public string title { get; set; }
 
@@ -135,7 +149,8 @@ namespace VKCore.API.VKModels.Messages
             get { return _action; }
             set
             {
-                if (string.IsNullOrEmpty(body)) body = value;
+                
+                if (string.IsNullOrEmpty(body)) body = GetAction;
                 _action = value; RaisePropertyChanged("action");
             }
         }
@@ -177,8 +192,13 @@ namespace VKCore.API.VKModels.Messages
 
         [JsonProperty("photo_200")]
         public string photo_200 { get; set; }
+
         [JsonProperty("attachments")]
-        public ObservableCollection<AttachmentsClass> attachments { get; set; }
+        public ObservableCollection<AttachmentsClass> attachments
+        {
+            get { return _attachments; }
+            set { _attachments = value; RaisePropertyChanged("attachments"); }
+        }
 
         public MessageFrom MsgFrom
         {
@@ -208,6 +228,31 @@ namespace VKCore.API.VKModels.Messages
             }
         }
 
+        public string GetAction
+        {
+            get
+            {
+                switch (chat_action)
+                {
+                    case ChatAction.Create:
+                        return "Создана беседа";
+                    case ChatAction.InviteUser:
+                        return "Приглашён пользователь в беседу";
+                    case ChatAction.KickUser:
+                        return "Пользователь покинул беседу";
+                    case ChatAction.PhotoRemove:
+                        return "Пользователь удалил фотографию беседы";
+                        case ChatAction.PhotoUpdate:
+                        return "Пользователь обновил фотографию беседы";
+                    case ChatAction.TitleUpdate:
+                        return "Пользователь обновил название беседы";
+                    default: return "";
+                }
+               
+            }
+           
+        }
+
     }
     public enum ChatAction
     {
@@ -228,10 +273,11 @@ namespace VKCore.API.VKModels.Messages
     }
 
    
-    public class MessageFrom
+    public class MessageFrom : ViewModelBase
     {
         private UserClass _fromUser;
         private GroupsClass _fromGroup;
+        private List<UserClass> _chatUsersList;
 
         public MessageFrom(UserClass user = null, GroupsClass group = null, List<UserClass> chatList = null)
         {
@@ -239,18 +285,23 @@ namespace VKCore.API.VKModels.Messages
             if (group != null) FromGroup = group;
             if (chatList != null) ChatUsersList = chatList;
         }
-        public List<UserClass> ChatUsersList { get; set; }
+
+        public List<UserClass> ChatUsersList
+        {
+            get { return _chatUsersList; }
+            set { _chatUsersList = value; RaisePropertyChanged("ChatUsersList"); }
+        }
 
         public UserClass FromUser
         {
             get { return _fromUser; }
-            set { _fromUser = value; }
+            set { _fromUser = value; RaisePropertyChanged("FromUser"); }
         }
 
         public GroupsClass FromGroup
         {
             get { return _fromGroup; }
-            set { _fromGroup = value; }
+            set { _fromGroup = value; RaisePropertyChanged("FromGroup"); }
         }
     }
 }

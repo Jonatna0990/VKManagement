@@ -30,15 +30,14 @@ namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
 
         private ObservableCollection<AudioClass> _audioCollection;
         private AudioClass _selectedAudio;
-
+       
         public ObservableCollection<AudioClass> AudioCollection
         {
             get { return _audioCollection; }
-            set { _audioCollection = value;RaisePropertyChanged("AudioCollection");
-                foreach (var t in value)
-                {
-                    t.CheckAudio();
-                }
+            set
+            {
+                _audioCollection = value; RaisePropertyChanged("AudioCollection");
+               
             }
         }
 
@@ -57,6 +56,11 @@ namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
                  if (res.ResultCode == VKResultCode.Succeeded)
                  {
                      AudioCollection = res.Data.items.ToObservableCollection();
+                     foreach (var t in AudioCollection)
+                     {
+                         t.CheckAudio();
+                     }
+                     OnLoaded?.Invoke();
                      TaskFinished("audio");
                  }
                  else
@@ -66,7 +70,7 @@ namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
          
             
         }
-
+        
         public AudioViewModel(GroupsClass group, UserClass user)
         {
             Load(group,user);

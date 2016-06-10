@@ -4,6 +4,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using Newtonsoft.Json;
+using VKCore.API.VKModels.Wall;
 
 namespace VKCore.API.VKModels.Photo
 {
@@ -57,7 +58,12 @@ namespace VKCore.API.VKModels.Photo
 
            [JsonProperty("access_key")]
          public string access_key { get; set; }
-      
+        [JsonProperty("likes")]
+        public Likes likes { get; set; }
+        [JsonProperty("comments")]
+        public Comments comments { get; set; }
+        [JsonProperty("reposts")]
+        public Reposts reposts { get; set; }
         public BitmapImage Image
         {
             get { return _image; }

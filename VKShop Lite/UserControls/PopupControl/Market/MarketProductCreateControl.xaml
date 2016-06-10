@@ -34,7 +34,7 @@
                             <SolidColorBrush Color="{StaticResource Brush4}"/>
                         </Button.Foreground>
                     </Button>
-                    <Image Width="200" Height="100" Stretch="Fill" x:Name="AlbumImage"/>
+                    <Image Width="100" Height="100" Stretch="Fill" x:Name="AlbumImage"/>
 
                 </Grid>
 

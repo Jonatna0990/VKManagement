@@ -1,15 +1,27 @@
-﻿<ContentDialog
+﻿<UserControl
     x:Class="VKShop_Lite.UserControls.Audio.AddAudioControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:VKShop_Lite.UserControls.Audio"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" Title="выберите видеозапись"  Style="{StaticResource ContentStyle}" >
+    mc:Ignorable="d"  >
 
-    <Grid Height="500">
+    <Grid Background="White">
+      
         <ListView  x:Name="AudioList" ItemTemplate="{StaticResource AudioTemplate}" SelectionChanged="Selector_OnSelectionChanged" >
-            
+            <ListView.Header>
+                <TextBlock Margin="5"  Text="Добавить аудиозапись" Style="{StaticResource TitleTextBlockStyle}"></TextBlock>
+            </ListView.Header>
         </ListView>
+        <AppBar  VerticalAlignment="Bottom" >
+            <StackPanel Orientation="Horizontal">
+                <AppBarButton x:Name="Cancel"  Icon="Cancel" Label="отмена" Click="Cancel_OnClick"></AppBarButton>
+                <AppBarButton  x:Name="Selection" Icon="Bullets" Label="выбрать несколько" Click="Selection_OnClick" ></AppBarButton>
+                <AppBarButton  x:Name="CancelSelection" Visibility="Collapsed" Icon="Cancel" Label="отмена" Click="CancelSelection_OnClick"></AppBarButton>
+                <AppBarButton  x:Name="Send" Icon="Send" Visibility="Collapsed" Label="отправить" Click="Send_OnClick" ></AppBarButton>
+            </StackPanel>
+        </AppBar>
+     
     </Grid>
-</ContentDialog>
+</UserControl>

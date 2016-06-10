@@ -49,7 +49,7 @@ namespace VKShop_Lite.UserControls.PopupControl.Market
 
                    this.Hide();
                    if (callback != null) callback.Invoke(res.Data);
-                   MessagesHelper.ShowMessage("Дообавление побдорки", "Побдорка успешно добавлена");
+                   MessagesHelper.ShowMessage("Добавление побдорки", "Побдорка успешно добавлена");
                  
                }
 

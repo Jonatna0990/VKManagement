@@ -1,0 +1,77 @@
+﻿<Page
+    x:Class="VKShop_Lite.Views.Groups.Admin.AddUserToBlackLst"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VKShop_Lite.Views.Groups.Admin"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:converters="using:VKShop_Lite.Views.Groups.Admin.Converters"
+    xmlns:converters1="using:VKShop_Lite.Helpers.Converters"
+    mc:Ignorable="d" x:Name="Page">
+    <Page.BottomAppBar>
+        <AppBar>
+            <StackPanel Orientation="Vertical">
+                <AppBarButton Command="{Binding SaveCommand}" Icon="Save" Content="сохранить"></AppBarButton>
+            </StackPanel>
+        </AppBar>
+    </Page.BottomAppBar>
+    <Page.Resources>
+        <converters:RadioButtonToIntConverter x:Key="RadioButtonToIntConverter"/>
+        <converters1:IntToCheckedConverter x:Key="IntToCheckedConverter"/>
+        <converters1:IntToVisibillityConverter x:Key="IntToVisibillityConverter"/>
+    </Page.Resources>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer>
+            <StackPanel Margin="10,0,10,0">
+                <Grid Height="60" HorizontalAlignment="Stretch">
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.UserPageOpenCommand}" CommandParameter="{Binding }">
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                    <StackPanel Orientation="Horizontal">
+
+                        <Ellipse  Width="50"  Height="50">
+                            <Ellipse.Fill>
+                                <ImageBrush>
+                                    <ImageBrush.ImageSource>
+                                        <BitmapImage UriSource="{Binding Path=ban.photo_100}" />
+                                    </ImageBrush.ImageSource>
+                                </ImageBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+                            <TextBlock  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding ban.full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+
+                        </StackPanel>
+
+                    </StackPanel>
+
+                </Grid>
+                <TextBlock FontSize="23" Margin="0,5,0,5" Text="Срок блокировки"></TextBlock>
+                <TextBlock Visibility="{Binding ElementName=Page,Path=DataContext.ban.ban_info.end_date, Converter={StaticResource IntToVisibillityConverter}}" Style="{StaticResource CaptionTextBlockStyle}"   VerticalAlignment="Top" TextWrapping="NoWrap">
+                      <Run Text="Разблокировка"/>
+                      <Run Text="{Binding ElementName=Page,Path=DataContext.ban.ban_info.EndBanDate}"/>
+                </TextBlock>
+                <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.ban.ban_info.block_date,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=0, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="date" Content="Навсегда"  Margin="0,5,0,5"/>
+                <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.ban.ban_info.block_date,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=1, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="date" Content="На год"  Margin="0,5,0,5"/>
+                <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.ban.ban_info.block_date,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=2, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="date" Content="На месяц"  Margin="0,5,0,5"/>
+                <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.ban.ban_info.block_date,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=3, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="date" Content="На неделю"  Margin="0,5,0,5"/>
+                <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.ban.ban_info.block_date,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=4, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="date" Content="На день"  Margin="0,5,0,5"/>
+                <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.ban.ban_info.block_date,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=5, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="date" Content="На час"  Margin="0,5,0,5"/>
+                <TextBlock FontSize="23" Margin="0,5,0,5" Text="Причина блокировки"></TextBlock>
+                <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.ban.ban_info.reason,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=0, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="reason" Content="Другое"  Margin="0,5,0,5"/>
+                <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.ban.ban_info.reason,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=1, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="reason" Content="Спам"  Margin="0,5,0,5"/>
+                <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.ban.ban_info.reason,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=2, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="reason" Content="Оскорбление участников"  Margin="0,5,0,5"/>
+                <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.ban.ban_info.reason,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=3, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="reason" Content="Нецензурные выражения"  Margin="0,5,0,5"/>
+                <RadioButton IsChecked="{Binding ElementName=Page,Path=DataContext.ban.ban_info.reason,Converter={StaticResource RadioButtonToIntConverter}, ConverterParameter=4, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" GroupName="reason" Content="Сообщение не по теме"  Margin="0,5,0,5"/>
+                <TextBox Header="Комментарий" PlaceholderText="Вы можете указать короткий комментарий" Text="{Binding ban.ban_info.comment,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <CheckBox Content="Показывать этот комментарий пользователю" IsChecked="{Binding ElementName=Page,Path=DataContext.ban.ban_info.comment_visible, Converter={StaticResource IntToCheckedConverter}, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ></CheckBox>
+                <Button Command="{Binding ElementName=Page,Path=DataContext.DeleteFromBlacklistCommand}" HorizontalAlignment="Stretch" Content="Разблокировать пользователя"></Button>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

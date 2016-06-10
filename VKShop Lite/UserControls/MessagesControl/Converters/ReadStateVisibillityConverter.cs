@@ -1,5 +1,7 @@
 ﻿using System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
+using VKShop_Lite.Helpers;
 
 namespace VKShop_Lite.UserControls.MessagesControl.Converters
 {
@@ -9,42 +11,34 @@ namespace VKShop_Lite.UserControls.MessagesControl.Converters
         {
             if (value != null)
             {
+
                 int message = (int)value;
                 //не прочитанно
                 if (message == 0)
                 {
-                    return "M0,6 6,12 16,0";
+                    return Visibility.Visible;
                 }
-                else
-                {
-                    return "M0,6 6,12 16,0 M5,6 11,12 21,0 ";
-
-                }
+                return Visibility.Collapsed;
 
 
             }
-            return "";
+            return Visibility.Collapsed;
         }
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, string language)
         {
             if (value != null)
             {
-                int message = (int)value;
-                //не прочитанно
-                if (message == 0)
+                var message = EnumParser.ParseEnum<Visibility>(value.ToString());
+                if (message ==  Visibility.Visible)
                 {
-                    return "M0,6 6,12 16,0";
+                    return 0;
                 }
-                else
-                {
-                    return "M0,6 6,12 16,0 M5,6 11,12 21,0 ";
-
-                }
+                return 1;
 
 
             }
-            return "";
+            return 0;
         }
     }
 }

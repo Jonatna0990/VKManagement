@@ -28,7 +28,7 @@
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout  >
                         <MenuFlyoutItem CommandParameter="{Binding }" IsEnabled="{Binding ElementName=Page,Path=DataContext.Group.admin_level, Converter={StaticResource AdminCanEditDeleteConverter}}" Text="редактровать" Command="{Binding ElementName=Page,Path=DataContext.EditProductCommand}" />
-                        <MenuFlyoutItem CommandParameter="{Binding }" IsEnabled="{Binding ElementName=Page,Path=DataContext.Group.admin_level, Converter={StaticResource AdminCanEditDeleteConverter}}" Text="удалить" Command="{Binding ElementName=Page,Path=DataContext.DeleteProductCommand}" />
+                       <!-- <MenuFlyoutItem CommandParameter="{Binding }" IsEnabled="{Binding ElementName=Page,Path=DataContext.Group.admin_level, Converter={StaticResource AdminCanEditDeleteConverter}}" Text="удалить" Command="{Binding ElementName=Page,Path=DataContext.DeleteProductCommand}" />-->
                     </MenuFlyout>
                 </FlyoutBase.AttachedFlyout>
                 <Grid Height="100"  Width="150">

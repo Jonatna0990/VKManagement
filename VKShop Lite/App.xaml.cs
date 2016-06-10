@@ -39,9 +39,10 @@ namespace VKShop_Lite
         /// <param name="e">Сведения о запросе и обработке запуска.</param>
         protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
+          
 
 #if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
+                if (System.Diagnostics.Debugger.IsAttached)
             {
                 this.DebugSettings.EnableFrameRateCounter = true;
             }

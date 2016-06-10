@@ -1,7 +1,6 @@
 ﻿using System;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
 using VKShop_Lite.ViewModels.UserMain;
 using UserGroupsPage = VKShop_Lite.Views.Groups.Main.UserGroupsPage;
@@ -17,6 +16,7 @@ namespace VKShop_Lite.Views.Main
     {
         public static UserMainPage Current;
         public static event EventHandler OnBackKeyPressed = null;
+        public static event EventHandler<NavigationEventArgs> OnNavigated = null;
         public bool ExitFromApp = true;
         public UserMainPage()
         {
@@ -24,11 +24,14 @@ namespace VKShop_Lite.Views.Main
             NavigationCacheMode = NavigationCacheMode.Required;
             Current = this;
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+            RootFrame.Navigated += RootFrame_Navigated;
 
         }
 
-    
-      
+        private void RootFrame_Navigated(object sender, NavigationEventArgs e)
+        {
+            OnNavigated?.Invoke(this, e);
+        }
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
         {
@@ -43,6 +46,7 @@ namespace VKShop_Lite.Views.Main
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this.DataContext = new UserMainViewModel();
+        
             RootFrame.Navigate(typeof (UserGroupsPage));
         }
    

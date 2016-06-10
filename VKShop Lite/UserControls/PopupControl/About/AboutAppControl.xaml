@@ -1,0 +1,25 @@
+﻿<ContentDialog
+    x:Class="VKShop_Lite.UserControls.PopupControl.About.AboutAppControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VKShop_Lite.UserControls.PopupControl.About"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    mc:Ignorable="d"
+    Title="О приложении" x:Name="Dialog">
+
+    <Grid>
+        <StackPanel>
+            <Image Height="50"  Width="50" Source="ms-appx:///Assets/Square44x44Logo.targetsize-256_altform-unplated.png"></Image>
+            <TextBlock HorizontalAlignment="Center" Text="VKGroup Management  v1.1.2.0"></TextBlock>
+            <HyperlinkButton Content="Обратная связь" NavigateUri="http://vk.com/public117943469"></HyperlinkButton>
+            <HyperlinkButton Tapped="UIElement_OnTapped" Content="Политика конфиденциальности">
+               
+            </HyperlinkButton>
+            <HyperlinkButton Content="Правила исользования" NavigateUri="http://vk.com/terms"></HyperlinkButton>
+            <Button Click="ButtonBase_OnClick" HorizontalAlignment="Stretch" Content="Ок"></Button>
+        </StackPanel>
+    </Grid>
+</ContentDialog>

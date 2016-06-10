@@ -1,0 +1,128 @@
+﻿<Page
+    x:Class="VKShop_Lite.Views.Groups.Admin.AdminMainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VKShop_Lite.Views.Groups.Admin"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:converters="using:VKShop_Lite.Views.Groups.Admin.Converters"
+    mc:Ignorable="d" x:Name="Page">
+<Page.Resources>
+        <DataTemplate x:Key="AdminTemplate">
+            <ListView  SelectionMode="None">
+                <ListViewItem >
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.InfoOpenCommand}" >
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                    <StackPanel    Orientation="Horizontal">
+                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE70F;" FontSize="22" VerticalAlignment="Center" />
+                        <TextBlock  Margin="5,0,0,0" Text="информация" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem>
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.ServiceOpenCommand}" >
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#59155;" FontSize="22" VerticalAlignment="Center" />
+                        <TextBlock  Margin="5,0,0,0" Text="сервисы" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem>
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.MessagesOpenCommand}" >
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE715;" FontSize="22" VerticalAlignment="Center" />
+                        <TextBlock  Margin="5,0,0,0" Text="сообщения" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem>
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.MembersOpenCommand}" >
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE716;" FontSize="22" VerticalAlignment="Center" />
+                        <TextBlock  Margin="5,0,0,0" Text="участники" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem>
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.BlacklistOpenCommand}" >
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE8F8;" FontSize="22" VerticalAlignment="Center" />
+                        <TextBlock  Margin="5,0,0,0" Text="чёрный список" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem>
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.LinksOpenCommand}" >
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE71B;" FontSize="22" VerticalAlignment="Center" />
+                        <TextBlock  Margin="5,0,0,0" Text="ссылки" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem>
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.MarketOpenCommand}" >
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE719;" FontSize="22" VerticalAlignment="Center" />
+                        <TextBlock  Margin="5,0,0,0" Text="товары" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListViewItem>
+            </ListView>
+        </DataTemplate>
+        <DataTemplate x:Key="ModeratorAndEditorTemplate">
+            <ListView>
+                <ListViewItem>
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.BlacklistOpenCommand}" >
+                            </core:InvokeCommandAction>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock  FontFamily="Segoe MDL2 Assets" Text="&#xE8F8;" FontSize="22" VerticalAlignment="Center" />
+                        <TextBlock  Margin="5,0,0,0" Text="чёрный список" FontSize="18" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListViewItem>
+            </ListView>
+        </DataTemplate>
+        <converters:AdminPageContentSelector AdminTemplate="{StaticResource AdminTemplate}" ModeratorAndEditorTemplate="{StaticResource ModeratorAndEditorTemplate}" x:Key="AdminPageContentSelector"/>
+    </Page.Resources>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ContentControl Content="{Binding ElementName=Page, Path=DataContext.Group}" ContentTemplateSelector="{StaticResource AdminPageContentSelector}"></ContentControl>
+    </Grid>
+</Page>

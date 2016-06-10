@@ -15,7 +15,13 @@ namespace VKCore.Localization
                 return GetLocalizedString("Captcha_Cancel");
             }
         }
-
+        public static string Privacy
+        {
+            get
+            {
+                return GetLocalizedString("Privacy");
+            }
+        }
         /// <summary>
         ///   Looks up a localized string similar to Enter the code from the picture.
         /// </summary>

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net.Http;
-using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Windows.Networking.Connectivity;
+using GalaSoft.MvvmLight.Messaging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using VKCore.API.Core;
@@ -11,7 +11,7 @@ using VKCore.API.SDK;
 
 namespace VKCore.API.VKModels.LongPollServer
 {
-    public sealed class LongPollService
+    public sealed class LongPollService : IDisposable
     {
 
 
@@ -75,7 +75,10 @@ namespace VKCore.API.VKModels.LongPollServer
         /// Событие вызывается тогда, когда пользователь стал онлайн
         /// </summary>
         public event UserStatusHandler MakeOnline;
-
+        /// <summary>
+        /// Новый счетчик непрочитанных в левом меню 
+        /// </summary>
+        public event EventHandler<int> UnreadCount;
 
         private bool IsStopPooling { get; set; }
 
@@ -151,7 +154,21 @@ namespace VKCore.API.VKModels.LongPollServer
         {
             string token = "";
             if (group_id != 0) token = VKSDK.GetAccessTokenForMessages(group_id.ToString()).AccessToken;
-            else token = VKSDK.GetAccessToken().AccessToken;
+            else
+            {
+                try
+                {
+                    var accessToken = VKSDK.GetAccessToken().AccessToken;
+                    if (accessToken != null) token = accessToken;
+
+                }
+                catch (Exception)
+                {
+                    
+                    return;
+                }
+              
+            }
 
 
             JObject o = await Execute(string.Format("{0}{1}?access_token={2}", APISettings.APIURL, SMessages.messages_getLongPollServer, token));
@@ -167,7 +184,8 @@ namespace VKCore.API.VKModels.LongPollServer
 
         private string temp = "";
 
-        public async Task StartPolling(LongPollServerClass server)
+       
+        private async Task StartPolling(LongPollServerClass server)
         {
 
             try
@@ -269,6 +287,8 @@ namespace VKCore.API.VKModels.LongPollServer
                     //обычное соообщение
                     else
                     {
+                        Messenger.Default.Send(new NotificationMessage<LongPollMessageEventArgs>(new LongPollMessageEventArgs(json[1].Value<Int32>(), json[2].Value<int>(), json[3].Value<Int64>(), json[4].Value<Int64>(), json[5].Value<string>(), json[6].Value<string>()), "NewMessage"));
+
                         AddNewMessage?.Invoke(sender, new LongPollMessageEventArgs(json[1].Value<Int32>(), json[2].Value<int>(), json[3].Value<Int64>(), json[4].Value<Int64>(), json[5].Value<string>(), json[6].Value<string>()));
 
                     }
@@ -307,7 +327,7 @@ namespace VKCore.API.VKModels.LongPollServer
                 //новый счетчик непрочитанных в левом меню
                 case 80:
                     {
-                        var t = json;
+                        UnreadCount?.Invoke(null, json[1].Value<Int32>());
                     }
                     break;
                 //изменились настройки оповещений, где peerId — $peer_id чата/собеседника, sound — 1 || 0, включены/выключены звуковые оповещения, 
@@ -323,6 +343,13 @@ namespace VKCore.API.VKModels.LongPollServer
 
         }
 
+        public void Dispose()
+        {
+            IsStopPooling = false;
+            System.GC.Collect();
+            System.GC.WaitForPendingFinalizers();
+            GC.SuppressFinalize(this);
+        }
     }
     /// <summary>
     /// Тип события, возвращаемого LongPoll-сервером

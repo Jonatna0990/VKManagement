@@ -85,6 +85,14 @@ namespace VKShop_Lite.UserControls.Attachment.Converters
                                     temp.Add(t);
                             }
                             break;
+                        case 8:
+                            foreach (var t in message)
+                            {
+
+                                if (t.attach_type == AttachType.Gift)
+                                    temp.Add(t);
+                            }
+                            break;
                         default:
                             break;
                     }

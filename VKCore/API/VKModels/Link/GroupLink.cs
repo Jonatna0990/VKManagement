@@ -24,5 +24,6 @@ namespace VKCore.API.VKModels.Link
 
         [JsonProperty("edit_title")]
         public int? edit_title { get; set; }
+        public int image_processing { get; set; }
     }
 }

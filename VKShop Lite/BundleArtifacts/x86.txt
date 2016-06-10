@@ -1,0 +1,2 @@
+MainPackage=D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\bin\x86\Release\VKGroup Management_1.1.8.0_x86.appx
+SymbolPackage=D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\AppPackages\VKGroup Management_1.1.8.0_Test\VKGroup Management_1.1.8.0_x86.appxsym

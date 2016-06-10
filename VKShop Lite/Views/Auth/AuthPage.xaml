@@ -6,15 +6,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:auth="using:VKShop_Lite.ViewModels.Auth"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
 <Page.DataContext>
         <auth:AuthViewModel/>
 </Page.DataContext>
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid x:Name="ContentPanel" Visibility="{Binding ContentVisibility}" VerticalAlignment="Top">
-            <StackPanel x:Name="naimstack" Margin="0,0,0,0" >
-                <Image x:Name="logo" Height="100" Width="100" Source="ms-appx:///Icons/vk.jpg" Margin="0,0" />
-                <TextBlock x:Name="vk_txt" FontSize="20" TextAlignment="Center" Text="VKGroup Lite – это уникальное мобильное приложение, с помощью которого Вы можете управлять администрируемыми сообществами ВК." TextWrapping="Wrap">
+            <StackPanel x:Name="naimstack" Margin="10,10,10,0" >
+                <Image x:Name="logo" Height="80" Width="80" Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png" Margin="0,0" />
+                <TextBlock x:Name="vk_txt" FontSize="20" TextAlignment="Center" Text="VKGroup Management – это уникальное мобильное приложение, с помощью которого Вы можете управлять администрируемыми сообществами ВК." TextWrapping="Wrap">
                     <TextBlock.Foreground>
                         <SolidColorBrush Color="#FF686868"/>
                     </TextBlock.Foreground>
@@ -26,12 +28,19 @@
 
                 </Grid>
                 <Grid Margin="10,10,10,0">
-                    <HyperlinkButton x:Name="registration" FontSize="15"   Content="Зарегистрироваться" NavigateUri="https://vk.com/" Foreground="Black"  />
-                    <HyperlinkButton x:Name="forgotpass" FontSize="15" Content="Забыли пароль?" NavigateUri="https://vk.com/restore" HorizontalAlignment="Right" Foreground="Black"/>
-
-
+                    <HyperlinkButton x:Name="registration" FontSize="15"   Content="Зарегистрироваться" NavigateUri="https://vk.com/" Foreground="LightSlateGray"  />
+                    <HyperlinkButton x:Name="forgotpass" FontSize="15" Content="Забыли пароль?" NavigateUri="https://vk.com/restore" HorizontalAlignment="Right" Foreground="LightSlateGray"/>
+                  
 
                 </Grid>
+                <HyperlinkButton VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="LightSlateGray" Content="Политика конфиденциальности" >
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Tapped">
+                            <core:InvokeCommandAction  Command="{Binding PrivacyOpenCommand}" />
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                </HyperlinkButton>
+
 
             </StackPanel>
 

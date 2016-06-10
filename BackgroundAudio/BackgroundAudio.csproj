@@ -123,6 +123,12 @@
       <HintPath>..\VKPlayer\obj\x86\Debug\Core\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StorageProvider\StorageProvider.csproj">
+      <Project>{f9d94df2-3409-4d19-b42f-f21af72bd2d3}</Project>
+      <Name>StorageProvider</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

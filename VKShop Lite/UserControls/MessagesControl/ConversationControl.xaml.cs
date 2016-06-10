@@ -1,13 +1,9 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using VKCore.API.VKModels.Photo;
 using VKCore.API.VKModels.Sticker;
-using VKCore.Helpers.Files;
 using System.Windows.Input;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236

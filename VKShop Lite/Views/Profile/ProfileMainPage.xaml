@@ -30,7 +30,6 @@
                             </Ellipse>
                             <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
                                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding User.full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
-                                <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  Text="{Binding User.Online}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
                                 <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding User.city.title}"  VerticalAlignment="Top" TextWrapping="NoWrap">
                                 </TextBlock>
                             </StackPanel>
@@ -74,7 +73,6 @@
                             </Ellipse>
                             <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
                                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding User.full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
-                                <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  Text="{Binding User.Online}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
                                 <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding User.city.title}"  VerticalAlignment="Top" TextWrapping="NoWrap">
                                 </TextBlock>
                             </StackPanel>
@@ -89,14 +87,69 @@
 
         </DataTemplate>
         <DataTemplate x:Key="DeactivatedOrDeletedTemplate">
+            <StackPanel DataContext="{Binding ElementName=Page,Path=DataContext}">
+                <ScrollViewer>
+                    <StackPanel Margin="5">
+                        <StackPanel Orientation="Horizontal" Height="60">
+                            <Ellipse  Width="50"  Height="50">
+                                <Ellipse.Fill>
+                                    <ImageBrush>
+                                        <ImageBrush.ImageSource>
+                                            <BitmapImage UriSource="{Binding User.photo_100}" />
+                                        </ImageBrush.ImageSource>
+                                    </ImageBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding User.full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                              </StackPanel>
+                        </StackPanel>
+                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"  Text="Страница удалена или недоступна" VerticalAlignment="Top" TextWrapping="Wrap"/>
+
+
+                    </StackPanel>
+                </ScrollViewer>
+
+
+            </StackPanel>
 
         </DataTemplate>
         <DataTemplate x:Key="BlacklistTemplate">
+            <StackPanel DataContext="{Binding ElementName=Page,Path=DataContext}">
+                <ScrollViewer>
+                    <StackPanel Margin="5">
+                        <StackPanel Orientation="Horizontal" Height="60">
+                            <Ellipse  Width="50"  Height="50">
+                                <Ellipse.Fill>
+                                    <ImageBrush>
+                                        <ImageBrush.ImageSource>
+                                            <BitmapImage UriSource="{Binding User.photo_100}" />
+                                        </ImageBrush.ImageSource>
+                                    </ImageBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding User.full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"   Text="Вы находитесь в чёрном списке этого пользователя" VerticalAlignment="Top" TextWrapping="Wrap"/>
+
+
+                    </StackPanel>
+                </ScrollViewer>
+
+
+            </StackPanel>
 
         </DataTemplate>
         <main:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <DataTemplate x:Key="UserCountersTemplate">
             <GridView >
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapGrid  HorizontalChildrenAlignment="Center" VerticalChildrenAlignment="Top" MaximumRowsOrColumns="2" />
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
                 <Border Width="80" Height="50" Margin="1">
                     <interactivity:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">
@@ -139,7 +192,7 @@
                     </Border.Background>
                     <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <Run FontSize="18" Text="{Binding ElementName=Page,Path=DataContext.User.counters.audios}"/><LineBreak/>
-                        <Run FontSize="12" Text="{Binding Source={StaticResource LocalizedStrings},Path=CountersResources.audio_null}"> </Run>
+                        <Run FontSize="12" Text="аудио"> </Run>
                     </TextBlock>
                 </Border>
                 <Border Width="80" Height="50" Margin="1">

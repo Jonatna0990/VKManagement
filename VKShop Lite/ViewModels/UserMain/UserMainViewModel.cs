@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Windows.Input;
 using VKCore.API.Core;
+using VKCore.API.VKModels.Messages;
 using VKCore.API.VKModels.User;
 using VKShop_Lite.Common;
 using VKShop_Lite.ViewModels.Base;
 using VKShop_Lite.Views.Conversation.User;
-using VKShop_Lite.Views.Counters.GroupAndUser;
 using VKShop_Lite.Views.Settings;
 using GroupMainPage = VKShop_Lite.Views.Groups.Main.GroupMainPage;
 using UserGroupsPage = VKShop_Lite.Views.Groups.Main.UserGroupsPage;
@@ -17,12 +17,19 @@ namespace VKShop_Lite.ViewModels.UserMain
     {
         private UserClass _user;
         private bool _isPaneOpen;
+        private int _unreadCount;
         public ICommand NavigateToPage { get; set; }
         public ICommand NavigeteToGroupsPage { get; set; }
         public ICommand NavigeteToMessagesPage { get; set; }
         public ICommand NavigeteToSettingsPage { get; set; }
         public ICommand ToggleSplitViewPaneCommand { get; private set; }
-       
+
+        public int UnreadCount
+        {
+            get { return _unreadCount; }
+            set { _unreadCount = value; RaisePropertyChanged("UnreadCount"); }
+        }
+
 
         public bool IsPaneOpen
         {
@@ -61,6 +68,7 @@ namespace VKShop_Lite.ViewModels.UserMain
             });
          
             Load();
+            GetUnread();
         }
 
         
@@ -79,5 +87,22 @@ namespace VKShop_Lite.ViewModels.UserMain
                   }
               });
         }
+
+        private void GetUnread()
+        {
+                VKRequest.Dispatch<DialogsClass>(
+               new VKRequestParameters(
+                 SMessages.messages_getdialogs, "count", "0"),
+               (res) =>
+               {
+                   UnreadCount = res.Data.unread_dialogs;
+               });
+        
+        }
+        protected override void Instatce_UnreadCount(object sender, int e)
+        {
+            UnreadCount = e;
+        }
+
     }
 }

@@ -6,12 +6,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:wallControl="using:VKShop_Lite.UserControls.WallControl"
-     x:Name="Control"
+    xmlns:converters="using:VKShop_Lite.Helpers.Converters"
+    x:Name="Control"
     mc:Ignorable="d">
     <UserControl.Resources>
         <wallControl:SourceImageConverter x:Key="SourceImageConverter"/>
         <wallControl:SourceTitleConverter x:Key="SourceTitleConverter"/>
         <wallControl:NewsApiSourceConverter x:Key="ApiSourceConverter"/>
+        <converters:ZeroToEmptyStringConverter x:Key="EmptyStringConverter"/>
     </UserControl.Resources>
     <Grid Background="WhiteSmoke" Margin="2">
         <!--Верхняя часть новости-->
@@ -37,19 +39,21 @@
             </StackPanel>
             <TextBlock TextWrapping="Wrap" Text="{Binding text}"></TextBlock>
             <!--Блок Counters-->
+            <ContentControl ContentTemplate="{StaticResource AttachRootTemplate}"  DataContext="{Binding attachments}"/>
+
             <StackPanel   Margin="5,0,5,0">
                 <Grid>
                     <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                         <Image Height="35" Width="35" Opacity="0.3" Source="ms-appx:///Icons/Dark/Counters/appbar_message.png" />
-                        <TextBlock Margin="0,3,0,0" Foreground="#FF727272" FontSize="18" Text="{Binding Path=comments.count}"/>
+                        <TextBlock Margin="0,3,0,0" Foreground="#FF727272" FontSize="18" Text="{Binding Path=comments.count, Converter={StaticResource EmptyStringConverter}}"/>
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <Image Height="35" Width="35" Opacity="0.3" Source="ms-appx:///Icons/Dark/Counters/appbar.sound.0.png" />
-                        <TextBlock Margin="0,3,0,0" Foreground="#FF727272" FontSize="18" Text="{Binding Path=reposts.count}"/>
+                        <TextBlock Margin="0,3,0,0" Foreground="#FF727272" FontSize="18" Text="{Binding Path=reposts.count, Converter={StaticResource EmptyStringConverter}}"/>
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                         <Image Height="35" Width="35" Opacity="0.3" Source="ms-appx:///Icons/Dark/Counters/like.png" />
-                        <TextBlock Margin="0,3,0,0" TextAlignment="Center" Foreground="#FF727272" FontSize="18" Text="{Binding Path=likes.count}"/>
+                        <TextBlock Margin="0,3,0,0" TextAlignment="Center" Foreground="#FF727272" FontSize="18" Text="{Binding Path=likes.count, Converter={StaticResource EmptyStringConverter}}"/>
                     </StackPanel>
                 </Grid>
             </StackPanel>

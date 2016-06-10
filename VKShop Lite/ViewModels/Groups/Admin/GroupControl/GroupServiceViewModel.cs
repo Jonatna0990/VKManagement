@@ -79,6 +79,10 @@ namespace VKShop_Lite.ViewModels.Groups.Admin.GroupControl
                 param.Add("topics", Settings.topics.ToString());
                 param.Add("wiki", Settings.wiki.ToString());
                 param.Add("market", Settings.market.ToString());
+                param.Add("contacts", Settings.contacts.ToString());
+                param.Add("links", Settings.links.ToString());
+                param.Add("places", Settings.places.ToString());
+                
                 VKRequest.Dispatch<int>(
                   new VKRequestParameters(
                               SGroups.groups_edit, param),

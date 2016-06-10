@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Windows.Media.Playback;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using VKCore.API.VKModels.Video;
 using VKShop_Lite.ViewModels.Counters.GroupAndUser;
@@ -20,7 +21,7 @@ namespace VKShop_Lite.Views.Counters.GroupAndUser
         {
             base.OnNavigatedTo(e);
             this.DataContext = new SelectedVideoViewModel(e.Parameter as VideoParamClass);
-            
+            if (BackgroundMediaPlayer.Current.CurrentState == MediaPlayerState.Playing) BackgroundMediaPlayer.Current.Pause();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -28,6 +29,7 @@ namespace VKShop_Lite.Views.Counters.GroupAndUser
             base.OnNavigatedFrom(e);
             WebPlayer.Refresh();
             WebPlayer.Stop();
+            if (BackgroundMediaPlayer.Current.CurrentState == MediaPlayerState.Paused) BackgroundMediaPlayer.Current.Play();
         }
     }
 }

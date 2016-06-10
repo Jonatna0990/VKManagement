@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -18,6 +16,7 @@ using VKCore.API.VKModels.Attachment;
 using VKCore.API.VKModels.LongPollServer;
 using VKShop_Lite.Common;
 using VKShop_Lite.Helpers;
+using VKShop_Lite.UserControls.PopupControl.About;
 using VKShop_Lite.Views.Auth;
 using VKShop_Lite.Views.Conversation.User;
 using VKShop_Lite.Views.Counters;
@@ -37,6 +36,11 @@ namespace VKShop_Lite.ViewModels.Base
         {
             get { return _tasks; }
         }
+
+        public Action OnLoaded;
+        public Action OnError;
+        public Action OnLoading;
+
         #region Long Running Tasks helpers
 
         protected void RegisterTasks(params string[] ids)
@@ -82,6 +86,7 @@ namespace VKShop_Lite.ViewModels.Base
         public ICommand OpenDialogCommand { get; set; }
         public ICommand OpenPlayerCommand { get; set; }
         public virtual ICommand ReloadCommand { get; set; }
+        public ICommand PrivacyOpenCommand { get; set; }
         public bool IsLoaded
         {
             get { return _isLoaded; }
@@ -103,14 +108,18 @@ namespace VKShop_Lite.ViewModels.Base
         public BaseViewModel()
         {
             UserMainPage.OnBackKeyPressed += UserMainPage_OnBackKeyPressed;
+            
                OpenDialogCommand = new DelegateCommand(t =>
                {
-                  
-                   NavigateToCurrentPage(t, new Scenario()
-                {
-                    ClassType = typeof (DialogConversationPage)
+                   if (t != null)
+                   {
+                       NavigateToCurrentPage(t, new Scenario()
+                       {
+                           ClassType = typeof(DialogConversationPage)
 
-                });
+                       });
+                   }
+                 
             });
             
             UserPageOpenCommand = new DelegateCommand(t =>
@@ -142,6 +151,9 @@ namespace VKShop_Lite.ViewModels.Base
                 this.NavigateToCurrentPage(t, new Scenario() { ClassType = typeof(AudioPlayerMainPage) });
 
             });
+            PrivacyOpenCommand= new DelegateCommand(t => { var a = new PrivacyControl();
+                                                             a.ShowAsync();
+            });
             VKSDK.AccessDenied += VKSDK_AccessDenied;
             if (VKSDK.IsLoggedIn)
             {
@@ -155,169 +167,184 @@ namespace VKShop_Lite.ViewModels.Base
                 LongPollService.Instatce.DeleteMessage += DeleteMessage;
                 LongPollService.Instatce.MessageFlagSet += MessageFlagSet;
                 LongPollService.Instatce.MessageUpdate += MessageUpdate;
-
+                LongPollService.Instatce.UnreadCount += Instatce_UnreadCount;
             }
+            UserMainPage.OnNavigated += UserMainPage_OnNavigated;
         }
 
-        public virtual void UserMainPage_OnBackKeyPressed(object sender, EventArgs e)
+       
+
+        protected virtual void UserMainPage_OnNavigated(object sender, NavigationEventArgs e)
         {
            
-        }
-
-        private void VKSDK_AccessDenied(object sender, VKAccessDeniedEventArgs e)
-        {
-            var frame = Window.Current.Content as Frame;
-            if (frame != null) frame.Navigate(typeof(AuthPage));
-        }
-
-      
-
-        public virtual void NavigateToCurrentPage(object param, Scenario page)
-        {
-            Frame scenarioFrame = UserMainPage.Current.FindName("RootFrame") as Frame;
-            if (scenarioFrame != null)
-            {
-                var vm = scenarioFrame.DataContext as BaseViewModel;
-                if (scenarioFrame.CanGoBack)
-                {
-                   
-                }
-                vm.Dispose();
-                scenarioFrame.Navigate(page.ClassType, param);
-            }
-            
-        }
-
-        protected void ClearBackStack(bool is_secondpage = false)
-        {
-            Frame scenarioFrame = UserMainPage.Current.FindName("RootFrame") as Frame;
-            if (scenarioFrame != null)
-            {
-                scenarioFrame.BackStack.Clear();
-               if(is_secondpage) scenarioFrame.BackStack.Add(new PageStackEntry(typeof(UserGroupsPage),null, new CommonNavigationTransitionInfo()));
-            }
-
-        }
-        public void NavigateToPage<T>(object sender, Scenario page) where T : class
-        {
-            var _sender = sender as T;
-            
-            Frame scenarioFrame = UserMainPage.Current.FindName("RootFrame") as Frame;
-
-            if (scenarioFrame != null)
-            {
-                scenarioFrame.Navigate(page.ClassType, _sender);
-               
-            }
-
-        }
-        protected virtual void MessageUpdate(object sender, LongPollMessageFlagsEventArgs e)
-        {
 
         }
 
-        protected virtual void MessageFlagSet(object sender, LongPollMessageFlagsEventArgs e)
-        {
+          public virtual void UserMainPage_OnBackKeyPressed(object sender, EventArgs e)
+          {
 
-        }
+          }
 
-        protected virtual void DeleteMessage(object sender, LongPollDeleteMessageEventArgs e)
-        {
+          private void VKSDK_AccessDenied(object sender, VKAccessDeniedEventArgs e)
+          {
+              var frame = Window.Current.Content as Frame;
+              if (frame != null) frame.Navigate(typeof(AuthPage));
+          }
 
-        }
 
-        protected virtual void ChatChange(object sender, LongPollChatChangeEventArgs e)
-        {
 
-        }
+          public virtual void NavigateToCurrentPage(object param, Scenario page)
+          {
+              Frame scenarioFrame = UserMainPage.Current.FindName("RootFrame") as Frame;
+              if (scenarioFrame != null)
+              {
+                  var vm = scenarioFrame.DataContext as BaseViewModel;
+                  if (scenarioFrame.CanGoBack)
+                  {
 
-        protected virtual void AddNewMessageChat(object sender, LongPollMessageChatEventArgs e)
-        {
+                  }
+                  vm.Dispose();
+                  scenarioFrame.Navigate(page.ClassType, param);
+              }
 
-        }
+          }
 
-        protected virtual void MakeOffline(object sender, LongPollUserStatusEventArgs e)
-        {
+          protected void ClearBackStack(bool is_secondpage = false)
+          {
+              Frame scenarioFrame = UserMainPage.Current.FindName("RootFrame") as Frame;
+              if (scenarioFrame != null)
+              {
+                  scenarioFrame.BackStack.Clear();
+                 if(is_secondpage) scenarioFrame.BackStack.Add(new PageStackEntry(typeof(UserGroupsPage),null, new CommonNavigationTransitionInfo()));
+              }
 
-        }
+          }
+          public void NavigateToPage<T>(object sender, Scenario page) where T : class
+          {
+              var _sender = sender as T;
 
-        protected virtual void MakeOnline(object sender, LongPollUserStatusEventArgs e)
-        {
+              Frame scenarioFrame = UserMainPage.Current.FindName("RootFrame") as Frame;
 
-        }
+              if (scenarioFrame != null)
+              {
+                  scenarioFrame.Navigate(page.ClassType, _sender);
 
-        protected virtual void MessageFlagReset(object sender, LongPollMessageFlagsEventArgs e)
-        {
+              }
 
-        }
+          }
+          protected virtual void MessageUpdate(object sender, LongPollMessageFlagsEventArgs e)
+          {
 
-        protected virtual void WriteMessage(object sender, LongPollUserEventArgs e)
-        {
+          }
 
-        }
+          protected virtual void MessageFlagSet(object sender, LongPollMessageFlagsEventArgs e)
+          {
 
-        protected virtual void AddNewMessage(object sender, LongPollMessageEventArgs e)
-        {
+          }
 
-        }
-        #region Fields
-        private bool isDisposed;
-        private Subject<Unit> whenDisposedSubject;
-     
+          protected virtual void DeleteMessage(object sender, LongPollDeleteMessageEventArgs e)
+          {
 
-        #endregion
-        #region Desctructors
-        /// <summary>
-        /// Finalizes an instance of the <see cref="Disposable"/> class. Releases unmanaged
-        /// resources and performs other cleanup operations before the <see cref="Disposable"/>
-        /// is reclaimed by garbage collection. Will run only if the
-        /// Dispose method does not get called.
-        /// </summary>
-        ~BaseViewModel()
-        {
-            this.Dispose(false);
-        }
-        #endregion
-        #region Properties
-        /// <summary>
-        /// Gets the when errors changed observable event. Occurs when the validation errors have changed for a property or for the entire object.
-        /// </summary>
-        /// <value>
-        /// The when errors changed observable event.
-        /// </value>
-        public IObservable<Unit> WhenDisposed
-        {
-            get
-            {
-                if (this.IsDisposed)
-                {
-                    return Observable.Return(Unit.Default);
-                }
-                else
-                {
-                    if (this.whenDisposedSubject == null)
-                    {
-                        this.whenDisposedSubject = new Subject<Unit>();
-                    }
-                    return this.whenDisposedSubject.AsObservable();
-                }
-            }
-        }
-        /// <summary>
-        /// Gets a value indicating whether this <see cref="Disposable"/> is disposed.
-        /// </summary>
-        /// <value><c>true</c> if disposed; otherwise, <c>false</c>.</value>
-        public bool IsDisposed
-        {
-            get { return this.isDisposed; }
-        }
-        #endregion
-        #region Public Methods
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
+          }
+
+          protected virtual void ChatChange(object sender, LongPollChatChangeEventArgs e)
+          {
+
+          }
+          protected virtual void Instatce_UnreadCount(object sender, int e)
+          {
+
+          }
+          protected virtual void AddNewMessageChat(object sender, LongPollMessageChatEventArgs e)
+          {
+
+          }
+
+          protected virtual void MakeOffline(object sender, LongPollUserStatusEventArgs e)
+          {
+
+          }
+
+          protected virtual void MakeOnline(object sender, LongPollUserStatusEventArgs e)
+          {
+
+          }
+
+          protected virtual void MessageFlagReset(object sender, LongPollMessageFlagsEventArgs e)
+          {
+
+          }
+
+          protected virtual void WriteMessage(object sender, LongPollUserEventArgs e)
+          {
+
+          }
+
+          protected virtual void AddNewMessage(object sender, LongPollMessageEventArgs e)
+          {
+
+          }
+          #region Fields
+          private bool isDisposed;
+          private Subject<Unit> whenDisposedSubject;
+
+
+          #endregion
+          #region Desctructors
+          /// <summary>
+          /// Finalizes an instance of the <see cref="Disposable"/> class. Releases unmanaged
+          /// resources and performs other cleanup operations before the <see cref="Disposable"/>
+          /// is reclaimed by garbage collection. Will run only if the
+          /// Dispose method does not get called.
+          /// </summary>
+          ~BaseViewModel()
+          {
+              this.Dispose(false);
+          }
+          #endregion
+          #region Properties
+          /// <summary>
+          /// Gets the when errors changed observable event. Occurs when the validation errors have changed for a property or for the entire object.
+          /// </summary>
+          /// <value>
+          /// The when errors changed observable event.
+          /// </value>
+          public IObservable<Unit> WhenDisposed
+          {
+              get
+              {
+                  if (this.IsDisposed)
+                  {
+                      return Observable.Return(Unit.Default);
+                  }
+                  else
+                  {
+                      if (this.whenDisposedSubject == null)
+                      {
+                          this.whenDisposedSubject = new Subject<Unit>();
+                      }
+                      return this.whenDisposedSubject.AsObservable();
+                  }
+              }
+          }
+          /// <summary>
+          /// Gets a value indicating whether this <see cref="Disposable"/> is disposed.
+          /// </summary>
+          /// <value><c>true</c> if disposed; otherwise, <c>false</c>.</value>
+          public bool IsDisposed
+          {
+              get { return this.isDisposed; }
+          }
+          #endregion
+          #region Public Methods
+          /// <summary>
+          /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+          /// </summary>
+          public void Dispose()
+          {
+
+            LongPollService.Instatce.Dispose();
+
             System.GC.Collect();
             System.GC.WaitForPendingFinalizers();
             this.Cleanup();
@@ -326,16 +353,8 @@ namespace VKShop_Lite.ViewModels.Base
             // Take this object off the finalization queue and prevent finalization code for this
             // object from executing a second time.
             GC.SuppressFinalize(this);
-            LongPollService.Instatce.AddNewMessage -= AddNewMessage;
-            LongPollService.Instatce.WriteMessage -= WriteMessage;
-            LongPollService.Instatce.MessageFlagReset -= MessageFlagReset;
-            LongPollService.Instatce.MakeOnline -= MakeOnline;
-            LongPollService.Instatce.MakeOffline -= MakeOffline;
-            LongPollService.Instatce.AddNewMessageChat -= AddNewMessageChat;
-            LongPollService.Instatce.ChatChange -= ChatChange;
-            LongPollService.Instatce.DeleteMessage -= DeleteMessage;
-            LongPollService.Instatce.MessageFlagSet -= MessageFlagSet;
-            LongPollService.Instatce.MessageUpdate -= MessageUpdate;
+
+        
         }
         #endregion
         #region Protected Methods

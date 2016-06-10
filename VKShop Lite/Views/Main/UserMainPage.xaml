@@ -9,10 +9,12 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:captchaControl="using:VKCore.UserControls.CaptchaControl"
+    xmlns:converters="using:VKShop_Lite.Helpers.Converters"
     mc:Ignorable="d">
-<Page.Resources>
+    <Page.Resources>
         <local:PlayerVisibillityConverter x:Key="NullToVisibilityConverter"/>
-</Page.Resources>
+        <converters:IntToVisibillityConverter x:Key="IntToVisibillityConverter"/>
+    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid  x:Name="TopGrid" Height="40" VerticalAlignment="Top">
             <Grid.Background>
@@ -24,15 +26,21 @@
                 <ColumnDefinition Width="40*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="HamburgerButton" Command="{Binding ToggleSplitViewPaneCommand}"
-                FontFamily="Segoe MDL2 Assets"
-                Content="&#xE700;"
+               
                 Margin="0"
                 Width="40"
                 Height="40"
                 Background="Transparent"
                 Foreground="Black"
                 VerticalAlignment="Top"
-                BorderThickness="0" Grid.ColumnSpan="2" />
+                BorderThickness="0" Grid.ColumnSpan="2" >
+            <Button.Content>
+                <Grid>
+                     <TextBlock Foreground="White"  FontFamily="Segoe MDL2 Assets" FontSize="18" Text="&#xE700;" Style="{StaticResource SubtitleTextBlockStyle}"  VerticalAlignment="Center" />
+                     <Ellipse Visibility="{Binding UnreadCount, Converter={StaticResource IntToVisibillityConverter}}" Margin="0,0,-1,2" Height="4" Fill="Brown" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="4"/>
+                </Grid>
+            </Button.Content>    
+            </Button>
             <Grid x:Name="TopCenterGrid" Grid.ColumnSpan="1" Grid.Column="1">
 
             </Grid>
@@ -55,7 +63,7 @@
                             <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Height="60">
                                 <interactivity:Interaction.Behaviors>
                                     <core:EventTriggerBehavior EventName="Tapped">
-                                       <core:InvokeCommandAction Command="{Binding UserPageOpenCommand}" CommandParameter="{Binding User}">
+                                        <core:InvokeCommandAction Command="{Binding UserPageOpenCommand}" CommandParameter="{Binding User}">
                                         </core:InvokeCommandAction>
                                     </core:EventTriggerBehavior>
                                 </interactivity:Interaction.Behaviors>
@@ -70,7 +78,6 @@
                                 </Ellipse>
                                 <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
                                     <TextBlock Foreground="White"  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding User.full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
-                                    <TextBlock Foreground="White" Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  Text="{Binding User.Online}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
                                     <TextBlock  Foreground="White" Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding User.city.title}"  VerticalAlignment="Top" TextWrapping="NoWrap">
                                     </TextBlock>
                                 </StackPanel>
@@ -87,8 +94,8 @@
                                     </core:EventTriggerBehavior>
                                 </interactivity:Interaction.Behaviors>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Foreground="White"  FontFamily="Segoe MDL2 Assets" Text="&#xE716;" FontSize="22" VerticalAlignment="Center" />
-                                    <TextBlock Foreground="White" Margin="5,0,0,0" Text="группы" FontSize="18" VerticalAlignment="Center" />
+                                    <TextBlock Foreground="White"  FontFamily="Segoe MDL2 Assets" Text="&#xE716;" Style="{StaticResource SubtitleTextBlockStyle}"  VerticalAlignment="Center" />
+                                    <TextBlock Foreground="White" Margin="5,0,0,0" Text="группы" Style="{StaticResource SubtitleTextBlockStyle}" VerticalAlignment="Center" />
 
                                 </StackPanel>
                             </ListViewItem>
@@ -101,6 +108,13 @@
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Foreground="White"  FontFamily="Segoe MDL2 Assets" Text="&#xE715;" FontSize="22" VerticalAlignment="Center" />
                                     <TextBlock Foreground="White" Margin="5,0,0,0" Text="сообщения" FontSize="18" VerticalAlignment="Center" />
+                                    <Border  Visibility="{Binding UnreadCount, Converter={StaticResource IntToVisibillityConverter}}" CornerRadius="2" Margin="5,0,0,0">
+                                        <Border.Background>
+                                            <SolidColorBrush Color="{StaticResource Color2}"/>
+                                        </Border.Background>
+                                        <TextBlock Foreground="White" Margin="2"   Text="{Binding UnreadCount}" FontSize="18" VerticalAlignment="Center" />
+
+                                    </Border>
                                 </StackPanel>
                             </ListViewItem>
                             <ListViewItem>
@@ -132,7 +146,7 @@
                             <StackPanel Grid.Column="0" HorizontalAlignment="Center" Grid.ColumnSpan="3" >
                                 <interactivity:Interaction.Behaviors>
                                     <core:EventTriggerBehavior EventName="Tapped">
-                                  
+
                                         <core:InvokeCommandAction Command="{Binding  OpenPlayerCommand}"/>
                                     </core:EventTriggerBehavior>
                                 </interactivity:Interaction.Behaviors>
@@ -155,7 +169,7 @@
                                 </AppBarButton>
 
                             </StackPanel>
-                         </Grid>
+                        </Grid>
                     </Grid>
                 </Grid>
             </SplitView.Pane>

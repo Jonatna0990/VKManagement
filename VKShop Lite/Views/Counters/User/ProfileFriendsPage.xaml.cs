@@ -1,4 +1,6 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
 using VKCore.API.VKModels.User;
 using VKShop_Lite.ViewModels.Counters.User;
@@ -21,5 +23,7 @@ namespace VKShop_Lite.Views.Counters.User
             base.OnNavigatedTo(e);
             this.DataContext = new ProfileFiendsViewModel(e.Parameter as UserClass);
         }
+
+   
     }
 }

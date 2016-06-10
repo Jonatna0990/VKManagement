@@ -10,8 +10,10 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:helpers="using:VKShop_Lite.Helpers"
+    xmlns:converters="using:VKShop_Lite.Views.Groups.Admin.Converters"
     mc:Ignorable="d" x:Name="Page">
 <Page.Resources>
+        <converters:AdminRoleConvertor x:Key="AdminRoleConvertor"/>
         <DataTemplate x:DataType="user:UserClass" x:Key="UserRequestsTemplate">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Height="60">
@@ -82,7 +84,7 @@
                 </Ellipse>
                 <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
                     <TextBlock  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
-                    <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  Text="{Binding role}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                    <TextBlock Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  Text="{Binding role, Converter={StaticResource AdminRoleConvertor}}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
 
                 </StackPanel>
 
@@ -103,6 +105,8 @@
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout>
                         <MenuFlyoutItem Text="добавить в чёрный список" CommandParameter="{Binding }" Command="{Binding  ElementName=Page,Path=DataContext.AddUserToBlackList}" />
+                        <MenuFlyoutItem Text="удаить из сообщества" CommandParameter="{Binding }" Command="{Binding  ElementName=Page,Path=DataContext.DeleteUserFromGroupCommand}" />
+                        <MenuFlyoutItem Text="назначить руководителем" CommandParameter="{Binding }" Command="{Binding  ElementName=Page,Path=DataContext.AddUserToAdminCommand}" />
                     </MenuFlyout>
                 </FlyoutBase.AttachedFlyout>
                 <Border Background="LightGray" CornerRadius="33" Height="50" Width="50">

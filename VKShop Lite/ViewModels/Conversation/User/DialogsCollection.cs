@@ -3,19 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls.Primitives;
 using GalaSoft.MvvmLight.Command;
 using VKCore.API.Core;
 using VKCore.API.VKModels.Attachment;
-using VKCore.API.VKModels.Audio;
 using VKCore.API.VKModels.Group;
 using VKCore.API.VKModels.LongPollServer;
 using VKCore.API.VKModels.Messages;
 using VKCore.API.VKModels.User;
 using VKCore.Helpers;
-using VKShop_Lite.Common;
 using VKShop_Lite.ViewModels.Base;
-using VKShop_Lite.Views.Conversation.User;
 using ВКонтакте.Models.List;
 
 namespace VKShop_Lite.ViewModels.Conversation.User
@@ -23,19 +19,18 @@ namespace VKShop_Lite.ViewModels.Conversation.User
     public class DialogsCollection : BaseViewModel
     {
 
-        
-        private Visibility _isLoaded;
-
-        public Visibility IsLoaded
-        {
-            get { return _isLoaded; }
-            set { _isLoaded = value; RaisePropertyChanged("IsLoaded"); }
-        }
+       
+      
         private int _offset = 0;
         private MainMessageClass _messages;
-       public RelayCommand<object> NavigateCommand { get; set; }
+        private int total_msg_count = 0;
+        private bool has_offset = true;
+        private LockerClass GetMessagesLocker = null;
+        private int offset = 0;
 
-     
+        public RelayCommand<object> NavigateCommand { get; set; }
+        public ICommand LoadMoreCommand { get; set; }
+
 
         public MainMessageClass Messages
         {
@@ -46,6 +41,7 @@ namespace VKShop_Lite.ViewModels.Conversation.User
        
         public DialogsCollection(AttachmentsClass attachment=null)
         {
+            GetMessagesLocker = new LockerClass(1, -10);
             RegisterTasks("dialogs");
             this.attachment = attachment;
             if (this.Messages == null)
@@ -54,6 +50,15 @@ namespace VKShop_Lite.ViewModels.Conversation.User
                 LoadItems();
 
             }
+            LoadMoreCommand = new DelegateCommand(t =>
+            {
+                if (has_offset && !GetMessagesLocker.IsLocked)
+                {
+                    GetMessagesLocker.Start();
+                    LoadItems();
+                }
+            
+            });
 
         }
 
@@ -67,35 +72,12 @@ namespace VKShop_Lite.ViewModels.Conversation.User
 
                 if (t.message.chat_id != null)
                 {
-                    if (t.message.chat_active.Count > 0)
-                    {
-                        List<UserClass> users = new List<UserClass>();
-                        if (t.message.action_mid > 0)
-                        {
-                            UserClass e = messageClass.users.SingleOrDefault(f => f.id == t.message.action_mid);
-                            users.Add(e);
-                        }
-
-                        foreach (var tt in t.message.chat_active)
-                        {
-                            foreach (var q in messageClass.users)
-                            {
-                                if (tt == q.id)
-                                {
-                                    users.Add(q);
-                                }
-                            }
-
-
-                        }
-                        t.message.MsgFrom = new MessageFrom(null,null,users);
-                    }
-                    {
+                   
                         if (string.IsNullOrEmpty(t.message.photo_100) || string.IsNullOrEmpty(t.message.photo_50))
                         {
                             t.message.photo_100 = @"ms-appx:///Icons/Dark/Menu/appbar.group.png";
                         }
-                    }
+                    
                     //нет пользователей
 
                 }
@@ -103,25 +85,24 @@ namespace VKShop_Lite.ViewModels.Conversation.User
                 else
                 {
                     SetOnlineApp.SetOnlineApplication(messageClass.users);
-                    foreach (var a in messageClass.dialogs.items)
-                    {
+                  
 
                         //диалог с группой
-                        if (a.message.user_id < 0)
+                        if (t.message.user_id < 0)
                         {
-                            GroupsClass q = messageClass.groups.SingleOrDefault(f => f.id == Math.Abs(a.message.user_id));
-                            a.message.MsgFrom = new MessageFrom(null,  q);
+                            GroupsClass q = messageClass.groups.SingleOrDefault(f => f.id == Math.Abs(t.message.user_id));
+                            t.message.MsgFrom = new MessageFrom(null,  q);
 
                         }
                         //диалог с пользователем
                         else
                         {
 
-                            UserClass q = messageClass.users.SingleOrDefault(f => f.id == a.message.user_id);
-                            a.message.MsgFrom = new MessageFrom( q, null);
+                            UserClass q = messageClass.users.SingleOrDefault(f => f.id == t.message.user_id);
+                            t.message.MsgFrom = new MessageFrom( q, null);
                         }
 
-                    }
+                    
 
                 }
             }
@@ -130,33 +111,34 @@ namespace VKShop_Lite.ViewModels.Conversation.User
         }
         private void LoadItems()
         {
-            Popup popup = new Popup();
             VKRequest.Dispatch<MainMessageClass>(
            new VKRequestParameters(
-               SExecute.get_messages),
+               SExecute.get_messages, "offset",offset.ToString()),
            (res) =>
            {
                var q = res.ResultCode;
                if (res.ResultCode == VKResultCode.Succeeded)
                {
-                   popup.Child = null;
-                   popup.IsOpen = false;
                    if (Messages == null)
                    {
                        Messages = SetSources(res.Data);
-                       IsLoaded = Visibility.Collapsed;
                        TaskFinished("dialogs");
+                       total_msg_count = res.Data.dialogs.count;
                    }
 
                    else
                    {
-
-                       // Messages.dialogs.items.AddRange(res.Data.dialogs.items);
-                       // Messages.users.Add(res.Data.users);
+                       if (total_msg_count > 0 && total_msg_count == offset) has_offset = false;
+                       var a = SetSources(res.Data);
+                       foreach (var t in a.dialogs.items)
+                       {
+                           Messages.dialogs.items.Add(t);
+                       }
+                     
                    }
 
 
-                   _offset++; // = Convert.ToUInt16(res.Data.dialogs.items.Count);
+                   offset += res.Data.dialogs.items.Count; // = Convert.ToUInt16(res.Data.dialogs.items.Count);
 
                }
                else TaskError("dialogs", res.Error.error_msg);
@@ -166,111 +148,110 @@ namespace VKShop_Lite.ViewModels.Conversation.User
         }
         protected override void MessageFlagReset(object sender, LongPollMessageFlagsEventArgs e)
         {
-            foreach (var VARIABLE in Messages.dialogs.items.ToList())
-            {
-                if (VARIABLE.message.id == e.mid)
+            if (Messages != null)
+                foreach (var VARIABLE in Messages.dialogs.items.ToList())
                 {
-
-                    List<VkLongPollMessageFlags> s = MessageFlagsHelper.CheckFlags(Convert.ToInt32(e.flags));
-                    if (s.Contains(VkLongPollMessageFlags.Unread))
+                    if (VARIABLE.message.id == e.mid)
                     {
-                        if (VARIABLE.unread > 0)
+
+                        List<VkLongPollMessageFlags> s = MessageFlagsHelper.CheckFlags(Convert.ToInt32(e.flags));
+                        if (s.Contains(VkLongPollMessageFlags.Unread))
                         {
-                            VARIABLE.unread = 0;
+                            if (VARIABLE.unread > 0)
+                            {
+                                VARIABLE.unread = 0;
+                            }
                         }
                     }
                 }
-            }
-
         }
+
         private void GetMsgById(long id)
         {
 
         }
         protected override void AddNewMessage(object sender, LongPollMessageEventArgs e)
         {
-            foreach (var t in Messages.dialogs.items.ToList())
-            {
-
-
-                if (e.from_id == t.message.user_id && t.message.chat_id == null)
+            if (Messages != null)
+                foreach (var t in Messages.dialogs.items.ToList())
                 {
-                    if (t.locker.LockerId == e.from_id && t.locker.IsLocked) { t.locker.Stop(); }
 
-                    VKRequest.Dispatch<VKList<MessageClass>>(
-                new VKRequestParameters(
-                    SMessages.messages_getById, "message_ids", e.mid.ToString()),
-                (res) =>
-                {
-                    var q = res.ResultCode;
-                    if (res.ResultCode == VKResultCode.Succeeded)
+
+                    if (e.from_id == t.message.user_id && t.message.chat_id == null)
                     {
-                        if (res.Data.items.FirstOrDefault() != null)
+                        if (t.locker.LockerId == e.from_id && t.locker.IsLocked) { t.locker.Stop(); }
+
+                        VKRequest.Dispatch<VKList<MessageClass>>(
+                            new VKRequestParameters(
+                                SMessages.messages_getById, "message_ids", e.mid.ToString()),
+                            (res) =>
+                            {
+                                var q = res.ResultCode;
+                                if (res.ResultCode == VKResultCode.Succeeded)
+                                {
+                                    if (res.Data.items.FirstOrDefault() != null)
+                                    {
+                                        var a = t.message.MsgFrom;
+                                        t.message = res.Data.items.FirstOrDefault();
+                                        t.message.MsgFrom = a;
+                                        if (t.message._out == 0) t.unread++;
+                                        int ta = Messages.dialogs.items.IndexOf(t);
+                                        if (ta != 0) Messages.dialogs.items.Move(ta, 0);
+                                    }
+
+                                }
+
+                            });
+
+
+
+
+                    }
+
+                }
+        }
+
+        protected override void WriteMessage(object sender, LongPollUserEventArgs e)
+        {
+            if (Messages != null)
+                foreach (var t in Messages.dialogs.items.ToList())
+                {
+                    if (t.locker.LockerId == e.uid && t.locker.IsLocked) t.locker.AddSeconds(3);
+                    else
+                    {
+                        if (e.uid == t.message.user_id && t.message.chat_id == null)
                         {
-                            var a = t.message.MsgFrom;
-                            t.message = res.Data.items.FirstOrDefault();
-                            t.message.MsgFrom = a;
-                            if (t.message._out == 0) t.unread++;
-                            int ta = Messages.dialogs.items.IndexOf(t);
-                            if (ta != 0) Messages.dialogs.items.Move(ta, 0);
+                            t.message.body = "Набирает сообщение"; t.locker.Start();
                         }
 
                     }
-
-                });
-
-
-
-
                 }
-
-            }
         }
-        protected override void WriteMessage(object sender, LongPollUserEventArgs e)
-        {
-            foreach (var t in Messages.dialogs.items.ToList())
-            {
-                if (t.locker.LockerId == e.uid && t.locker.IsLocked) t.locker.AddSeconds(3);
-                else
-                {
-                    if (e.uid == t.message.user_id && t.message.chat_id == null)
-                    {
-                        t.message.body = "Набирает сообщение"; t.locker.Start();
-                    }
 
-                }
-            }
-
-
-
-        }
         protected override void MakeOnline(object sender, LongPollUserStatusEventArgs e)
         {
-            foreach (var VARIABLE in Messages.dialogs.items)
-            {
-                if (VARIABLE.message.user_id == e.uid)
+            if (Messages?.dialogs != null)
+                foreach (var VARIABLE in Messages.dialogs.items)
                 {
-
-                    VARIABLE.message.MsgFrom.FromUser.SetApplicationIcon(e.extra, true);
+                    if (VARIABLE.message.user_id == e.uid)
+                    {
+                        if (VARIABLE.message.MsgFrom != null)
+                            VARIABLE.message.MsgFrom.FromUser.SetApplicationIcon(e.extra, true);
+                    }
                 }
-            }
-
-
         }
 
         protected override void MakeOffline(object sender, LongPollUserStatusEventArgs e)
         {
-            foreach (var VARIABLE in Messages.dialogs.items)
-            {
-                if (VARIABLE.message.user_id == e.uid)
+            if (Messages?.dialogs != null)
+                foreach (var VARIABLE in Messages.dialogs.items)
                 {
-
-                    VARIABLE.message.MsgFrom.FromUser.SetApplicationIcon(0);
+                    if (VARIABLE.message.user_id == e.uid)
+                    {
+                        if (VARIABLE.message.MsgFrom != null) VARIABLE.message.MsgFrom.FromUser.SetApplicationIcon(0);
+                    }
                 }
-            }
-           
         }
-
     }
 }
 

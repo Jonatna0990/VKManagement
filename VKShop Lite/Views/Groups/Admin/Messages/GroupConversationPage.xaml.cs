@@ -1,8 +1,6 @@
 ﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using GalaSoft.MvvmLight.Messaging;
 using VKCore.API.VKModels.Group;
-using VKCore.API.VKModels.Messages;
 using VKShop_Lite.ViewModels.Groups.Admin.Messages;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238

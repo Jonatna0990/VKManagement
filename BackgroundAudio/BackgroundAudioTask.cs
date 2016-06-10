@@ -19,9 +19,16 @@ namespace BackgroundAudio
         private MediaPlayer _mediaPlayer;
         public void Run(IBackgroundTaskInstance taskInstance)
         {
-            _systemMediaTransportControl = SystemMediaTransportControls.GetForCurrentView();
-            _systemMediaTransportControl.IsEnabled = true;
-            _systemMediaTransportControl.ButtonPressed += MediaTransportControlButtonPressed;
+            var str = Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily;
+            if (str == "Windows.Mobile")
+            {
+                _systemMediaTransportControl = SystemMediaTransportControls.GetForCurrentView();
+                _systemMediaTransportControl.IsEnabled = true;
+                _systemMediaTransportControl.ButtonPressed += MediaTransportControlButtonPressed;
+            }
+           
+
+
             BackgroundMediaPlayer.MessageReceivedFromForeground += MessageReceivedFromForeground;
             BackgroundMediaPlayer.Current.CurrentStateChanged += BackgroundMediaPlayerCurrentStateChanged;
             BackgroundMediaPlayer.Current.MediaEnded += Current_MediaEnded;
@@ -58,24 +65,30 @@ namespace BackgroundAudio
             _mediaPlayer.AutoPlay = true;
             _mediaPlayer.SetUriSource(new Uri(track.url));
             BackgroundMediaPlayer.SendMessageToForeground(new ValueSet() { { "State", "Play" } });
-
-            _systemMediaTransportControl.IsPauseEnabled = true;
-            _systemMediaTransportControl.IsPlayEnabled = true;
-            /* if (PlayerBase.GetPlaylists().Count > 1)*/
+            var str = Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily;
+            if (str == "Windows.Mobile")
+            {
+                _systemMediaTransportControl.IsPauseEnabled = true;
+                _systemMediaTransportControl.IsPlayEnabled = true;
+                _systemMediaTransportControl.IsPreviousEnabled = true;
+                _systemMediaTransportControl.IsNextEnabled = true;
+                _systemMediaTransportControl.DisplayUpdater.Type = MediaPlaybackType.Music;
+                _systemMediaTransportControl.DisplayUpdater.MusicProperties.Title = track.title;
+                _systemMediaTransportControl.DisplayUpdater.MusicProperties.Artist = track.artist;
+                _systemMediaTransportControl.DisplayUpdater.Update();
+            }
+           
+            /* if (PlayerBase.GetPlaylists().Count > 1)
             {
                 _systemMediaTransportControl.IsPreviousEnabled = true;
                 _systemMediaTransportControl.IsNextEnabled = true;
             }
-            /* else
+             else
              {
                  _systemMediaTransportControl.IsPreviousEnabled = false;
                  _systemMediaTransportControl.IsNextEnabled = false;
              }*/
 
-            _systemMediaTransportControl.DisplayUpdater.Type = MediaPlaybackType.Music;
-            _systemMediaTransportControl.DisplayUpdater.MusicProperties.Title = track.title;
-            _systemMediaTransportControl.DisplayUpdater.MusicProperties.Artist = track.artist;
-            _systemMediaTransportControl.DisplayUpdater.Update();
         }
 
         /// <summary>
@@ -110,29 +123,33 @@ namespace BackgroundAudio
         /// <param name="args"></param>
         private void BackgroundMediaPlayerCurrentStateChanged(MediaPlayer sender, object args)
         {
-
-
-            switch (sender.CurrentState)
+            var str = Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily;
+            if (str == "Windows.Mobile")
             {
-                case MediaPlayerState.Playing:
-                    {
-                        _systemMediaTransportControl.PlaybackStatus = MediaPlaybackStatus.Playing;
+                switch (sender.CurrentState)
+                {
+                    case MediaPlayerState.Playing:
+                        {
+                            _systemMediaTransportControl.PlaybackStatus = MediaPlaybackStatus.Playing;
 
-                    }
-                    break;
-                case MediaPlayerState.Paused:
-                    {
-                        _systemMediaTransportControl.PlaybackStatus = MediaPlaybackStatus.Paused;
+                        }
+                        break;
+                    case MediaPlayerState.Paused:
+                        {
+                            _systemMediaTransportControl.PlaybackStatus = MediaPlaybackStatus.Paused;
 
-                    }
-                    break;
-                case MediaPlayerState.Stopped:
-                    _systemMediaTransportControl.PlaybackStatus = MediaPlaybackStatus.Stopped;
-                    break;
-                case MediaPlayerState.Closed:
-                    _systemMediaTransportControl.PlaybackStatus = MediaPlaybackStatus.Closed;
-                    break;
+                        }
+                        break;
+                    case MediaPlayerState.Stopped:
+                        _systemMediaTransportControl.PlaybackStatus = MediaPlaybackStatus.Stopped;
+                        break;
+                    case MediaPlayerState.Closed:
+                        _systemMediaTransportControl.PlaybackStatus = MediaPlaybackStatus.Closed;
+                        break;
+                }
             }
+
+           
         }
 
         /// <summary>

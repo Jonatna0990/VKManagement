@@ -11,7 +11,6 @@ using VKShop_Lite.Common;
 using VKShop_Lite.Helpers;
 using VKShop_Lite.UserControls.PopupControl;
 using VKShop_Lite.ViewModels.Base;
-using VKShop_Lite.Views.Conversation.User;
 using VKShop_Lite.Views.Groups.Admin;
 using ВКонтакте.Models.List;
 

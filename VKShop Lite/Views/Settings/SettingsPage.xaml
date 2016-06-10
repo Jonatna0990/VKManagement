@@ -9,6 +9,31 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-         <Button Click="ButtonBase_OnClick"></Button>
+        <StackPanel Margin="10">
+            <TextBlock Text="Профиль" FontSize="23"/>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Height="60">
+                  
+                    <Border Background="LightGray" CornerRadius="33" Height="50" Width="50">
+                        <Ellipse  Width="50" Height="50">
+                            <Ellipse.Fill>
+                                <ImageBrush>
+                                    <ImageBrush.ImageSource>
+                                        <BitmapImage UriSource="{Binding User.photo_100}" />
+                                    </ImageBrush.ImageSource>
+                                </ImageBrush>
+                            </Ellipse.Fill>
+                        </Ellipse >
+                    </Border>
+                    <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+                        <TextBlock   Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding User.full_name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            <Button Margin="10" HorizontalAlignment="Stretch" Content="Сменить фотографию" Command="{Binding ChangePhotoCommand}"></Button>
+            <Button Margin="10" HorizontalAlignment="Stretch"  Content="О приложении" Command="{Binding OpenAboutCommand}"></Button>
+            <Button Margin="10" HorizontalAlignment="Stretch"  Content="Выйти" Command="{Binding ExitCommand}"></Button>
+          </StackPanel>
     </Grid>
 </Page>

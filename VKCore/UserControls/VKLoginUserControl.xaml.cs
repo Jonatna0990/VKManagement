@@ -85,9 +85,16 @@ namespace VKCore.UserControls
 
         public VKLoginUserControl()
         {
+
+
             this.InitializeComponent();
-            var bar = StatusBar.GetForCurrentView();
-            bar.HideAsync();
+            var str = Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily;
+            if (str == "Windows.Mobile")
+            {
+                var bar = StatusBar.GetForCurrentView();
+                bar.HideAsync();
+            }
+
         }
 
         protected override void PrepareForLoad()

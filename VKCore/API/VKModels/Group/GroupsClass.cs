@@ -12,6 +12,7 @@ using VKCore.API.VKModels.Messages;
 using VKCore.API.VKModels.User;
 using VKCore.API.VKModels.VKList;
 using VKCore.API.VKModels.Wall;
+using VKCore.Helpers;
 
 namespace VKCore.API.VKModels.Group
 {
@@ -83,6 +84,7 @@ namespace VKCore.API.VKModels.Group
         private List<Contact> _contacts; 
         private List<GroupLink> _links;
         private object _counters;
+        private long _startDate;
 
         [JsonProperty("id")]
         public int id { get; set; }
@@ -133,7 +135,14 @@ namespace VKCore.API.VKModels.Group
         public int members_count { get; set; }
 
         [JsonProperty("start_date")]
-        public int start_date { get; set; }
+        public long start_date
+        {
+            get { return _startDate; }
+            set { _startDate = value;
+                StartDate = DateTimeHelper.GetTimeAgoForBlackList(value);
+            }
+        }
+        public string StartDate { get; set; }
 
         [JsonProperty("status")]
         public string status { get; set; }

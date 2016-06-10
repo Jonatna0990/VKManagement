@@ -14,12 +14,12 @@ namespace VKShop_Lite.UserControls.MessagesControl.Converters
         {
             if (item != null)
             {
-                var t = item as MessageFrom;
+                var t = item as MessageClass;
                 if (t != null)
                 {
-                    if(t.FromUser !=null) return DialogTemplate;
-                    if (t.FromGroup != null) return GroupTemplate;
-                    if (t.ChatUsersList != null) return ChatTemplate;
+                    if(t.chat_id !=null) return ChatTemplate;
+                    if (t.user_id > 0 ) return DialogTemplate;
+                    if (t.user_id < 0) return GroupTemplate;
                    
                 }
 

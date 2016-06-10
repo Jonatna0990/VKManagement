@@ -153,11 +153,11 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="GroupWallTemplate">
-             <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+             <Grid VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
                 <listControl:ExtendedListView ScrollControlType="News" ShowsScrollingPlaceholders="False" LoadMoreCommandBottom="{Binding ElementName=GroupMain,Path=DataContext.WallColl.LoadMorePostsCommand}" ItemsSource="{Binding ElementName=GroupMain,Path=DataContext.WallColl.wall}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <wallControl:WallPostControl />
+                            <wallControl:WallPostControl   Width="{Binding Source={StaticResource ResolutionScaleHelper},Path=Width}"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </listControl:ExtendedListView>
@@ -170,9 +170,8 @@
                 <AppBarButton Icon="Setting" Label="управление" Visibility="{Binding Group.admin_level,Converter={StaticResource AdminVisibillityConverter},FallbackValue=Collapsed}"  Command="{Binding AdminOpenCommand}"/>
             </CommandBar.PrimaryCommands>
             <CommandBar.SecondaryCommands>
-                <AppBarButton Label="добавить в закладки"/>
-                <AppBarButton Label="открыть в браузере"/>
-                <AppBarButton Label="пригласить друзей"/>
+                <AppBarButton Label="добавить в закладки" Command="{Binding AddToFavesCommand}"/>
+                <AppBarButton Label="открыть в браузере" Command="{Binding OpenInWebCommand}"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>

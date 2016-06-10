@@ -1,4 +1,4 @@
-﻿<ContentDialog
+﻿<UserControl
     x:Class="VKShop_Lite.UserControls.Map.AddMapLocationControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,25 +6,24 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
-    mc:Ignorable="d"
-    Title="Выберите точку">
+    mc:Ignorable="d">
 
     <Grid>
-        <StackPanel>
+        <TextBlock Margin="5" Text="Добавить местоположение" Style="{StaticResource TitleTextBlockStyle}"></TextBlock>
 
-            <maps:MapControl Canvas.ZIndex="1" x:Name="MyMap" 
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Height="500"
-                            Width="385"
-                         MapTapped="MyMap_OnMapTapped"/>
+        <maps:MapControl Canvas.ZIndex="1" x:Name="MyMap" 
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                             VerticalContentAlignment="Stretch"
+                             HorizontalContentAlignment="Stretch"
+                         MapTapped="MyMap_OnMapTapped" Margin="0,35,0,0"/>
            
-        </StackPanel>
-        <Image Opacity="0.3" Canvas.ZIndex="2" VerticalAlignment="Top" HorizontalAlignment="Right"  Source="/Icons/Dark/Map/gps.png"  Height="40" Width="40" x:Name="MyLocation" Tapped="MyLocation_OnTapped"></Image>
+       
+        <Image Opacity="0.4" Canvas.ZIndex="2" VerticalAlignment="Bottom" HorizontalAlignment="Right"  Source="/Icons/Dark/Map/gps.png"  Height="40" Width="40" x:Name="MyLocation" Tapped="MyLocation_OnTapped"></Image>
 
-        <Image Opacity="0.3" Canvas.ZIndex="2" VerticalAlignment="Top" HorizontalAlignment="Left"  Source="/Icons/Dark/Map/check.png"  Height="40" Width="40" x:Name="SaveLocation" Tapped="SaveLocation_OnTapped"></Image>
+        <Image Opacity="0.4" Canvas.ZIndex="2" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Source="/Icons/Dark/Map/check.png"  Height="40" Width="40" x:Name="SaveLocation" Tapped="SaveLocation_OnTapped"></Image>
 
       
 
     </Grid>
-</ContentDialog>
+</UserControl>

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 using VKCore.API.VKModels.Photo;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace VKShop_Lite.UserControls.Images
 {
-    public sealed partial class ImagesFilpViewControl : Page
+    public sealed partial class ImagesFilpViewControl : UserControl
     {
         private ObservableCollection<PhotoClass> _photos;
         private PhotoSendParamClass param = null;
@@ -33,14 +32,6 @@ namespace VKShop_Lite.UserControls.Images
 
 
         }
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-         
-          
-
-        }
-
         private  void SetSources()
         {
             if (photos != null && photos.Count > 0)

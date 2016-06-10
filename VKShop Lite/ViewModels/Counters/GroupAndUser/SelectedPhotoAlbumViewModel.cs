@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls.Primitives;
 using VKCore.API.Core;
 using VKCore.API.SDK;
 using VKCore.API.VKModels.Photo;
 using VKCore.API.VKModels.VKList;
 using VKCore.Helpers;
-using VKShop_Lite.Common;
+using VKShop_Lite.Helpers;
 using VKShop_Lite.UserControls.Images;
 using VKShop_Lite.ViewModels.Base;
 using CreatePhotoControl = VKShop_Lite.UserControls.PopupControl.Counters.CreatePhotoControl;
@@ -36,13 +35,8 @@ namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
             get { return _selectedImage; }
             set
             {
-                _selectedImage = value;
-                var k = new Popup();
-                k.Child = new ImagesFilpViewControl(new PhotoSendParamClass { photos = PhotosCollection, selected_photo = value });
-                k.IsLightDismissEnabled = true;
-                k.IsOpen = true;
-                
-
+                UserControlFlyout flyout = new UserControlFlyout();
+                flyout.ShowFlyout(new ImagesFilpViewControl(new PhotoSendParamClass { photos = PhotosCollection, selected_photo = value }));
             }
         }
 
@@ -79,6 +73,7 @@ namespace VKShop_Lite.ViewModels.Counters.GroupAndUser
             {
                 paramDictionary.Add("owner_id", String.Format("{0}", photoAlbum.owner_id));
                 paramDictionary.Add("album_id", String.Format("{0}", photoAlbum.id));
+                paramDictionary.Add("extended", "1");
                 VKRequest.Dispatch<VKCollection<PhotoClass>>(
              new VKRequestParameters(
                SPhotos.photos_get, paramDictionary),

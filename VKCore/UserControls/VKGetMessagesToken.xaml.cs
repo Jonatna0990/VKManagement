@@ -93,8 +93,10 @@ namespace VKCore.UserControls
         public VKGetMessagesToken()
         {
             this.InitializeComponent();
+
             var bar = StatusBar.GetForCurrentView();
-            bar.HideAsync();
+            bar.HideAsync();  
+
         }
 
         protected override void PrepareForLoad()

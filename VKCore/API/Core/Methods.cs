@@ -22,6 +22,7 @@
             public const string messages_getById = "messages.getById";
             public const string messages_search = "messages.search";
             public const string messages_getLongPollServer = "messages.getLongPollServer";
+            public const string messages_delete = "messages.delete";
         }
         public struct SUsers
         {
@@ -337,7 +338,8 @@
             public const string fave_getPosts = "fave.getPosts";
             public const string fave_getVideos = "fave.getVideos";
             public const string fave_getLinks = "fave.getLinks";
-        }
+            public const string fave_addGroup = "fave.addGroup";
+       }
 
         public struct SMarket
         {

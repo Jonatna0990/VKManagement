@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Windows.UI.Popups;
@@ -6,7 +7,9 @@ using VKCore.API.Core;
 using VKCore.API.VKModels.Group;
 using VKCore.API.VKModels.User;
 using VKCore.Helpers;
+using VKShop_Lite.Helpers;
 using VKShop_Lite.UserControls.PopupControl;
+using VKShop_Lite.UserControls.PopupControl.Admin;
 using VKShop_Lite.ViewModels.Base;
 using ВКонтакте.Models.List;
 
@@ -40,6 +43,8 @@ namespace VKShop_Lite.ViewModels.Groups.Admin.GroupControl
         public ICommand AddUserToBlackList { get; set; }
         public ICommand AcceptUserAddRequestCommand { get; set; }
         public ICommand RefuseUserAddRequestCommand { get; set; }
+        public ICommand DeleteUserFromGroupCommand { get; set; }
+        public ICommand AddUserToAdminCommand { get; set; }
         public GroupsMembersEditViewModel(GroupsClass group)
         {
             this.group = group;
@@ -56,11 +61,58 @@ namespace VKShop_Lite.ViewModels.Groups.Admin.GroupControl
             {
                 AddToBlackList(t as UserClass);
             });
+            DeleteUserFromGroupCommand = new DelegateCommand(t => { PrepareDeleteUserGromGroup(t as UserClass); });
+            AddUserToAdminCommand = new DelegateCommand(t => { AddUserToAdmin(t as UserClass); });
             Load();
             LoadAdmin();
             LoadRequest();
         }
 
+        private async void AddUserToAdmin(UserClass user)
+        {
+            var a = new AddUserToAdminControl(t =>
+            {
+                var w = t;
+            }, @group, user);
+            await a.ShowAsync();
+        }
+        private void PrepareDeleteUserGromGroup(UserClass user)
+        {
+            var commands = new Dictionary<string, Action>();
+            commands.Add("Удалить", () =>
+            {
+
+                DeleteUserGromGroup(user);
+            });
+            commands.Add("Отмена", null);
+            MessagesHelper.ShowDialogMessage("Удаление из сообщества", "Вы действительно хотите удалить этого пользователя из сообщетсва?", commands);
+
+        }
+
+        private void DeleteUserGromGroup(UserClass user)
+        {
+            if (user != null)
+            {
+                VKRequest.Dispatch<int>(
+           new VKRequestParameters(
+                       SGroups.groups_removeUser, "group_id", Math.Abs(group.id).ToString(), "user_id", user.id.ToString()),
+           (res) =>
+           {
+               var q = res.ResultCode;
+               if (res.ResultCode == VKResultCode.Succeeded)
+               {
+                   PopupEx popup = new PopupEx("Удаление из сообщества", "Пользователь успешно удален");
+                   popup.ShowAsync();
+                   users.Remove(user);
+               }
+               else
+               {
+                   var t = new MessageDialog(res.Error.error_msg, "Ошибка");
+                   t.ShowAsync();
+               }
+           });
+            }
+        }
         private void AddToBlackList(UserClass user)
         {
             if (user != null)

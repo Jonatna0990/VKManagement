@@ -5,14 +5,22 @@ using Newtonsoft.Json;
 
 namespace VKCore.API.VKModels.Sticker
 {
-    public class StickerClass
+    public class StickerClass : ViewModelBase
     {
+        private string _photo64;
+
         [JsonProperty("id")]
         public int id { get; set; }
         [JsonProperty("product_id")]
         public int product_id { get; set; }
+
         [JsonProperty("photo_64")]
-        public string photo_64 { get; set; }
+        public string photo_64
+        {
+            get { return _photo64; }
+            set { _photo64 = value; RaisePropertyChanged("photo_64"); }
+        }
+
         [JsonProperty("photo_128")]
         public string photo_128 { get; set; }
         [JsonProperty("photo_256")]
@@ -25,6 +33,7 @@ namespace VKCore.API.VKModels.Sticker
         {
             id = _id;
             photo_64 = img;
+            photo_128 = img;
         }
     }
 

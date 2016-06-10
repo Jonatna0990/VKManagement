@@ -14,7 +14,7 @@ namespace VKShop_Lite.ViewModels.Conversation.User
 {
     public class DialogConversationViewModel : BaseViewModel
     {
-        
+       
         private MessagesCollection _messages;
         public MessagesCollection Messages
         {

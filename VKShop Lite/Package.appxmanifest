@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="31641GGeorgy.VKGroupLite" Publisher="CN=56069CE0-FFE5-4A2A-80F4-8B82477E4557" Version="1.1.0.0" />
+  <Identity Name="31641GGeorgy.VKGroupLite" Publisher="CN=56069CE0-FFE5-4A2A-80F4-8B82477E4557" Version="1.1.8.0" />
   <mp:PhoneIdentity PhoneProductId="8cb530d7-01d1-41a6-8f89-e430cb713a2c" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>VKGroup Lite</DisplayName>
+    <DisplayName>VKGroup Management</DisplayName>
     <PublisherDisplayName>GGeorgy</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -14,11 +14,14 @@
     <Resource Language="x-generate" />
   </Resources>
   <Applications>
-    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="VKGroup_Lite.App">
-      <uap:VisualElements DisplayName="VKGroup Lite" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="VKGroup Lite – это уникальное мобильное приложение, с помощью которого Вы можете управлять администрируемыми сообществами ВК." BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="VKGroup_Management.App">
+      <uap:VisualElements DisplayName="VKGroup Management" Square150x150Logo="Assets\logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="VKGroup Management – это уникальное мобильное приложение, с помощью которого Вы можете управлять администрируемыми сообществами ВК." BackgroundColor="transparent">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\Square71x71Logo.png" Square310x310Logo="Assets\Square310x310Logo.png">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square150x150Logo" />
+          </uap:ShowNameOnTiles>
         </uap:DefaultTile>
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#2B587A" />
         <uap:InitialRotationPreference>
           <uap:Rotation Preference="portrait" />
           <uap:Rotation Preference="portraitFlipped" />

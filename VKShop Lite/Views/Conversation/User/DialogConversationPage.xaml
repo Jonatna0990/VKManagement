@@ -11,108 +11,186 @@
     xmlns:converters="using:VKShop_Lite.UserControls.MessagesControl.Converters"
     xmlns:helpers="using:VKShop_Lite.Helpers"
     xmlns:listControl="using:VKShop_Lite.UserControls.ListControl"
+    xmlns:chat="using:Coding4Fun.Toolkit.Controls"
     xmlns:extensions="using:WinRTXamlToolkit.Controls.Extensions"
     xmlns:messages="using:VKCore.API.VKModels.Messages"
     xmlns:loader="using:VKShop_Lite.UserControls.Loader"
     mc:Ignorable="d" x:Name="RootPage" >
     <Page.Resources>
         <DataTemplate x:Key="InputMessage" x:DataType="messages:MessageClass">
-            <Grid  x:Name="RootGrid" Width="{Binding Source={StaticResource ResolutionScaleHelper}, Path=AbsWidth}" >
+            <chat:ChatBubble ChatBubbleDirection="UpperLeft" Margin="20,0,0,0" HorizontalAlignment="Left" MaxWidth="250" >
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Holding">
                         <helpers:OpenMenuFlyoutAction />
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
-
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem x:Uid="AddToCalendarMenuItem" Text="удалить" Command="{Binding AddToCalendar}" />
-                        <MenuFlyoutItem x:Uid="AddToCalendarMenuItem" Text="переслать" Command="{Binding AddToCalendar}" />
+                        <MenuFlyoutItem x:Uid="AddToCalendarMenuItem" CommandParameter="{Binding }" Text="удалить" Command="{Binding ElementName=RootPage,Path=DataContext.Messages.DeleteMessageCommand}" />
+                        <!--<MenuFlyoutItem x:Uid="AddToCalendarMenuItem" Text="переслать" Command="{Binding AddToCalendar}" />
                         <MenuFlyoutItem x:Uid="AddToCalendarMenuItem" Text="копировать текст" Command="{Binding AddToCalendar}" />
-                        <MenuFlyoutItem x:Uid="AddToCalendarMenuItem" Text="выбрать" Command="{Binding  ElementName=RootPage,Path=DataContext.Messages.SelectionModeChangeCommand}" />
+                        <MenuFlyoutItem x:Uid="AddToCalendarMenuItem" Text="выбрать" Command="{Binding  ElementName=RootPage,Path=DataContext.Messages.SelectionModeChangeCommand}" />-->
                     </MenuFlyout>
                 </FlyoutBase.AttachedFlyout>
                 <Grid DataContext="{x:Bind }" MaxWidth="250" x:Name="RootLayout" Height="{Binding ElementName=TextBlock1,Path=Height}" Width="{Binding ElementName=TextBlock1, Path=Width}" VerticalAlignment="Center" HorizontalAlignment="Left">
-                    <Border CornerRadius="2" MinWidth="50" MinHeight="50" Margin="0,10,7,0" Background="AntiqueWhite" >
-                        <Grid Margin="5">
-                            <StackPanel>
-                                <TextBlock x:Phase="3" Visibility="{Binding body,Converter={StaticResource MessageBodyVisibilityConverter},FallbackValue=Collapsed}"  FontSize="20" x:Name="templateTitle" MaxWidth="250" TextWrapping="Wrap" Foreground="Gray" Text="{x:Bind body}"></TextBlock>
-                                <messagesControl:FwdMessagesControl x:Phase="2"  DataContext="{x:Bind fwd_messages}"/>
-                                <ContentControl x:Phase="0" ContentTemplate="{StaticResource AttachRootTemplate}" Visibility="{Binding  Converter={StaticResource AttachmentVisibillityConverter},FallbackValue=Collapsed}" DataContext="{x:Bind attachments}"/>
-                                <StackPanel  HorizontalAlignment="Right" Orientation="Horizontal">
-                                    <Path  Data="{Binding read_state,Mode=TwoWay,Converter={StaticResource ReadStateVisibillityConverter}}"
-                                 VerticalAlignment="Bottom"
-                                    Stroke="Gray" 
-                                 StrokeThickness="1.5"/>
-                                    <TextBlock x:Phase="3" x:Name="templateSubTitle"  Margin="5,0,0,-3"  Text="{x:Bind DateNewMessages}"  Foreground="#FF838288" FontFamily="Segoe UI" FontSize="15" VerticalAlignment="Bottom"  HorizontalAlignment="Right"/>
-
-                                </StackPanel>
-
-                            </StackPanel>
-                        </Grid>
-                    </Border>
+                    <StackPanel>
+                        <TextBlock x:Phase="3" Visibility="{Binding body,Converter={StaticResource MessageBodyVisibilityConverter},FallbackValue=Collapsed}"  FontSize="20" x:Name="templateTitle" MaxWidth="250" TextWrapping="Wrap" Foreground="White" Text="{x:Bind body}"></TextBlock>
+                        <messagesControl:FwdMessagesControl x:Phase="2"  DataContext="{x:Bind fwd_messages}"/>
+                        <ContentControl x:Phase="0" ContentTemplate="{StaticResource AttachRootTemplate}" Visibility="{Binding  Converter={StaticResource AttachmentVisibillityConverter},FallbackValue=Collapsed}" DataContext="{x:Bind attachments}"/>
+                        <ContentControl x:Phase="0" ContentTemplate="{StaticResource MapTemplate}" Visibility="{Binding geo,Converter={StaticResource MapVisibillityConverter}}" DataContext="{x:Bind }"></ContentControl>
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <TextBlock x:Phase="3" x:Name="templateSubTitle"  Margin="5,0,0,-3"  Text="{x:Bind DateNewMessages}"  Foreground="LightGray" FontFamily="Segoe UI" FontSize="13" VerticalAlignment="Bottom"  HorizontalAlignment="Right"/>
+                        </StackPanel>
+                    </StackPanel>
                 </Grid>
-            </Grid>
-
+            </chat:ChatBubble>
         </DataTemplate>
-        <DataTemplate x:Key="OutputMessage" x:DataType="messages:MessageClass">
-            <Grid  x:Name="RootGrid" Width="{Binding Source={StaticResource ResolutionScaleHelper}, Path=AbsWidth}" >
-            
-             
+        <DataTemplate x:Key="InputChatMessage" x:DataType="messages:MessageClass">
+            <StackPanel  x:Name="RootGrid" Width="{Binding Source={StaticResource ResolutionScaleHelper}, Path=AbsWidth}" >
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Holding">
                         <helpers:OpenMenuFlyoutAction />
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
-
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem x:Uid="AddToCalendarMenuItem" Text="удалить" Command="{Binding AddToCalendar}" />
-                        <MenuFlyoutItem x:Uid="AddToCalendarMenuItem" Text="переслать" Command="{Binding AddToCalendar}" />
-                        <MenuFlyoutItem x:Uid="AddToCalendarMenuItem" Text="копировать текст" Command="{Binding AddToCalendar}" />
-                        <MenuFlyoutItem x:Uid="AddToCalendarMenuItem" Text="выбрать" Command="{Binding  ElementName=RootPage,Path=DataContext.Messages.SelectionModeChangeCommand}" />
+                        <MenuFlyoutItem x:Uid="AddToCalendarMenuItem" CommandParameter="{Binding }" Text="удалить" Command="{Binding ElementName=RootPage,Path=DataContext.Messages.DeleteMessageCommand}" />
                     </MenuFlyout>
                 </FlyoutBase.AttachedFlyout>
-                <Grid DataContext="{x:Bind }" MaxWidth="250" x:Name="RootLayout" Height="{Binding ElementName=TextBlock1,Path=Height}" Width="{Binding ElementName=TextBlock1, Path=Width}" VerticalAlignment="Center" HorizontalAlignment="Right">
-                    <Border CornerRadius="2" MinWidth="50" MinHeight="50" Margin="0,10,7,0" Background="AntiqueWhite" >
-                        <Grid Margin="5">
-                            <StackPanel>
-                                <TextBlock x:Phase="3" Visibility="{Binding body,Converter={StaticResource MessageBodyVisibilityConverter},FallbackValue=Collapsed}"  FontSize="20" x:Name="templateTitle" MaxWidth="250" TextWrapping="Wrap" Foreground="Gray" Text="{x:Bind body}"></TextBlock>
-                                <messagesControl:FwdMessagesControl x:Phase="1"  DataContext="{x:Bind fwd_messages}"/>
-                                <ContentControl x:Phase="0" ContentTemplate="{StaticResource AttachRootTemplate}" Visibility="{Binding  Converter={StaticResource AttachmentVisibillityConverter},FallbackValue=Collapsed}" DataContext="{x:Bind attachments}"/>
-                                <StackPanel  HorizontalAlignment="Right" Orientation="Horizontal">
-                                    <Path  Data="{Binding read_state,Mode=TwoWay,Converter={StaticResource ReadStateVisibillityConverter}}"
-                                 VerticalAlignment="Bottom"
-                                    Stroke="Gray" 
-                                 StrokeThickness="1.5"/>
-                                    <TextBlock x:Phase="3" x:Name="templateSubTitle"  Margin="5,0,0,-3"  Text="{x:Bind DateNewMessages}"  Foreground="#FF838288" FontFamily="Segoe UI" FontSize="15" VerticalAlignment="Bottom"  HorizontalAlignment="Left"/>
-
-                                </StackPanel>
-
-                            </StackPanel>
-                        </Grid>
+                <StackPanel Orientation="Horizontal">
+                    <Border Background="LightGray" Grid.RowSpan="3" CornerRadius="25" Height="25" Width="25">
+                        <Ellipse  Width="25"  x:Phase="2" DataContext="{x:Bind }"  Height="25">
+                            <Ellipse.Fill>
+                                <ImageBrush>
+                                    <ImageBrush.ImageSource>
+                                        <BitmapImage UriSource="{Binding   MsgFrom.FromUser.photo_100}" />
+                                    </ImageBrush.ImageSource>
+                                </ImageBrush>
+                            </Ellipse.Fill>
+                        </Ellipse >
                     </Border>
+                    <StackPanel Grid.Column="1" x:Phase="0" DataContext="{x:Bind }" Grid.Row="0" Orientation="Horizontal">
+                        <TextBlock Margin="5,0,0,0" Foreground="Gray" FontSize="18" Text="{Binding MsgFrom.FromUser.full_name}"></TextBlock>
+                    </StackPanel>
+                </StackPanel>
+                <chat:ChatBubble ChatBubbleDirection="UpperLeft" Margin="20,0,0,0" HorizontalAlignment="Left" MaxWidth="250" >
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Holding">
+                            <helpers:OpenMenuFlyoutAction />
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                    <FlyoutBase.AttachedFlyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem x:Uid="AddToCalendarMenuItem" CommandParameter="{Binding }" Text="удалить" Command="{Binding ElementName=RootPage,Path=DataContext.Messages.DeleteMessageCommand}" />
+                            <!--<MenuFlyoutItem x:Uid="AddToCalendarMenuItem" Text="переслать" Command="{Binding AddToCalendar}" />
+                        <MenuFlyoutItem x:Uid="AddToCalendarMenuItem" Text="копировать текст" Command="{Binding AddToCalendar}" />
+                        <MenuFlyoutItem x:Uid="AddToCalendarMenuItem" Text="выбрать" Command="{Binding  ElementName=RootPage,Path=DataContext.Messages.SelectionModeChangeCommand}" />-->
+                        </MenuFlyout>
+                    </FlyoutBase.AttachedFlyout>
+                    <Grid DataContext="{x:Bind }" MaxWidth="250" x:Name="RootLayout" Height="{Binding ElementName=TextBlock1,Path=Height}" Width="{Binding ElementName=TextBlock1, Path=Width}" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <StackPanel>
+                            <TextBlock x:Phase="3" Visibility="{Binding body,Converter={StaticResource MessageBodyVisibilityConverter},FallbackValue=Collapsed}"  FontSize="20" x:Name="templateTitle" MaxWidth="250" TextWrapping="Wrap" Foreground="White" Text="{x:Bind body}"></TextBlock>
+                            <messagesControl:FwdMessagesControl x:Phase="2"  DataContext="{x:Bind fwd_messages}"/>
+                            <ContentControl x:Phase="0" ContentTemplate="{StaticResource AttachRootTemplate}" Visibility="{Binding  Converter={StaticResource AttachmentVisibillityConverter},FallbackValue=Collapsed}" DataContext="{x:Bind attachments}"/>
+                            <ContentControl x:Phase="0" ContentTemplate="{StaticResource MapTemplate}" Visibility="{Binding geo,Converter={StaticResource MapVisibillityConverter}}" DataContext="{x:Bind }"></ContentControl>
+                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                <TextBlock x:Phase="3" x:Name="templateSubTitle"  Margin="5,0,0,-3"  Text="{x:Bind DateNewMessages}"  Foreground="LightGray" FontFamily="Segoe UI" FontSize="13" VerticalAlignment="Bottom"  HorizontalAlignment="Right"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </chat:ChatBubble>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="OutputMessage" x:DataType="messages:MessageClass">
+            <chat:ChatBubble ChatBubbleDirection="LowerRight" MaxWidth="250" Margin="0,0,30,0" BorderBrush="#FF0036A2" Background="#FF0036A2" HorizontalAlignment="Right">
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Holding">
+                        <helpers:OpenMenuFlyoutAction />
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+                <FlyoutBase.AttachedFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem x:Uid="AddToCalendarMenuItem" CommandParameter="{Binding }" Text="удалить" Command="{Binding ElementName=RootPage,Path=DataContext.Messages.DeleteMessageCommand}" />
+                        <!--<MenuFlyoutItem x:Uid="AddToCalendarMenuItem" Text="переслать" Command="{Binding AddToCalendar}" />
+                        <MenuFlyoutItem x:Uid="AddToCalendarMenuItem" Text="копировать текст" Command="{Binding AddToCalendar}" />
+                        <MenuFlyoutItem x:Uid="AddToCalendarMenuItem" Text="выбрать" Command="{Binding  ElementName=RootPage,Path=DataContext.Messages.SelectionModeChangeCommand}" />-->
+                    </MenuFlyout>
+                </FlyoutBase.AttachedFlyout>
+                <Grid DataContext="{x:Bind }" MaxWidth="250" x:Name="RootLayout" Height="{Binding ElementName=TextBlock1,Path=Height}" Width="{Binding ElementName=TextBlock1, Path=Width}" VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <StackPanel>
+                        <TextBlock x:Phase="3" Visibility="{Binding body,Converter={StaticResource MessageBodyVisibilityConverter},FallbackValue=Collapsed}"  FontSize="20" x:Name="templateTitle" MaxWidth="250" TextWrapping="Wrap" Foreground="White" Text="{x:Bind body}"></TextBlock>
+                        <messagesControl:FwdMessagesControl x:Phase="2"  DataContext="{x:Bind fwd_messages}"/>
+                        <ContentControl x:Phase="0" ContentTemplate="{StaticResource AttachRootTemplate}" Visibility="{Binding  Converter={StaticResource AttachmentVisibillityConverter},FallbackValue=Collapsed}" DataContext="{x:Bind attachments}"/>
+                        <ContentControl x:Phase="0" ContentTemplate="{StaticResource MapTemplate}" Visibility="{Binding geo,Converter={StaticResource MapVisibillityConverter}}" DataContext="{x:Bind }"></ContentControl>
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                            <TextBlock Margin="5,0,0,-3" VerticalAlignment="Bottom" Text="не прочитано"  FontFamily="Segoe UI" FontSize="12"  Visibility="{Binding read_state,Converter={StaticResource ReadStateVisibillityConverter}}"  Foreground="LightGray"  ></TextBlock>
+                            <ContentControl VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="{Binding state, Mode=TwoWay}"   ContentTemplateSelector="{StaticResource MessageSendStateSelector}"></ContentControl>
+                            <TextBlock Margin="5,0,0,-3" Text="{Binding DateNewMessages}"  Foreground="LightGray" FontFamily="Segoe UI" FontSize="12" VerticalAlignment="Bottom"  HorizontalAlignment="Right"/>
+                        </StackPanel>
+                    </StackPanel>
                 </Grid>
-            </Grid>
+            </chat:ChatBubble>
         </DataTemplate>
-        <DataTemplate x:Key="ActionTemplate">
-            <Grid  x:Name="RootGrid" HorizontalAlignment="Center">
-                <TextBlock Text="{Binding action}"></TextBlock>
-            </Grid>
+        <DataTemplate x:Key="SentTemplate">
+          
         </DataTemplate>
-        <converters:DataTemplateSelectorDialog InTemplate="{StaticResource InputMessage}" OutTemplate="{StaticResource OutputMessage}"  x:Key="DataTemplateSelectorDialog"></converters:DataTemplateSelectorDialog>
-        <DataTemplate x:Key="DialogTemplate">
+      
+        <DataTemplate x:Key="SendingTemplate">
+            <TextBlock Foreground="Bisque"  FontFamily="Segoe MDL2 Assets" Text="&#xE8C9;" FontSize="10" VerticalAlignment="Center" />
+        </DataTemplate>
+        <DataTemplate x:Key="ErrorTemplate">
+
+            <HyperlinkButton Margin="5,0,0,-7"  Command="{Binding ElementName=RootPage,Path=DataContext.Messages.ResendMessageCommand}" CommandParameter="{Binding }"  VerticalAlignment="Bottom" Content="Повторить" FontFamily="Segoe UI" FontSize="12" Foreground="LightGray"  ></HyperlinkButton>
+          
+        </DataTemplate> 
+        <DataTemplate x:Key="ActionTemplate" x:DataType="messages:MessageClass">
+            <Grid Width="{Binding Source={StaticResource ResolutionScaleHelper}, Path=AbsWidth}"  x:Name="RootGrid" HorizontalAlignment="Center">
+                <StackPanel>
+                    <TextBlock x:Phase="3" Text="{x:Bind DateNewMessages}"  Foreground="#FF838288" FontFamily="Segoe UI" FontSize="15" VerticalAlignment="Bottom"  HorizontalAlignment="Center"/>
+                    <TextBlock Foreground="White" x:Phase="0" HorizontalAlignment="Center" Text="{x:Bind GetAction}"></TextBlock>
+                </StackPanel>
+             </Grid>
+        </DataTemplate>
+       <DataTemplate x:Key="DialogTemplate">
             <Grid Canvas.ZIndex="1" Height="40" VerticalAlignment="Top"  Margin="0,0,0,0" >
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Tapped">
-                        <core:InvokeCommandAction CommandParameter="{Binding FromUser}" Command="{Binding  ElementName=RootPage,Path=DataContext.UserPageOpenCommand}" />
+                        <core:InvokeCommandAction CommandParameter="{Binding ElementName=RootPage,Path=DataContext.Messages.messageFrom.FromUser}" Command="{Binding  ElementName=RootPage,Path=DataContext.UserPageOpenCommand}" />
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
                 <Border Background="Gray" VerticalAlignment="Top" Width="40" Height="40" HorizontalAlignment="Right" Margin="0,0,0,0">
-                    <Image   Source="{Binding Path=FromUser.photo_100}"  />
+                    <Image   Source="{Binding ElementName=RootPage, Path=DataContext.Messages.messageFrom.FromUser.photo_100}"  />
+                </Border>
+                <TextBlock Text="{Binding ElementName=RootPage,Path=DataContext.Messages.messageFrom.FromUser.full_name}" FontSize="20"
+				Margin="0,0,45,0"
+				VerticalAlignment="Top"
+				HorizontalAlignment="Left" 
+				FontFamily="Segoe WP Black" Foreground="White"/>
+                <StackPanel Orientation="Horizontal" 
+				    HorizontalAlignment="Left" 
+                    Margin="0,20,45,0"
+				    VerticalAlignment="Top">
+                <TextBlock  Text="{Binding ElementName=RootPage,Path=DataContext.Messages.messageFrom.FromUser.OnlineText}"
+                    HorizontalAlignment="Left"
+				    FontWeight="Black"
+				    FontSize="15"
+				    Foreground="White"/>
+                <Image Visibility="{Binding ElementName=RootPage, Path=DataContext.Messages.messageFrom.FromUser.Online, Converter={StaticResource OnlineVisibillityConverter}, Mode=TwoWay}" Margin="0,-3,0,0" Opacity="0.6" Height="25" Width="25" Source="{Binding ElementName=RootPage,Path=DataContext.messageFrom.FromUser.AppPhotoLight, Mode=TwoWay}" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="ChatTemplate">
+            <Grid Canvas.ZIndex="1" Height="40" VerticalAlignment="Top"  Margin="0,0,0,0" >
+                <!--<interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Tapped">
+                        <core:InvokeCommandAction CommandParameter="{Binding FromUser}" Command="{Binding  ElementName=RootPage,Path=DataContext.UserPageOpenCommand}" />
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>-->
+                <Border Background="Gray" VerticalAlignment="Top" Width="40" Height="40" HorizontalAlignment="Right" Margin="0,0,0,0">
+                    <Image   Source="{Binding Path=photo_100}"  />
                 </Border>
 
-                <TextBlock Text="{Binding FromUser.full_name}" FontSize="20"
+                <TextBlock Text="{Binding title}" FontSize="20"
 				Margin="0,0,45,0"
 				VerticalAlignment="Top"
 				HorizontalAlignment="Left" 
@@ -121,62 +199,27 @@
 				HorizontalAlignment="Left"
                         Margin="0,20,45,0"
 				VerticalAlignment="Top">
-                    <TextBlock  Text="{Binding FromUser.OnlineText}"
-                HorizontalAlignment="Left"
+                    <TextBlock  Text="беседа"
+                HorizontalAlignment="Right"
 				FontWeight="Black"
 				FontSize="15"
 				Foreground="White"/>
-                    <Image Visibility="{Binding Path=FromUser.Online, Converter={StaticResource OnlineVisibillityConverter}, Mode=TwoWay}" Margin="0,-3,0,0" Opacity="0.6" Height="25" Width="25" Source="{Binding FromUser.AppPhotoLight, Mode=TwoWay}" />
                 </StackPanel>
             </Grid>
-        </DataTemplate>
-        <DataTemplate x:Key="ChatTemplate">
-            <Grid Canvas.ZIndex="1" Height="40" VerticalAlignment="Top"  Margin="0,0,0,0" >
-                <interactivity:Interaction.Behaviors>
-                    <core:EventTriggerBehavior EventName="Tapped">
-                        <core:InvokeCommandAction Command="{Binding   NavigateToDialogsCommand}" CommandParameter="1">
-                        </core:InvokeCommandAction>
-                    </core:EventTriggerBehavior>
-                </interactivity:Interaction.Behaviors>
-                <Image  Width="40"
-				Height="40"
-				Source="{Binding Path=MsgFrom.FromUser.photo_100}"  
-				VerticalAlignment="Top"
-				HorizontalAlignment="Left" Margin="0,0,0,0">
 
-                </Image>
-                <TextBlock Text="{Binding MsgFrom.title}"
-				Margin="60,0,0,0"
-				VerticalAlignment="Top"
-				HorizontalAlignment="Left" 
-				FontFamily="Segoe WP Black" 
-				FontSize="27" Foreground="White"/>
-                <StackPanel Orientation="Horizontal" 
-				HorizontalAlignment="Right"
-                        Margin="60,30,0,0"
-				VerticalAlignment="Top">
-                    <TextBlock Text="беседа"
-                HorizontalAlignment="Left"
-				FontWeight="Black"
-				FontSize="18"
-				Foreground="White">
-
-                    </TextBlock>
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
+         </DataTemplate>
         <DataTemplate x:Key="GroupTemplate">
             <Grid Canvas.ZIndex="1" Height="40" VerticalAlignment="Top"  Margin="0,0,0,0" >
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Tapped">
-                        <core:InvokeCommandAction CommandParameter="{Binding FromGroup}" Command="{Binding  ElementName=RootPage,Path=DataContext.NavigateToGroupCommand}" />
+                        <core:InvokeCommandAction CommandParameter="{Binding ElementName=RootPage,Path=DataContext.Messages.messageFrom.FromGroup}" Command="{Binding  ElementName=RootPage,Path=DataContext.NavigateToGroupCommand}" />
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
                 <Border Background="Gray" VerticalAlignment="Top" Width="40" Height="40" HorizontalAlignment="Right" Margin="0,0,0,0">
-                    <Image   Source="{Binding Path=FromGroup.photo_100}"  />
+                    <Image   Source="{Binding ElementName=RootPage,Path=DataContext.Messages.messageFrom.FromGroup.photo_100}"  />
                 </Border>
 
-                <TextBlock Text="{Binding FromGroup.name}" FontSize="20"
+                <TextBlock Text="{Binding ElementName=RootPage,Path=DataContext.Messages.messageFrom.FromGroup.name}" FontSize="20"
 				Margin="0,0,45,0"
 				VerticalAlignment="Top"
 				HorizontalAlignment="Left" 
@@ -186,44 +229,57 @@
                         Margin="0,20,45,0"
 				VerticalAlignment="Top">
                     <TextBlock  Text="сообщество"
-                HorizontalAlignment="Left"
+                HorizontalAlignment="Right"
 				FontWeight="Black"
 				FontSize="15"
 				Foreground="White"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
-        <converters:TopConversationTemplateSelector ChatTemplate="{StaticResource ChatTemplate}" DialogTemplate="{StaticResource DialogTemplate}" GroupTemplate="{StaticResource GroupTemplate}" x:Key="TopConversationTemplateSelector"/>
+        <converters:DataTemplateSelectorDialog ActionTemplate="{StaticResource ActionTemplate}" ChatInTemplate="{StaticResource InputChatMessage}"  InTemplate="{StaticResource InputMessage}" OutTemplate="{StaticResource OutputMessage}"  x:Key="DataTemplateSelectorDialog"/>
+        <converters:MessageSendStateSelector ErrorTemplate="{StaticResource ErrorTemplate}" SendingTemplate="{StaticResource SendingTemplate}" SentTemplate="{StaticResource SentTemplate}" x:Key="MessageSendStateSelector"/>
+        <converters:TopConversationTemplateSelector  ChatTemplate="{StaticResource ChatTemplate}" DialogTemplate="{StaticResource DialogTemplate}" GroupTemplate="{StaticResource GroupTemplate}" x:Key="TopConversationTemplateSelector"/>
     </Page.Resources>
-    <loader:LoadingIndicator 
-                        IsBusy="{Binding Messages.Tasks[dialogs].IsWorking}"
-                        Error="{Binding Messages.Tasks[dialogs].Error}">
+    <loader:LoadingIndicator  DataContext="{Binding Messages}"
+                        IsBusy="{Binding Tasks[dialogs].IsWorking}"
+                        Error="{Binding Tasks[dialogs].Error}">
         <Grid>
             <Grid.Background>
                 <SolidColorBrush Color="{StaticResource Brush4}"/>
             </Grid.Background>
 
             <Grid Canvas.ZIndex="1" Height="40"  VerticalAlignment="Top" HorizontalAlignment="Right"  Margin="0,-40,0,0" >
-
-                <ContentControl Content="{Binding Messages.messageFrom, Mode=TwoWay }" ContentTemplateSelector="{Binding Source={StaticResource  TopConversationTemplateSelector}}"/>
+                <ContentControl Content="{Binding SendParam, Mode=TwoWay }" ContentTemplateSelector="{Binding Source={StaticResource  TopConversationTemplateSelector}}"/>
             </Grid>
-            <listControl:ExtendedListView  ScrollControlType="Messages" 
+            <listControl:ExtendedListView ScrollControlType="Messages" 
                                        HorizontalAlignment="Stretch"  Margin="{Binding ElementName=Control,Path=MainThickness,Mode=TwoWay }" VerticalAlignment="Stretch" 
                                        IsItemClickEnabled="False" IsZoomedInView="False" ShowsScrollingPlaceholders="False"
                                        VerticalContentAlignment="Top"
-                                       LoadMoreCommandTop="{Binding Messages.LoadMoreCommand}" 
+                                       LoadMoreCommandTop="{Binding LoadMoreCommand}" 
                                        ItemTemplateSelector="{StaticResource DataTemplateSelectorDialog}" 
-                                       SelectionMode="{Binding Messages.SelectMessageMode,Mode=TwoWay}"  
-                                       ItemsSource="{Binding Messages.Messages,Mode=TwoWay}" >
-
-                <ListView.ItemContainerTransitions>
+                                       SelectionMode="{Binding SelectMessageMode,Mode=TwoWay}"  
+                                       ItemsSource="{Binding Messages,Mode=TwoWay}" >
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="IsSelected" Value="False"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <ContentPresenter/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+               <ListView.ItemContainerTransitions>
                     <TransitionCollection>
                         <AddDeleteThemeTransition/>
                     </TransitionCollection>
                 </ListView.ItemContainerTransitions>
             </listControl:ExtendedListView>
 
-            <messagesControl:ConversationControl   x:Name="Control"  VerticalAlignment="Bottom" DataContext="{Binding Messages}" Canvas.ZIndex="2" />
+            <messagesControl:ConversationControl   x:Name="Control"  VerticalAlignment="Bottom" DataContext="{Binding }" Canvas.ZIndex="2" />
 
 
 

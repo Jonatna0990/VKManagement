@@ -19,7 +19,7 @@
     <Page.Resources>
         <DataTemplate x:Key="GroupTemplate">
             <Grid>
-                <StackPanel x:Name="RadioContainer"  Orientation="Vertical">
+             <!--   <StackPanel x:Name="RadioContainer"  Orientation="Vertical">
                     <TextBlock Margin="0,5,0,5" Text="тип группы"></TextBlock>
                     <RadioButton Tag="1" Margin="0,5,0,5">
                         <RadioButton.Content>
@@ -45,22 +45,10 @@
                             </TextBlock>
                         </RadioButton.Content>
                     </RadioButton>
-                    <ComboBox HorizontalAlignment="Stretch"  Header="тематика сообщества:">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding name}"></TextBlock>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                        <ComboBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Vertical" />
-                            </ItemsPanelTemplate>
-                        </ComboBox.ItemsPanel>
-                    </ComboBox>
-
+                
 
                 </StackPanel>
-
+-->
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="EventTemplate">
@@ -83,18 +71,6 @@
                             </TextBlock>
                         </RadioButton.Content>
                     </RadioButton>
-                    <ComboBox HorizontalAlignment="Stretch"  Header="тематика сообщества:">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding name}"></TextBlock>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                        <ComboBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Vertical" />
-                            </ItemsPanelTemplate>
-                        </ComboBox.ItemsPanel>
-                    </ComboBox>
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -178,8 +154,7 @@
                         </RadioButton.Content>
                     </RadioButton>
                 </StackPanel>-->
-                <TextBlock FontSize="15" Text="фильтр комментариев"/>
-                <ToggleSwitch Header="Включить фильтр нецензурных выражений"></ToggleSwitch>
+             
                 <TextBlock FontSize="15" Text="местоположение"/>
                 <Button Command="{Binding AddLocationCommand}" Content="выбрать местоположение"></Button>
             </StackPanel>

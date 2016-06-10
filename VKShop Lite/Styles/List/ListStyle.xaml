@@ -1,0 +1,16 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DataTemplate x:Key="LoadindHeaderTemplate">
+        <StackPanel >
+            <TextBlock Text="загрузка"></TextBlock>
+            <ProgressRing IsActive="{Binding Messages.IsLoaded,Mode=TwoWay}"></ProgressRing>
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="ErrorHeaderTemplate">
+        <StackPanel  HorizontalAlignment="Center" >
+            <TextBlock Text="при загрузке возникла ошибка"></TextBlock>
+            <Button HorizontalAlignment="Center" Content="повторить"></Button>
+        </StackPanel>
+    </DataTemplate>
+</ResourceDictionary>

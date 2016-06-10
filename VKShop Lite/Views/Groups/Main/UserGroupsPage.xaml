@@ -10,25 +10,26 @@
     xmlns:group="using:VKCore.API.VKModels.Group"
     xmlns:popupControl="using:VKShop_Lite.UserControls.PopupControl"
     xmlns:loader="using:VKShop_Lite.UserControls.Loader"
+    xmlns:main1="using:VKShop_Lite.Views.Groups.Main"
     x:Name="Page"
     mc:Ignorable="d">
     <Page.Resources>
+        <main1:CountersStringConverter x:Key="CountersStringConverter"/>
+        <main1:PageTypeConverter x:Key="PageTypeConverter"/>
         <popupControl:BoolToVisibillityConverter x:Key="BoolToVisibillityConverter"/>
+        <main1:GroupCountConverter x:Key="GroupCountConverter"/>
         <main:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <DataTemplate x:Key="GroupsFooterTemplate">
-            <TextBlock TextWrapping="Wrap"  FontSize="16"  HorizontalAlignment="Center" Foreground="#FF424242">
-            <Run Text="{Binding MainList.Count}"></Run><Run Text=" сообществ"></Run> 
+            <TextBlock TextWrapping="Wrap"  FontSize="16" Text="{Binding MainList.Count, Converter={StaticResource GroupCountConverter}}" HorizontalAlignment="Center" Foreground="#FF424242">
             </TextBlock>
         </DataTemplate>
         <DataTemplate x:Key="EventsFooterTemplate">
-            <TextBlock TextWrapping="Wrap"  FontSize="16"  HorizontalAlignment="Center" Foreground="#FF424242">
-            <Run Text="{Binding EventList.Count}"></Run><Run Text=" сообществ"></Run>
+            <TextBlock TextWrapping="Wrap"  FontSize="16" Text="{Binding EventList.Count, Converter={StaticResource GroupCountConverter}}" HorizontalAlignment="Center" Foreground="#FF424242">
             </TextBlock>
         </DataTemplate>
         <DataTemplate x:Key="EditorFooterTemplate">
-            <TextBlock TextWrapping="Wrap"  FontSize="16"  HorizontalAlignment="Center" Foreground="#FF424242">
-            <Run Text="{Binding EditorList.Count}"></Run><Run Text=" сообществ"></Run>
-            </TextBlock>
+            <TextBlock TextWrapping="Wrap"  FontSize="16" Text="{Binding EditorList.Count, Converter={StaticResource GroupCountConverter}}" HorizontalAlignment="Center" Foreground="#FF424242">
+             </TextBlock>
         </DataTemplate>
         <DataTemplate x:Key="GroupTemplate" x:DataType="group:GroupsClass">
             <StackPanel Orientation="Horizontal" Height="60">
@@ -53,18 +54,20 @@
                
                 <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
                     <TextBlock x:Phase="0"  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{x:Bind name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
-                    <TextBlock x:Phase="0" Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  Text="{x:Bind type}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
-                    <TextBlock x:Phase="0" Text="{x:Bind members_count }"  Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  VerticalAlignment="Top" TextWrapping="NoWrap">
-                        
-
-                    </TextBlock>
+                    <TextBlock x:Phase="0" Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  Text="{x:Bind  Converter={StaticResource PageTypeConverter}}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                    <TextBlock x:Phase="0" Text="{x:Bind members_count,Converter={StaticResource CountersStringConverter}}" DataContext="{x:Bind}" Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  VerticalAlignment="Top" TextWrapping="NoWrap"/>
                 </StackPanel>
               
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="EventTemplate">
             <StackPanel Orientation="Horizontal" Height="60">
-
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Tapped">
+                        <core:InvokeCommandAction Command="{Binding ElementName=Page,Path=DataContext.NavigateToGroupCommand}" CommandParameter="{Binding  }">
+                        </core:InvokeCommandAction>
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
                 <Ellipse  Width="50"  Height="50">
                     <Ellipse.Fill>
                         <ImageBrush>
@@ -76,7 +79,7 @@
                 </Ellipse>
                 <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
                     <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
-                    <TextBlock Text="{Binding start_date}" Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                    <TextBlock Text="{Binding StartDate}" Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  VerticalAlignment="Top" TextWrapping="NoWrap"/>
                 </StackPanel>
 
             </StackPanel>
@@ -104,7 +107,7 @@
             <Pivot DataContext="{Binding ElementName=Page,Path=DataContext}">
                 <PivotItem x:Name="PivotItem1"  Header="группы" Margin="0">
 
-                    <ListView  Margin="2" ShowsScrollingPlaceholders="True" SelectionMode="None" x:Name="View" SelectedItem="{Binding SelectedGroup,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ItemTemplate="{StaticResource GroupTemplate}"   ItemsSource="{Binding MainList}">
+                    <ListView  HeaderTemplate="{StaticResource GroupsFooterTemplate}" Margin="2" ShowsScrollingPlaceholders="True" SelectionMode="None" x:Name="View" SelectedItem="{Binding SelectedGroup,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ItemTemplate="{StaticResource GroupTemplate}"   ItemsSource="{Binding MainList}">
                      <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Template">
@@ -139,10 +142,10 @@
     </Page.BottomAppBar>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
        
-        <Grid Canvas.ZIndex="1" Height="40" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <Grid Canvas.ZIndex="1" Margin="40,-40,0,0" Height="40" HorizontalAlignment="Stretch" VerticalAlignment="Top">
          
                 <AutoSuggestBox UpdateTextOnSelect="False" ItemTemplate="{StaticResource GroupTemplate}" ItemsSource="{Binding LocalSearchList }" Visibility="Collapsed"  Text="{Binding SearchQuery,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" x:Name="SearchBox"
-                            Margin="5,5,5,0" Width="250"  Background="White"  BorderBrush="Transparent" Height="30" PlaceholderText="поиск...">
+                            Margin="5,5,5,0" HorizontalAlignment="Stretch" Background="White"  BorderBrush="Transparent" Height="30" PlaceholderText="поиск...">
               <AutoSuggestBox.QueryIcon>
                     <FontIcon FontSize="18" Glyph="&#xE71C;">
                         <interactivity:Interaction.Behaviors>

@@ -8,11 +8,15 @@
     xmlns:group="using:VKCore.API.VKModels.Group"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:main="using:VKShop_Lite.Views.Groups.Main"
     mc:Ignorable="d" x:Name="Page">
 <Page.Resources>
+        <main:CountersStringConverter x:Key="CountersStringConverter"/>
+        <main:PageTypeConverter x:Key="PageTypeConverter"/>
+        <main:GroupCountConverter x:Key="GroupCountConverter"/>
         <DataTemplate x:Key="GroupsFooterTemplate">
-            <TextBlock TextWrapping="Wrap"  FontSize="16"  HorizontalAlignment="Center" Foreground="#FF424242">
-            <Run Text="{Binding UsersCollection.Count}"></Run><Run Text=" сообществ"></Run>
+            <TextBlock TextWrapping="Wrap" Text="{Binding UsersCollection.Count, Converter={StaticResource GroupCountConverter}}"  FontSize="16"  HorizontalAlignment="Center" Foreground="#FF424242">
+          
             </TextBlock>
         </DataTemplate>
         <DataTemplate x:Key="GroupTemplate" x:DataType="group:GroupsClass">
@@ -38,8 +42,8 @@
 
                 <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
                     <TextBlock x:Phase="0"  Style="{StaticResource SubtitleTextBlockStyle}"  Text="{x:Bind name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
-                    <TextBlock x:Phase="0" Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  Text="{x:Bind type}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
-                    <TextBlock x:Phase="0" Text="{x:Bind members_count }"  Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  VerticalAlignment="Top" TextWrapping="NoWrap">
+                    <TextBlock x:Phase="0" Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  Text="{x:Bind Converter={StaticResource PageTypeConverter}}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                    <TextBlock x:Phase="0" Text="{x:Bind members_count,Converter={StaticResource CountersStringConverter} }"  Opacity="0.7" Style="{StaticResource CaptionTextBlockStyle}"  VerticalAlignment="Top" TextWrapping="NoWrap">
 
 
                     </TextBlock>

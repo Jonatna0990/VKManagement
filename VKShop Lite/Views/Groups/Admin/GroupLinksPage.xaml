@@ -5,9 +5,64 @@
     xmlns:local="using:VKShop_Lite.Views.Groups.Admin"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:converters="using:VKShop_Lite.Views.Groups.Admin.Converters"
+    xmlns:converters1="using:VKShop_Lite.Helpers.Converters"
+    xmlns:ban="using:VKCore.API.VKModels.Ban"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:helpers="using:VKShop_Lite.Helpers"
+    mc:Ignorable="d" x:Name="Page">
+    <Page.Resources>
+      
+        <DataTemplate x:Key="LinkTemplate" >
+            <StackPanel Orientation="Horizontal"  Height="90">
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior   EventName="Holding">
+                        <helpers:OpenMenuFlyoutAction   />
+                    </core:EventTriggerBehavior>
+                    <core:EventTriggerBehavior EventName="Tapped">
+                        <core:InvokeCommandAction CommandParameter="{Binding }" Command="{Binding  ElementName=Page,Path=DataContext.OpenBlackListUserCommand}" />
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+                <FlyoutBase.AttachedFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="удалить" CommandParameter="{Binding }" Command="{Binding  ElementName=Page,Path=DataContext.DeleteLinkCommand}" />
+                        <MenuFlyoutItem Text="редактировать" CommandParameter="{Binding }" Command="{Binding  ElementName=Page,Path=DataContext.EditLinkCommand}" />
+                    </MenuFlyout>
+                </FlyoutBase.AttachedFlyout>
 
+                <Border Background="LightGray" CornerRadius="33" Height="50" Width="50">
+                    <Ellipse  Width="50"   Height="50">
+                        <Ellipse.Fill>
+                            <ImageBrush>
+                                <ImageBrush.ImageSource>
+                                    <BitmapImage UriSource="{Binding  photo_100}" />
+                                </ImageBrush.ImageSource>
+                            </ImageBrush>
+                        </Ellipse.Fill>
+                    </Ellipse >
+                </Border>
+
+                <StackPanel Margin="5,0,0,0" VerticalAlignment="Center">
+                    <TextBlock   Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding desc}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                    <TextBlock  Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding name}" VerticalAlignment="Top" TextWrapping="NoWrap"/>
+                   
+                </StackPanel>
+
+            </StackPanel>
+
+        </DataTemplate>
+    </Page.Resources>
+    <Page.BottomAppBar>
+        <AppBar>
+            <StackPanel Orientation="Vertical">
+                <AppBarButton Command="{Binding AddLinkCommand}" Icon="Add" Content="добавить"></AppBarButton>
+            </StackPanel>
+        </AppBar>
+    </Page.BottomAppBar>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+        <ListView ItemTemplate="{StaticResource LinkTemplate}" ItemsSource="{Binding Links}">
+            
+        </ListView>
     </Grid>
 </Page>

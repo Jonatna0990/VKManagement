@@ -8,11 +8,6 @@
     xmlns:counters="using:VKShop_Lite.ViewModels.Counters"
     xmlns:loader="using:VKShop_Lite.UserControls.Loader"
     mc:Ignorable="d">
-    <Page.BottomAppBar>
-        <CommandBar>
-            <AppBarButton Icon="Add" Content="добавить" Command="{Binding AddDocCommand}"></AppBarButton>
-        </CommandBar>
-    </Page.BottomAppBar>
     <Page.Resources>
         <DataTemplate x:Key="GroupsFooterTemplate">
             <TextBlock TextWrapping="Wrap"  FontSize="16" HorizontalAlignment="Center" Foreground="#FF424242">

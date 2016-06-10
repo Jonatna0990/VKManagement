@@ -1,0 +1,5 @@
+MainPackage=D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\bin\ARM\Release\Upload\VKGroup Management_1.1.8.0_ARM.appx
+ResourcePack=D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\_scale-100.appx
+ResourcePack=D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\_scale-125.appx
+ResourcePack=D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\_scale-150.appx
+ResourcePack=D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\_scale-400.appx

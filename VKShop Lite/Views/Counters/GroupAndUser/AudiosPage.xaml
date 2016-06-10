@@ -13,6 +13,11 @@
                         IsBusy="{Binding Tasks[audio].IsWorking}"
                         Error="{Binding Tasks[audio].Error}">
             <ListView SelectedItem="{Binding SelectedAudio,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" HeaderTemplate="{StaticResource AudioPageFooterTemplate}" ItemTemplate="{StaticResource AudioTemplate}" ItemsSource="{Binding AudioCollection}">
+                <ItemsControl.ItemContainerTransitions>
+                    <TransitionCollection>
+                        <EntranceThemeTransition/>
+                    </TransitionCollection>
+                </ItemsControl.ItemContainerTransitions>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="IsSelected" Value="False"/>

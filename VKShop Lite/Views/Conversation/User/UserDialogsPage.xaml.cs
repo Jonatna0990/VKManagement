@@ -14,24 +14,20 @@ namespace VKShop_Lite.Views.Conversation.User
         public UserDialogsPage()
         {
             this.InitializeComponent();
-            
-            NavigationCacheMode = NavigationCacheMode.Required;
+            NavigationCacheMode = NavigationCacheMode.Disabled;
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ListView1.SelectedItem = -1;
-            base.OnNavigatedTo(e);
-           
-            if (e.NavigationMode == NavigationMode.New)
-            this.DataContext = new DialogsPageViewModel(e.Parameter);
+            var param = e.Parameter;
+            if (param != null)
+            {
+                this.DataContext = new DialogsPageViewModel(e.Parameter);
+            }
+          
 
         }
+      
+        
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            ListView1.SelectedItem = -1;
-            base.OnNavigatedFrom(e);
-           
-        }
     }
 }

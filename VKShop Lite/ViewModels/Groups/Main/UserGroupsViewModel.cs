@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.UI.Xaml;
 using VKCore.API.Core;
 using VKCore.API.VKModels.Group;
 using VKCore.API.VKModels.VKList;

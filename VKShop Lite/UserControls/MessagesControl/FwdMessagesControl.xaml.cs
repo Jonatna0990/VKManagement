@@ -4,7 +4,7 @@
 
 namespace VKShop_Lite.UserControls.MessagesControl
 {
-    public sealed partial class FwdMessagesControl : UserControl
+    public sealed partial class FwdMessagesControl : ContentControl
     {
         public FwdMessagesControl()
         {

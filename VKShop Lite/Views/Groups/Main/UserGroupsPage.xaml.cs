@@ -23,7 +23,7 @@ namespace VKShop_Lite.Views.Groups.Main
         {
             base.OnNavigatedTo(e);
             if (e.NavigationMode == NavigationMode.New)
-            DataContext = new UserGroupsViewModel();
+            { DataContext = new UserGroupsViewModel(); SearchBox.Visibility = Visibility.Collapsed; }
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)

@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using VKShop_Lite.UserControls.Audio;
 using VKShop_Lite.ViewModels.Counters.GroupAndUser;
 
 // Шаблон элемента пустой страницы задокументирован по адресу http://go.microsoft.com/fwlink/?LinkId=234238
@@ -34,6 +22,12 @@ namespace VKShop_Lite.Views.Counters.GroupAndUser
             base.OnNavigatedTo(e);
             this.DataContext = new AudioPlayerViewModel();
 
+        }
+
+        private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            
+            //BackgroundMediaPlayer.Current.Position = new TimeSpan(0,0,Convert.ToInt32(e.NewValue)); 
         }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml;
@@ -10,9 +7,6 @@ using Windows.UI.Xaml.Media;
 using GalaSoft.MvvmLight.Messaging;
 using VKCore.API.VKModels.Board;
 using VKCore.API.VKModels.Messages;
-using VKShop_Lite.ViewModels.Base;
-using VKShop_Lite.ViewModels.Conversation.User;
-using VKShop_Lite.ViewModels.Counters.Group;
 
 namespace VKShop_Lite.UserControls.ListControl
 {
@@ -114,20 +108,16 @@ namespace VKShop_Lite.UserControls.ListControl
         {
 
             ScrollViewer view = (ScrollViewer)sender;
-            if (view.VerticalOffset <= 2 && e.IsIntermediate)
+            double progress = view.VerticalOffset / view.ScrollableHeight;
+            if (progress <= 0.3 )
             {
-                if (LoadMoreCommandTop != null)
-                    LoadMoreCommandTop.Execute(sender);
-
+                LoadMoreCommandTop?.Execute(sender);
             }
 
-            if (view.VerticalOffset == view.ScrollableHeight && e.IsIntermediate)
+            if (progress > 0.93)
             {
-                if (LoadMoreCommandBottom != null)
-                    LoadMoreCommandBottom.Execute(sender);
-
+                LoadMoreCommandBottom?.Execute(sender);
             }
-
         }
 
        

@@ -10,9 +10,10 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:loader="using:VKShop_Lite.UserControls.Loader"
+    xmlns:listControl="using:VKShop_Lite.UserControls.ListControl"
     x:Name="Page"
     mc:Ignorable="d">
-<Page.Resources>
+    <Page.Resources>
         <DataTemplate   x:Key="DialogTemplate" x:DataType="messages:MessageClass">
             <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
           
@@ -93,10 +94,10 @@
         <loader:LoadingIndicator Margin="0,10,0,0" Padding="13,0,13,0"
                         IsBusy="{Binding Dialogs.Tasks[dialogs].IsWorking}"
                         Error="{Binding Dialogs.Tasks[dialogs].Error}">
-            <ListView  SelectedItem="{Binding SelectedDialog,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Background="Transparent"  x:Name="ListView1"   ItemsSource="{Binding Path=Dialogs.Messages.dialogs.items}">
+            <listControl:ExtendedListView ScrollControlType="News" LoadMoreCommandBottom="{Binding Dialogs.LoadMoreCommand}"   Background="Transparent"  x:Name="ListView1"   ItemsSource="{Binding Path=Dialogs.Messages.dialogs.items}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <messagesControl:DialogControl  />
+                        <messagesControl:DialogControl  SelectDialogCommand="{Binding ElementName=Page,Path=DataContext.NavigateToDialogCommand}" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.ItemsPanel>
@@ -110,7 +111,7 @@
                         </VirtualizingStackPanel>
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
-            </ListView>
+            </listControl:ExtendedListView>
 
         </loader:LoadingIndicator>
     </Grid>
