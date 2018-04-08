@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
@@ -46,6 +47,7 @@ using VKShop_Lite.UserControls.Video;
 using VKShop_Lite.ViewModels.Base;
 using VKShop_Lite.Views.Counters.GroupAndUser;
 using ВКонтакте.Models.List;
+using MessagesExtensions = VKShop_Lite.ViewModels.Conversation.Helper.MessagesExtensions;
 
 namespace VKShop_Lite.ViewModels.Conversation.User
 {
@@ -77,7 +79,7 @@ namespace VKShop_Lite.ViewModels.Conversation.User
         private AttachmentsClass _selectedAudio;
         private MessageClass _sendParam;
         private UserControlFlyout flyout;
-
+    
 
         public ICommand SendMessageCommand { get; set; }
         public ICommand SelectedStickerCommand { get; set; }
@@ -192,13 +194,18 @@ namespace VKShop_Lite.ViewModels.Conversation.User
         public MessagesCollection(MessageClass message, MarketItem item =null)
         {
             GetMessagesLocker = new LockerClass(1,-10);
+          
+            if (PlayerBase.Instance.CurrentTrack !=null)
+            {
+                SelectedAudio = new AttachmentsClass();
+                SelectedAudio.audio =  PlayerBase.Instance.CurrentTrack;
+            }
             RegisterTasks("dialogs");
             SendParam = message;
             if (SendParam != null)
             {
                 locker = new LockerClass(2, SendParam.user_id);
                 Locker = new LockerClass(5, 0);
-
                 Locker.Locked += Locker_Locked1;
                 locker.Locked += Locker_Locked;
                 LoadAll();
@@ -208,7 +215,7 @@ namespace VKShop_Lite.ViewModels.Conversation.User
             param = new Dictionary<string, string>();
             SendPhotos = new List<StorageFile>();
             FwdMessages = new ObservableCollection<MessageClass>();
-            Messages = new ObservableCollection<MessageClass>();
+            Messages = new ObservableCollection<MessageClass>() ;
             FwdMessages.CollectionChanged += FwdMessages_CollectionChanged;
             if(AttachCollection ==null) AttachCollection = new ObservableCollection<AttachmentsClass>();
             AttachCollection.CollectionChanged += AttachPhotoCollection_CollectionChanged;
@@ -216,7 +223,11 @@ namespace VKShop_Lite.ViewModels.Conversation.User
             AddAudioAttachCommand = new DelegateCommand(t => { AddAudio(); });
             AddVideoAttachCommand = new DelegateCommand(t => { AddVideo(); });
             AddPhotoAttachCommand = new DelegateCommand(t =>{ AddAttachPhotos();});
-            ResendMessageCommand = new DelegateCommand(t => { ResendMessage(t as MessageClass); });
+            ResendMessageCommand = new DelegateCommand(t =>
+            {
+              
+                if (t != null) PrepareSendMessage(0,null,t as MessageClass);
+            });
             DeleteAttachCommand = new DelegateCommand(t =>
             {
                 var photo = t as AttachmentsClass;
@@ -289,6 +300,8 @@ namespace VKShop_Lite.ViewModels.Conversation.User
                 if (t != null)
                 {
                     var a = t as ObservableCollection<AttachmentsClass>;
+                    MessagesExtensions.OpenAudio(a,SelectedAudio);
+
                     ObservableCollection<AudioClass> ph = new ObservableCollection<AudioClass>();
                     if (a != null)
                         foreach (var p in a)
@@ -306,8 +319,8 @@ namespace VKShop_Lite.ViewModels.Conversation.User
                     }
                 }
             });
-            DeleteMessageCommand = new DelegateCommand(t=> { PrepeareDeleteMessage(t as MessageClass); });
-            CopyMessageCommand = new DelegateCommand(t=> { CopyMessage(t as MessageClass); });
+            DeleteMessageCommand = new DelegateCommand(t=> { DeleteMessage(t as MessageClass); });
+            CopyMessageCommand = new DelegateCommand(t=> { MessagesExtensions.CopyMessage(t as MessageClass);  });
             if (item != null)
             {
                 SendingMessageText = "Здравствуйте! Меня заинтересовал данный товар "+ ProductLinkCreator(item);
@@ -315,29 +328,20 @@ namespace VKShop_Lite.ViewModels.Conversation.User
             }
             LinkOpenCommand = new DelegateCommand(t =>
             {
-                if (t != null)
+                AttachmentsClass link = t as AttachmentsClass;
+                if (link != null)
                 {
-                    AttachmentsClass link = t as AttachmentsClass;
-                    if (link != null)
-                    {
-                        
-                        LinkOpen(link.link);
-                    }
+                    MessagesExtensions.OpenLink(link.link);
                 }
-             
             });
             DocOpenCommand = new DelegateCommand(t =>
             {
-                if (t != null)
+                AttachmentsClass link = t as AttachmentsClass;
+                if (link != null)
                 {
-                    AttachmentsClass link = t as AttachmentsClass;
-                    if (link != null)
-                    {
 
-                        DocOpen(link.doc);
-                    }
+                    MessagesExtensions.OpenDoc(link.doc);
                 }
-
             });
             EnterPressed();
 
@@ -386,35 +390,13 @@ namespace VKShop_Lite.ViewModels.Conversation.User
             if (FwdMessages.Count == 0) SelectionModeChange();
         }
 
-        private void LinkOpen(LinkClass link)
-        {
-            OpenUri(link.url);
-        }
-        private void DocOpen(DocClass link)
-        {
-            OpenUri(link.url);
-        }
-
-        private void OpenUri(string link)
-        {
-            Launcher.LaunchUriAsync(new Uri(link));
-        }
+      
         private async void AddMapLocation()
         {
-            var a = new AddMapLocationControl(
-                t =>
-                {
-                    if (t != null)
-                    {
-                        AttachCollection.Add(new AttachmentsClass() { location = t});
-                        position = t;
-                      
-                    }
-                   
-                });
-          
-            flyout.ShowFlyout(a);
-
+            MessagesExtensions.AddMapLocation(t =>
+            {
+                AttachCollection.Add(new AttachmentsClass() { location = t, type = "map"});
+            });
         }
         private void AttachPhotoCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -422,133 +404,59 @@ namespace VKShop_Lite.ViewModels.Conversation.User
             else AddAttachEnabled = true;
         }
 
-        private void PrepeareDeleteMessage(MessageClass message)
-        {
-            if (message != null)
-            {
-                var commands = new Dictionary<string, Action>();
-                commands.Add("Удалить", ()=> {DeleteMessage(message);});
-                commands.Add("Отмена", null);
-                MessagesHelper.ShowDialogMessage("Удаление сообщения", "Вы действительно хотите удалить это сообщение?", commands);
-
-            }
-        }
+      
         private const string imgSrc = "ms-appx-web:///assets/windows-sdk.png";
 
-        private void CopyMessage(MessageClass message)
-        {
-            if (message != null && !string.IsNullOrEmpty(message.body))
-            {
-                string htmlFormat = HtmlFormatHelper.CreateHtmlFormat(message.body);
-                var dataPackage = new DataPackage();
-                dataPackage.SetHtmlFormat(htmlFormat);
-                var imgUri = new Uri(imgSrc);
-                var imgRef = RandomAccessStreamReference.CreateFromUri(imgUri);
-                dataPackage.ResourceMap[imgSrc] = imgRef;
-                Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dataPackage);
-
-            }
-
-
-        }
+     
         private void DeleteMessage(MessageClass message)
         {
-            VKRequest.Dispatch<JObject>(
-                      new VKRequestParameters(
-                          SMessages.messages_delete, "message_ids", message.id.ToString()),
-                      (res) =>
-                      {
-                          var q = res.ResultCode;
-                          if (res.ResultCode == VKResultCode.Succeeded)
-                          {
-                              Messages.Remove(message);
-                          }
-                      });
-        }
-
-        private async void LoadImage()
-        {
-            var a = await FilesHelper.GetImageFiles();
-            if (a != null)
+            MessagesExtensions.DeleteMessage(message, () =>
             {
-                var ph = new PhotoClass() { Image = await FilesHelper.LoadImage(a) };
-                var attach = new AttachmentsClass() { photo = ph, type ="photo" };
-                AttachCollection.Add(attach);
-                VKUploadRequest.CreatePhotoMessageUploadRequest().Dispatch(a, (prog) =>
-                {
-
-
-                    VKExecute.ExecuteOnUIThread(() =>
-                    {
-                        ph.is_loaded = prog;
-                    });
-
-
-                }, s =>
-                {
-
-                    attach.photo = s.Data;
-                });
-            }
-        }
-        private async void LoadDoc()
-        {
-            var a = await FilesHelper.GetDocFiles();
-            if (a != null)
-            {
-                BasicProperties file_size = await a.GetBasicPropertiesAsync();
-
-                Debug.WriteLine(FilesHelper.GetFileSize(file_size));
-                VKUploadRequest.DocProfileUploadRequest(0).Dispatch(a, i => { }, x =>
-                {
-
-                }, c =>
-                {
-
-                    var doc = c.Data;
-                    doc.is_loaded = false;
-                    AttachCollection.Add(new AttachmentsClass() { doc = doc, type = "doc"});
-                    
-                  
-                    if (c.ResultCode != VKResultCode.Succeeded)
-                    {
-                        PopupEx popup = new PopupEx("Загрузка документа", "При загрузке документа возникла ошибка " + c.Error.error_msg);
-                        popup.ShowAsync();
-                    }
-
-                });
-            }
-
-        }
-
-        private async void AddVideo()
-        {
-            
-                 var a = new AddVideoControl(new UserClass() { id = Convert.ToInt64(VKSDK.GetAccessToken().UserId) }, t =>
-                 {
-                     AttachCollection.Add(new AttachmentsClass() {  video = t, type="video" });
-                 });
-            flyout.ShowFlyout(a);
-        }
-        private async void AddAudio()
-        {
-            
-            var a = new AddAudioControl(new UserClass() {id =Convert.ToInt64(VKSDK.GetAccessToken().UserId)}, t =>
-            {
-                if (t != null || t.Count == 0)
-                {
-                    if(t.Count ==1)
-                        AttachCollection.Add(new AttachmentsClass() { audio = t.FirstOrDefault(), type = "audio"});
-                    else
-                        foreach (var m in t)
-                        {
-                            AttachCollection.Add(new AttachmentsClass() { audio = m, type = "audio" });
-
-                        }
-                }
-              
+                Messages.Remove(message);
             });
-            flyout.ShowFlyout(a);
+        }
+
+        private  void LoadImage()
+        {
+             MessagesExtensions.AddImage(t =>
+                {
+                    AttachCollection.Add(t);
+                });
+         
+        }
+        private  void LoadDoc()
+        {
+            MessagesExtensions.AddDoc(t =>
+            {
+                AttachCollection.Add(new AttachmentsClass() { doc = t, type = "doc" });
+            });
+           
+
+        }
+
+        private  void AddVideo()
+        {
+            MessagesExtensions.AddVideo(t =>
+            {
+                AttachCollection.Add(new AttachmentsClass() { video = t, type = "video" });
+            });
+        }
+        private void AddAudio()
+        {
+
+            MessagesExtensions.AddAudio(t =>
+
+            {
+                if (t.Count == 1)
+                    AttachCollection.Add(new AttachmentsClass() { audio = t.FirstOrDefault(), type = "audio" });
+                else
+                    foreach (var m in t)
+                    {
+                        AttachCollection.Add(new AttachmentsClass() { audio = m, type = "audio" });
+
+                    }
+            });
+           
         }
        
         private async void UploadPhoto(List<StorageFile> pictureToUpload)
@@ -609,9 +517,9 @@ namespace VKShop_Lite.ViewModels.Conversation.User
             if (SendParam == null) return;
             if (users != null)
             {
-                if(messageFrom == null)
-                messageFrom = new MessageFrom(users.Select(a => a).FirstOrDefault(x => x.id == SendParam.user_id));
-                if (users.Count > 1)
+                if(messageFrom == null && SendParam.chat_id == null)
+                    messageFrom = new MessageFrom(users.Select(a => a).FirstOrDefault(x => x.id == SendParam.user_id));
+                if (users.Count >= 1 && SendParam.chat_id != null)
                 {
                   
                   foreach (var t in Messages)
@@ -649,8 +557,7 @@ namespace VKShop_Lite.ViewModels.Conversation.User
             string groups = "";
             if (SendParam.chat_id != null)
             {
-                if (SendParam.chat_active.Count > 0)
-                    user_list.AddRange(SendParam.chat_active.Select(t => (long) t));
+                user_list.AddRange(Messages.Select(t => t.from_id));
             }
             else 
             {
@@ -709,9 +616,7 @@ namespace VKShop_Lite.ViewModels.Conversation.User
         }
         private void SetUsers(MessageClass message, List<UserClass> users)
         {
-            if (message == null) return;
-
-            if (message.fwd_messages != null)
+            if (message?.fwd_messages != null)
             {
                 foreach (var q in message.fwd_messages)
                 {
@@ -728,9 +633,7 @@ namespace VKShop_Lite.ViewModels.Conversation.User
         }
         private void SetGroups(MessageClass message, List<GroupsClass> groups)
         {
-            if (message == null) return;
-
-            if (message.fwd_messages != null)
+            if (message?.fwd_messages != null)
             {
                 foreach (var q in message.fwd_messages)
                 {
@@ -791,11 +694,8 @@ namespace VKShop_Lite.ViewModels.Conversation.User
         private void Locker_Locked(object sender, EventArgs e)
         {
             LockerClass t = sender as LockerClass;
-            if (t != null)
-            {
-                if (SendParam.user_id == t.LockerId)
-                    UserWriteText = "";
-            }
+            if (SendParam.user_id == t?.LockerId)
+                UserWriteText = "";
         }
 
      
@@ -804,16 +704,21 @@ namespace VKShop_Lite.ViewModels.Conversation.User
            locker.Stop();
         }
 
-        public void ResendMessage(MessageClass message)
-        {
-            var a = message;
-        }
-        public void PrepareSendMessage(int stricker_id = 0, GeoClass geo = null)
+    
+        public void PrepareSendMessage(int stricker_id = 0, GeoClass geo = null, MessageClass message = null)
         {
             param.Clear();
-
+            MessageClass msg = null;
             if (SendParam == null) return;
-            var msg = new MessageClass() { state = MessageSendState.Sending, _out = 1, date = ConvertToTimestamp(),read_state = 1};
+            if (message == null)
+                msg = new MessageClass()
+                {
+                    state = MessageSendState.Sending,
+                    _out = 1,
+                    date = ConvertToTimestamp(),
+                    read_state = 1
+                };
+            else msg = message;
             if (AttachCollection.Count > 0)
             {
 
@@ -861,6 +766,9 @@ namespace VKShop_Lite.ViewModels.Conversation.User
                     {
                         msg.state = MessageSendState.Sent;
                         msg.read_state = 0;
+                        SendingMessageText = "";
+                        AttachCollection.Clear();
+                        param.Clear();
                     }
                     else msg.state = MessageSendState.Error;
                 });
@@ -886,8 +794,9 @@ namespace VKShop_Lite.ViewModels.Conversation.User
                 msg.geo = new GeoClass() { lat = position.lat, @long = position.@long };
             }
             if (!string.IsNullOrEmpty(attachs)) param.Add("attachment", attachs);
-            
-            Messages.Add(msg);
+
+            if (message == null)
+             Messages.Add(msg);
             Messenger.Default.Send(msg);
             SendMessage(param, t =>
             {
@@ -896,12 +805,13 @@ namespace VKShop_Lite.ViewModels.Conversation.User
                 {
                     msg.state = MessageSendState.Sent;
                     msg.read_state = 0;
+                    SendingMessageText = "";
+                    AttachCollection.Clear();
+                    param.Clear();
                 }
                 else msg.state = MessageSendState.Error;
             });
-            SendingMessageText = "";
-            AttachCollection.Clear();
-            param.Clear();
+        
             position = null;
         }
 
@@ -912,6 +822,7 @@ namespace VKShop_Lite.ViewModels.Conversation.User
             var temp_doc = AttachCollection.Where(t => t.doc != null);
             var temp_video = AttachCollection.Where(t => t.video != null);
             var temp_audio = AttachCollection.Where(t => t.audio != null);
+            var temp_map = AttachCollection.Where(t => t.location != null);
             if (temp_photos.Any())
             {
                 par = temp_photos.Aggregate(par, (current, t) => current + string.Format("photo{0}_{1},", t.photo.owner_id, t.photo.id));
@@ -928,6 +839,10 @@ namespace VKShop_Lite.ViewModels.Conversation.User
             if (temp_audio.Any())
             {
                 par = temp_audio.Aggregate(par, (current, t) => current + string.Format("audio{0}_{1},", t.audio.owner_id, t.audio.id));
+            }
+            if (temp_map.Any())
+            {
+                position = temp_map.FirstOrDefault().location;
             }
             return par;
 

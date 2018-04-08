@@ -21,7 +21,7 @@
         <converters:IntToVisibillityConverter x:Key="IntToVisibillityConverter"/>
         <converters2:AdminVisibillityConverter x:Key="AdminVisibillityConverter"/>
         <DataTemplate x:Key="GroupCountersTemplate">
-            <GridView HorizontalAlignment="Center" >
+            <GridView    HorizontalAlignment="Center" >
                 <Border Width="80" Height="50" Margin="1">
                     <interactivity:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Tapped">

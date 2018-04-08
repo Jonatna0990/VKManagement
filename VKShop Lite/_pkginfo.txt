@@ -1,1 +1,1 @@
-D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\AppPackages\VKGroup Management_1.1.8.0\VKGroup Management_1.1.8.0_x86_x64_arm.appxbundle
+D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\AppPackages\VKGroup Management_1.1.9.0\VKGroup Management_1.1.9.0_x86_x64_arm.appxbundle

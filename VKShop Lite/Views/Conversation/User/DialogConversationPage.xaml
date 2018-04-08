@@ -110,7 +110,7 @@
                 </interactivity:Interaction.Behaviors>
                 <FlyoutBase.AttachedFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem x:Uid="AddToCalendarMenuItem" CommandParameter="{Binding }" Text="удалить" Command="{Binding ElementName=RootPage,Path=DataContext.Messages.DeleteMessageCommand}" />
+                        <MenuFlyoutItem  CommandParameter="{Binding }" Text="удалить" Command="{Binding ElementName=RootPage,Path=DataContext.Messages.DeleteMessageCommand}" />
                         <!--<MenuFlyoutItem x:Uid="AddToCalendarMenuItem" Text="переслать" Command="{Binding AddToCalendar}" />
                         <MenuFlyoutItem x:Uid="AddToCalendarMenuItem" Text="копировать текст" Command="{Binding AddToCalendar}" />
                         <MenuFlyoutItem x:Uid="AddToCalendarMenuItem" Text="выбрать" Command="{Binding  ElementName=RootPage,Path=DataContext.Messages.SelectionModeChangeCommand}" />-->
@@ -124,25 +124,14 @@
                         <ContentControl x:Phase="0" ContentTemplate="{StaticResource MapTemplate}" Visibility="{Binding geo,Converter={StaticResource MapVisibillityConverter}}" DataContext="{x:Bind }"></ContentControl>
                         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                             <TextBlock Margin="5,0,0,-3" VerticalAlignment="Bottom" Text="не прочитано"  FontFamily="Segoe UI" FontSize="12"  Visibility="{Binding read_state,Converter={StaticResource ReadStateVisibillityConverter}}"  Foreground="LightGray"  ></TextBlock>
-                            <ContentControl VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="{Binding state, Mode=TwoWay}"   ContentTemplateSelector="{StaticResource MessageSendStateSelector}"></ContentControl>
+                            <messagesControl:MessageStateControl ResendMessage="{Binding }"  ResendCommand="{Binding ElementName=RootPage,Path=DataContext.Messages.ResendMessageCommand}"/>
                             <TextBlock Margin="5,0,0,-3" Text="{Binding DateNewMessages}"  Foreground="LightGray" FontFamily="Segoe UI" FontSize="12" VerticalAlignment="Bottom"  HorizontalAlignment="Right"/>
                         </StackPanel>
                     </StackPanel>
                 </Grid>
             </chat:ChatBubble>
         </DataTemplate>
-        <DataTemplate x:Key="SentTemplate">
-          
-        </DataTemplate>
-      
-        <DataTemplate x:Key="SendingTemplate">
-            <TextBlock Foreground="Bisque"  FontFamily="Segoe MDL2 Assets" Text="&#xE8C9;" FontSize="10" VerticalAlignment="Center" />
-        </DataTemplate>
-        <DataTemplate x:Key="ErrorTemplate">
-
-            <HyperlinkButton Margin="5,0,0,-7"  Command="{Binding ElementName=RootPage,Path=DataContext.Messages.ResendMessageCommand}" CommandParameter="{Binding }"  VerticalAlignment="Bottom" Content="Повторить" FontFamily="Segoe UI" FontSize="12" Foreground="LightGray"  ></HyperlinkButton>
-          
-        </DataTemplate> 
+       
         <DataTemplate x:Key="ActionTemplate" x:DataType="messages:MessageClass">
             <Grid Width="{Binding Source={StaticResource ResolutionScaleHelper}, Path=AbsWidth}"  x:Name="RootGrid" HorizontalAlignment="Center">
                 <StackPanel>
@@ -237,8 +226,7 @@
             </Grid>
         </DataTemplate>
         <converters:DataTemplateSelectorDialog ActionTemplate="{StaticResource ActionTemplate}" ChatInTemplate="{StaticResource InputChatMessage}"  InTemplate="{StaticResource InputMessage}" OutTemplate="{StaticResource OutputMessage}"  x:Key="DataTemplateSelectorDialog"/>
-        <converters:MessageSendStateSelector ErrorTemplate="{StaticResource ErrorTemplate}" SendingTemplate="{StaticResource SendingTemplate}" SentTemplate="{StaticResource SentTemplate}" x:Key="MessageSendStateSelector"/>
-        <converters:TopConversationTemplateSelector  ChatTemplate="{StaticResource ChatTemplate}" DialogTemplate="{StaticResource DialogTemplate}" GroupTemplate="{StaticResource GroupTemplate}" x:Key="TopConversationTemplateSelector"/>
+       <converters:TopConversationTemplateSelector  ChatTemplate="{StaticResource ChatTemplate}" DialogTemplate="{StaticResource DialogTemplate}" GroupTemplate="{StaticResource GroupTemplate}" x:Key="TopConversationTemplateSelector"/>
     </Page.Resources>
     <loader:LoadingIndicator  DataContext="{Binding Messages}"
                         IsBusy="{Binding Tasks[dialogs].IsWorking}"

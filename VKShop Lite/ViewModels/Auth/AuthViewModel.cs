@@ -27,8 +27,6 @@ namespace VKShop_Lite.ViewModels.Auth
             VKSDK.Initialize(APISettings.app_id);
             VKSDK.AccessTokenReceived += (sender, args) =>
             {
-                var a = sender;
-                var t = args;
                 UpdateUIState();
             };
             VKSDK.WakeUpSession();

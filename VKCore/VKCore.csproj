@@ -167,6 +167,7 @@
     <Compile Include="API\VKModels\Market\MarketItem.cs" />
     <Compile Include="API\VKModels\Market\MarketPlaceCategoryClass.cs" />
     <Compile Include="API\VKModels\Messages\MessageClass.cs" />
+    <Compile Include="API\VKModels\Messages\MessagesExtensions.cs" />
     <Compile Include="API\VKModels\Note\NoteClass.cs" />
     <Compile Include="API\VKModels\Photo\PhotoAlbumsClass.cs" />
     <Compile Include="API\VKModels\Photo\PhotoClass.cs" />
@@ -231,9 +232,6 @@
     <Content Include="Properties\VKCore.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">
-      <Name>Behaviors SDK %28XAML%29</Name>
-    </SDKReference>
     <SDKReference Include="WindowsMobile, Version=10.0.10240.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>

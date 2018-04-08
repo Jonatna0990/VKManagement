@@ -239,7 +239,10 @@ namespace StorageProvider
             {
                 Uri uri = new Uri(url);
                 HttpClient httpClient = new HttpClient();
-                bytes = await httpClient.GetByteArrayAsync(uri);
+                HttpResponseMessage responseMessage = await httpClient.GetAsync(uri);
+                var success = responseMessage.IsSuccessStatusCode;
+                if(success)
+                    bytes = await httpClient.GetByteArrayAsync(uri);
             }
             catch (Exception ex)
             {

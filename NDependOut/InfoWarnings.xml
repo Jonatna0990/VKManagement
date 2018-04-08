@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<InfoWarnings>
+  <Info>Begin full analysis with NDepend v6.0.1.8585</Info>
+  <Info>No Baseline for Comparison loaded.</Info>
+  <Warning>Can't load the assembly {StorageProvider}:
+Can't find the .NET assembly {StorageProvider} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Windows.Foundation.UniversalApiContract}:
+Can't find the .NET assembly {Windows.Foundation.UniversalApiContract} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Windows.Foundation.FoundationContract}:
+Can't find the .NET assembly {Windows.Foundation.FoundationContract} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Windows.System.Profile.ProfileHardwareTokenContract}:
+Can't find the .NET assembly {Windows.System.Profile.ProfileHardwareTokenContract} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Windows.Phone.PhoneContract}:
+Can't find the .NET assembly {Windows.Phone.PhoneContract} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Info>Concurrent mode</Info>
+  <Warning>No application or third party assembly found in directory {C:\Program Files (x86)\Windows Kits\8.0\References\CommonConfiguration\Neutral}</Warning>
+  <Info>.NET Assemblies loaded from {C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETCore\v4.5} 
+   System.Runtime.dll   v4.0.0.0
+   System.Resources.ResourceManager.dll   v4.0.0.0
+   System.Threading.Tasks.dll   v4.0.0.0
+   System.Runtime.Serialization.Xml.dll   v4.0.0.0
+   System.Runtime.InteropServices.WindowsRuntime.dll   v4.0.0.0
+   System.Text.Encoding.dll   v4.0.0.0
+   System.Globalization.dll   v4.0.0.0
+   System.Text.Encoding.Extensions.dll   v4.0.0.0
+   mscorlib.dll   v4.0.0.0</Info>
+  <Info>.NET Assemblies loaded from {D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\bin\x86\Debug} 
+   BackgroundAudio.winmd   v1.0.0.0
+   LastFmLib.dll   v1.0.0.0
+   VKCore.dll   v1.0.0.0
+   VKShop Lite.exe   v1.0.0.0
+   System.Diagnostics.Tools.dll   v4.0.0.0
+   System.Diagnostics.Debug.dll   v4.0.10.0
+   System.Collections.dll   v4.0.10.0
+   GalaSoft.MvvmLight.dll   v5.3.0.19026
+   Microsoft.Xaml.Interactions.dll   v12.0.0.0
+   System.Runtime.WindowsRuntime.dll   v4.0.10.0
+   WinRTXamlToolkit.dll   v2.0.0.0
+   Coding4Fun.Toolkit.Controls.dll   v2.1.6.0
+   System.ObjectModel.dll   v4.0.10.0
+   Newtonsoft.Json.dll   v8.0.0.0
+   System.Runtime.WindowsRuntime.UI.Xaml.dll   v4.0.0.0
+   System.IO.dll   v4.0.10.0
+   Microsoft.Xaml.Interactivity.dll   v12.0.0.0
+   NotificationsExtensions.winmd   v1.0.0.0
+   Microsoft.ApplicationInsights.Extensibility.Windows.dll   v1.1.1.482
+   System.Runtime.Extensions.dll   v4.0.10.0
+   System.Threading.dll   v4.0.10.0
+   System.Linq.dll   v4.0.0.0
+   QueryString.NETCore.dll   v1.0.0.0
+   System.Net.Requests.dll   v4.0.10.0
+   System.Net.Http.dll   v4.0.0.0
+   System.Text.RegularExpressions.dll   v4.0.10.0
+   System.Xml.XmlSerializer.dll   v4.0.10.0
+   System.Xml.XDocument.dll   v4.0.10.0</Info>
+  <Warning>Assembly {Windows.Foundation.UniversalApiContract} is referenced by {BackgroundAudio} but is not found.</Warning>
+  <Warning>Assembly {Windows.Foundation.FoundationContract} is referenced by {BackgroundAudio} but is not found.</Warning>
+  <Warning>Versioning issue: Assembly {LastFmLib v1.0.0.0} references {Newtonsoft.Json v7.0.0.0} but NDepend has loaded {Newtonsoft.Json v8.0.0.0}</Warning>
+  <Warning>Assembly {Windows.Foundation.UniversalApiContract} is referenced by {LastFmLib} but is not found.</Warning>
+  <Warning>Assembly {Windows.Foundation.UniversalApiContract} is referenced by {VKCore} but is not found.</Warning>
+  <Warning>Versioning issue: Assembly {VKCore v1.0.0.0} references {Newtonsoft.Json v7.0.0.0} but NDepend has loaded {Newtonsoft.Json v8.0.0.0}</Warning>
+  <Warning>Assembly {Windows.Phone.PhoneContract} is referenced by {VKCore} but is not found.</Warning>
+  <Warning>Versioning issue: Assembly {VKCore v1.0.0.0} references {GalaSoft.MvvmLight v5.2.0.37222} but NDepend has loaded {GalaSoft.MvvmLight v5.3.0.19026}</Warning>
+  <Warning>Assembly {Windows.Foundation.FoundationContract} is referenced by {VKCore} but is not found.</Warning>
+  <Warning>Assembly {Windows.System.Profile.ProfileHardwareTokenContract} is referenced by {VKCore} but is not found.</Warning>
+  <Warning>Assembly {Windows.Foundation.UniversalApiContract} is referenced by {VKShop Lite} but is not found.</Warning>
+  <Warning>Assembly {Windows.Foundation.FoundationContract} is referenced by {VKShop Lite} but is not found.</Warning>
+  <Warning>Assembly {Windows.System.Profile.ProfileHardwareTokenContract} is referenced by {VKShop Lite} but is not found.</Warning>
+  <Warning>The source file {D:\Visual Studio 2015\Projects\VKGroup Management\VKCore\obj\x86\Debug\XamlTypeInfo.g.cs} (last modified 18.01.2017 19:00:11) and the PDB file of the assembly {VKCore} (last modified 18.01.2017 18:55:49) are not in-sync.</Warning>
+  <Warning>The source file {D:\Visual Studio 2015\Projects\VKGroup Management\VKCore\obj\x86\Debug\UserControls\VKGetMessagesToken.g.i.cs} (last modified 18.01.2017 19:00:09) and the PDB file of the assembly {VKCore} (last modified 18.01.2017 18:55:49) are not in-sync.</Warning>
+  <Warning>The source file {D:\Visual Studio 2015\Projects\VKGroup Management\VKCore\obj\x86\Debug\UserControls\VKGetMessagesToken.g.cs} (last modified 18.01.2017 19:00:11) and the PDB file of the assembly {VKCore} (last modified 18.01.2017 18:55:49) are not in-sync.</Warning>
+  <Warning>The source file {D:\Visual Studio 2015\Projects\VKGroup Management\VKCore\obj\x86\Debug\UserControls\VKLoginUserControl.g.i.cs} (last modified 18.01.2017 19:00:09) and the PDB file of the assembly {VKCore} (last modified 18.01.2017 18:55:49) are not in-sync.</Warning>
+  <Warning>The source file {D:\Visual Studio 2015\Projects\VKGroup Management\VKCore\obj\x86\Debug\UserControls\VKLoginUserControl.g.cs} (last modified 18.01.2017 19:00:11) and the PDB file of the assembly {VKCore} (last modified 18.01.2017 18:55:49) are not in-sync.</Warning>
+  <Warning>The source file {D:\Visual Studio 2015\Projects\VKGroup Management\VKCore\obj\x86\Debug\UserControls\CaptchaControl\VKCaptchaRequestUserControl.g.i.cs} (last modified 18.01.2017 19:00:09) and the PDB file of the assembly {VKCore} (last modified 18.01.2017 18:55:49) are not in-sync.</Warning>
+  <Warning>The source file {D:\Visual Studio 2015\Projects\VKGroup Management\VKCore\obj\x86\Debug\UserControls\CaptchaControl\VKCaptchaRequestUserControl.g.cs} (last modified 18.01.2017 19:00:11) and the PDB file of the assembly {VKCore} (last modified 18.01.2017 18:55:49) are not in-sync.</Warning>
+  <Info>479 source files parsed ; 24 source files not found ; 7 source files not in-sync with PDB</Info>
+  <Info>0 code rule has been extracted from code.</Info>
+  <Info>No dependency cycle detected in assemblies referencement graph.</Info>
+  <Info>Do merge code generated by compiler into application code.</Info>
+  <Warning>The source directory {D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\obj\Views\Groups\Main} referenced by the PDB file of the assembly {VKShop Lite} can't be found.</Warning>
+  <Warning>The source directory {D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\obj\UserControls\Video} referenced by the PDB file of the assembly {VKShop Lite} can't be found.</Warning>
+  <Warning>The source directory {D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\obj\UserControls\PopupControl} referenced by the PDB file of the assembly {VKShop Lite} can't be found.</Warning>
+  <Warning>The source directory {D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\obj\UserControls\PopupControl\Profile} referenced by the PDB file of the assembly {VKShop Lite} can't be found.</Warning>
+  <Warning>The source directory {D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\obj\UserControls\PopupControl\Market} referenced by the PDB file of the assembly {VKShop Lite} can't be found.</Warning>
+  <Warning>The source directory {D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\obj\UserControls\PopupControl\Group} referenced by the PDB file of the assembly {VKShop Lite} can't be found.</Warning>
+  <Warning>The source directory {D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\obj\UserControls\PopupControl\Counters} referenced by the PDB file of the assembly {VKShop Lite} can't be found.</Warning>
+  <Warning>The source directory {D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\obj\UserControls\PopupControl\Admin} referenced by the PDB file of the assembly {VKShop Lite} can't be found.</Warning>
+  <Warning>The source directory {D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\obj\UserControls\PopupControl\About} referenced by the PDB file of the assembly {VKShop Lite} can't be found.</Warning>
+  <Warning>The source directory {D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\obj\UserControls\Map} referenced by the PDB file of the assembly {VKShop Lite} can't be found.</Warning>
+  <Warning>The source directory {D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\obj\UserControls\Audio} referenced by the PDB file of the assembly {VKShop Lite} can't be found.</Warning>
+  <Warning>The source directory {D:\Visual Studio 2015\Projects\VKGroup Management\VKShop Lite\obj\UserControls\Attachment} referenced by the PDB file of the assembly {VKShop Lite} can't be found.</Warning>
+  <Info>Log trend metrics values.</Info>
+  <Info>NDepend analysis done. Duration: 00:08</Info>
+</InfoWarnings>

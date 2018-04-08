@@ -75,6 +75,7 @@ namespace VKCore.API.VKModels.Attachment
                     case "gift": return AttachType.Gift;
                     case "graffiti": return AttachType.Graffiti;
                     case "link": return AttachType.Link;
+                    case "map": return AttachType.Map;
                     case "note": return AttachType.Note;
                     case "page": return AttachType.Page;
                     case "photo": return AttachType.Photo;
@@ -120,6 +121,7 @@ namespace VKCore.API.VKModels.Attachment
         Graffiti,
         Gift,
         Sticker,
+        Map,
         Link,
         Note,
         App,

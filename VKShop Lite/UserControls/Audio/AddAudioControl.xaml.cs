@@ -90,7 +90,7 @@ namespace VKShop_Lite.UserControls.Audio
         private void Send_OnClick(object sender, RoutedEventArgs e)
         {
             IList<AudioClass> list = new List<AudioClass>();
-            if (AudioList.SelectedItems != null)
+            if (AudioList.SelectedItems != null )
             {
                 list = new List<AudioClass>();
                 foreach (var t in AudioList.SelectedItems)

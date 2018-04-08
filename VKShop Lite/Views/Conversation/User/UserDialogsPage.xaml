@@ -97,7 +97,7 @@
             <listControl:ExtendedListView ScrollControlType="News" LoadMoreCommandBottom="{Binding Dialogs.LoadMoreCommand}"   Background="Transparent"  x:Name="ListView1"   ItemsSource="{Binding Path=Dialogs.Messages.dialogs.items}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <messagesControl:DialogControl  SelectDialogCommand="{Binding ElementName=Page,Path=DataContext.NavigateToDialogCommand}" />
+                        <messagesControl:DialogControl CacheMode="BitmapCache"  SelectDialogCommand="{Binding ElementName=Page,Path=DataContext.NavigateToDialogCommand}" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.ItemsPanel>

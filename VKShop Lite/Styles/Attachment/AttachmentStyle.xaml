@@ -43,8 +43,8 @@
         </Grid>
     </DataTemplate>
     <DataTemplate   x:Key="AttachAudioTemplate">
-        <Grid DataContext="{Binding audio}"  Background="{Binding State,Mode=TwoWay, Converter={StaticResource AudioBackgroundBorderConverter}}">
-            <StackPanel Orientation="Horizontal">
+        <Grid DataContext="{Binding audio}"  >
+            <StackPanel Orientation="Horizontal" Background="{Binding State,Mode=TwoWay, Converter={StaticResource AudioBackgroundBorderConverter}}">
                 <TextBlock Opacity="0.3"  FontFamily="Segoe MDL2 Assets" Text="&#xE8D6;" FontSize="30" VerticalAlignment="Center" />
                 <StackPanel  Margin="10,0,0,0" VerticalAlignment="Center">
                     <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"  Text="{Binding artist}" VerticalAlignment="Top" TextWrapping="NoWrap"/>

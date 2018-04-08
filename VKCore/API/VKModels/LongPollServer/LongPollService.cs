@@ -11,17 +11,19 @@ using VKCore.API.SDK;
 
 namespace VKCore.API.VKModels.LongPollServer
 {
+    public delegate void MessageHandler(object sender, LongPollMessageEventArgs e);
+    public delegate void UserStatusHandler(object sender, LongPollUserStatusEventArgs e);
+    public delegate void MessageChatHandler(object sender, LongPollMessageChatEventArgs e);
+    public delegate void MessageFlagsHandler(object sender, LongPollMessageFlagsEventArgs e);
+    public delegate void MessageDeleteHandler(object sender, LongPollDeleteMessageEventArgs e);
+    public delegate void UserHandler(object sender, LongPollUserEventArgs e);
+    public delegate void ChatUpdate(object sender, LongPollChatChangeEventArgs e);
+
     public sealed class LongPollService : IDisposable
     {
 
 
-        public delegate void MessageHandler(object sender, LongPollMessageEventArgs e);
-        public delegate void UserStatusHandler(object sender, LongPollUserStatusEventArgs e);
-        public delegate void MessageChatHandler(object sender, LongPollMessageChatEventArgs e);
-        public delegate void MessageFlagsHandler(object sender, LongPollMessageFlagsEventArgs e);
-        public delegate void MessageDeleteHandler(object sender, LongPollDeleteMessageEventArgs e);
-        public delegate void UserHandler(object sender, LongPollUserEventArgs e);
-        public delegate void ChatUpdate(object sender, LongPollChatChangeEventArgs e);
+    
         /// <summary>
         /// Событие вызывается тогда, когда пользователь прочитал сообщение(я)
         /// </summary>
